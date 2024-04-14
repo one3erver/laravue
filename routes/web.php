@@ -1,10 +1,10 @@
 <?php
 
-use App\Http\Controllers\Logincontroller ;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,7 +16,8 @@ use Inertia\Inertia;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Route::get('/home', [HomeController::class, 'index'])->name('Home.index');
+Route::resource('/contact', \App\Http\Controllers\ContactController::class);
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
@@ -25,7 +26,6 @@ Route::get('/', function () {
         'phpVersion' => PHP_VERSION,
     ]);
 });
-
 
 
 Route::get('/dashboard', function () {
@@ -39,16 +39,3 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
-
-
-Route::post('/login' , [Logincontroller::class , 'login']) ;
-Route::get('/form' , function (){
-    return view('form') ;
-}
-);
-
-
-
-
-
-
