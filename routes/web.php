@@ -36,3 +36,13 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+Route::get('test', function() {
+    return Inertia::render('Test', [
+        'status' => true,
+        'user' => [
+            'name' => "test",
+            'email' => "test@test.com"
+        ]
+    ]);
+});
