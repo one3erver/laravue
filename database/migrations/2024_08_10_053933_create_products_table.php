@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('caption');
             $table->string('image');
             $table->decimal('price', 20, 3);
-            $table->tinyInteger('status')->default(0);
+            $table->char('status', 1)->default(0);
             $table->timestamps();
         });
     }
