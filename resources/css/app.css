@@ -1,3 +1,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+    background: #111827;
+    height: 100%;
+}
+
+#app {
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+}
