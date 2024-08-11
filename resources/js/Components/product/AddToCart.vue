@@ -1,0 +1,111 @@
+<script setup lang="ts">
+import { onMounted, onUnmounted, ref } from "vue";
+
+const quantity = ref(0);
+
+const addToCartWidth = ref(0);
+
+function AddToCart() {
+    quantity.value += 1;
+}
+
+function RemoveFromCart() {
+    if (quantity.value > 0) {
+        quantity.value -= 1;
+    }
+}
+
+const add_to_cart_placeholder = ref<HTMLButtonElement | null>(null);
+const add_to_cart = ref<HTMLButtonElement | null>(null);
+
+let observer = new ResizeObserver(
+    (e) => (addToCartWidth.value = e[0].contentRect.width)
+);
+
+onMounted(() => {
+    if (add_to_cart_placeholder.value) {
+        observer.observe(add_to_cart_placeholder.value);
+    }
+});
+
+onUnmounted(() => observer.disconnect());
+
+function onAddtoCart() {
+    if (!add_to_cart.value) return;
+    add_to_cart.value.classList.add("scale-105");
+
+    setTimeout(() => {
+        if (!add_to_cart.value) return;
+        add_to_cart.value.classList.remove("scale-105");
+    }, 200);
+
+    if (quantity.value == 0) {
+        quantity.value++;
+    }
+}
+</script>
+
+<template>
+    <div class="flex items-center justify-between gap-2 h-11 mx-3 relative">
+        <!-- decrememt -->
+        <button
+            class="dark:bg-emerald-700 dark:hover:bg-emerald-600 dark:active:bg-emerald-800 transition-colors duration-150 text-base font-semibold h-full aspect-square rounded-lg flex items-center justify-center"
+            @click="RemoveFromCart"
+        >
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="3"
+                stroke="currentColor"
+                class="size-4"
+            >
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M5 12h14"
+                />
+            </svg>
+        </button>
+
+        <!-- add to cart dom ref-->
+        <button
+            ref="add_to_cart_placeholder"
+            class="appearance-none w-full"
+        ></button>
+
+        <!--actual add to cart -->
+        <button
+            ref="add_to_cart"
+            @click="onAddtoCart"
+            class="bg-emerald-700 hover:bg-emerald-600 active:bg-emerald-800 transition-all duration-150 h-full w-full text-base font-semibold rounded-lg absolute left-2/4 -translate-x-2/4 top-2/4 -translate-y-2/4"
+            :style="{
+                width: quantity == 0 ? '100%' : `${addToCartWidth}px`,
+            }"
+        >
+            {{ quantity > 0 ? "Added" : "Add To Cart" }}
+            {{ quantity > 0 ? quantity : "" }}
+        </button>
+
+        <!-- increment -->
+        <button
+            class="dark:bg-emerald-700 dark:hover:bg-emerald-600 dark:active:bg-emerald-800 transition-colors duration-75 text-base font-semibold h-full aspect-square rounded-lg flex items-center justify-center"
+            @click="AddToCart"
+        >
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="3"
+                stroke="currentColor"
+                class="size-4"
+            >
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M12 4.5v15m7.5-7.5h-15"
+                />
+            </svg>
+        </button>
+    </div>
+</template>
