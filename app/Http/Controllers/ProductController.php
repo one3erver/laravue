@@ -11,7 +11,7 @@ class ProductController extends Controller
     //For showing all products in the page
     public function index(){
         $products = Product::all();
-        return Inertia::render('Products/index', ['products' => $products]);
+        return Inertia::render('Welcome', ['products' => $products]);
     }
 
     //For Showing a product with a specific ID
