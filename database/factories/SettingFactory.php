@@ -19,7 +19,7 @@ class SettingFactory extends Factory
         return [
             'telegram_id' => $this->faker->unique()->regexify('[A-Za-z0-9]{10}'),
             'telegram_token' => $this->faker->unique()->regexify('[A-Za-z0-9]{10}'),
-            'wallets' => $this->faker->numberBetween(1000, 5000),
+            'wallets' => $this->faker->numberBetween(1, 5),
             'header' => $this->faker->sentence,
             'logo' => $this->faker->imageUrl(),
             'site_title' => $this->faker->company,

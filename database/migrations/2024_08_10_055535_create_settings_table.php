@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->char('telegram_id', 10)->nullable();
             $table->char('telegram_token', 10)->nullable();
-            $table->integer('wallets')->nullable();
+            $table->char('wallets', 1)->nullable();
             $table->string('header', 255)->nullable();
             $table->string('logo', 255)->nullable();
             $table->string('site_title', 200)->nullable();
