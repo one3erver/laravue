@@ -13,11 +13,10 @@ return new class extends Migration
     {
         Schema::create('settings', function (Blueprint $table) {
             $table->id();
-            $table->char('telegram_id', 10)->nullable();
-            $table->char('telegram_token', 10)->nullable();
-            $table->char('wallets', 1)->nullable();
-            $table->string('header', 255)->nullable();
-            $table->string('logo', 255)->nullable();
+            $table->char('telegram_id', 15)->nullable();
+            $table->string('telegram_token')->nullable();
+            $table->longText('landing_content')->nullable();
+            $table->string('logo')->nullable();
             $table->string('site_title', 200)->nullable();
             $table->timestamps();
         });

@@ -20,7 +20,7 @@ class InvoiceFactory extends Factory
         return [
             'order_id' => Order::factory(),
             'transaction_id' => $this->faker->unique()->uuid,
-            'status' => $this->faker->randomElement(['P', 'F', 'C']), // Paid, Failed, Cancelled
+            'status' => $this->faker->randomElement(['P', 'U']), // Paid, Unpaid
             'paid_at' => $this->faker->date()
         ];
     }

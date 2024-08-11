@@ -14,10 +14,12 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('title', 100);
-            $table->string('caption');
+            $table->text('caption');
             $table->string('image');
-            $table->decimal('price', 20, 3);
-            $table->char('status', 1)->default(0);
+            $table->string('image_thumbnail')->nullable();
+            $table->decimal('price', 20);
+            $table->integer('stock')->default(-1)->comment('-1 mean infinity');
+            $table->boolean('status')->default(0);
             $table->timestamps();
         });
     }

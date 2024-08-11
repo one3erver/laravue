@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('order_id')->constrained('orders');
             $table->string('transaction_id')->unique();
-            $table->char('status', 1)->comment('P => Paid, F => Failed, C => Cancelled');
+            $table->char('status', 1)->default('U')->comment('P => Paid, U => Unpaid');
             $table->timestamp('paid_at')->nullable();
             $table->timestamps();
         });

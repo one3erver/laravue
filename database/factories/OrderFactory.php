@@ -19,7 +19,7 @@ class OrderFactory extends Factory
     {
         return [
             'user_id' => User::factory(),
-            'cost' => $this->faker->numberBetween(500, 10000),
+            'total_cost' => $this->faker->numberBetween(500, 10000),
             'order_list' => $this->faker->word,
             'tracking_code' => $this->faker->uuid,
         ];

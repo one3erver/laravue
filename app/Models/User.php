@@ -45,9 +45,9 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function order(): HasOne
+    public function orders(): HasMany
     {
-        return $this->hasOne(Order::class);
+        return $this->hasMany(Order::class);
     }
 
     public function carts(): HasMany

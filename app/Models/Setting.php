@@ -12,7 +12,6 @@ class Setting extends Model
     protected $fillable = [
         'telegram_id',
         'telegram_token',
-        'wallets',
         'header',
         'logo',
         'site_title',

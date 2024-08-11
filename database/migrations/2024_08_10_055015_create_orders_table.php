@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users');
-            $table->decimal('cost', 20, 3);
-            $table->string('order_list');
+            $table->decimal('total_cost', 20);
+            $table->text('order_list');
             $table->string('tracking_code')->nullable();
             $table->timestamps();
         });
