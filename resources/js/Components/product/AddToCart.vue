@@ -49,7 +49,7 @@ function onAddtoCart() {
     <div class="flex items-center justify-between gap-2 h-11 mx-3 relative">
         <!-- decrememt -->
         <button
-            class="dark:bg-emerald-700 dark:hover:bg-emerald-600 dark:active:bg-emerald-800 transition-colors duration-150 text-base font-semibold h-full aspect-square rounded-lg flex items-center justify-center"
+            class="bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white dark:bg-emerald-700 dark:hover:bg-emerald-600 dark:active:bg-emerald-800 transition-colors duration-150 text-base font-semibold h-full aspect-square rounded-lg flex items-center justify-center"
             @click="RemoveFromCart"
         >
             <svg
@@ -78,7 +78,7 @@ function onAddtoCart() {
         <button
             ref="add_to_cart"
             @click="onAddtoCart"
-            class="bg-emerald-700 hover:bg-emerald-600 active:bg-emerald-800 transition-all duration-150 h-full w-full text-base font-semibold rounded-lg absolute left-2/4 -translate-x-2/4 top-2/4 -translate-y-2/4"
+            class="bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white transition-all duration-150 h-full w-full text-base font-semibold rounded-lg absolute left-2/4 -translate-x-2/4 top-2/4 -translate-y-2/4 dark:bg-emerald-700 dark:hover:bg-emerald-600 dark:active:bg-emerald-800"
             :style="{
                 width: quantity == 0 ? '100%' : `${addToCartWidth}px`,
             }"
@@ -89,7 +89,7 @@ function onAddtoCart() {
 
         <!-- increment -->
         <button
-            class="dark:bg-emerald-700 dark:hover:bg-emerald-600 dark:active:bg-emerald-800 transition-colors duration-75 text-base font-semibold h-full aspect-square rounded-lg flex items-center justify-center"
+            class="bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white dark:bg-emerald-700 dark:hover:bg-emerald-600 dark:active:bg-emerald-800 transition-colors duration-75 text-base font-semibold h-full aspect-square rounded-lg flex items-center justify-center"
             @click="AddToCart"
         >
             <svg

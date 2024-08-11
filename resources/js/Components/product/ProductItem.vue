@@ -4,7 +4,7 @@ import AddToCart from "./AddToCart.vue";
 
 <template>
     <div
-        class="border-[1px] border-gray-700 rounded-xl pb-5 overflow-hidden bg-dark_platform"
+        class="border-[1px] border-light rounded-xl pb-5 overflow-hidden shadow-md bg-light_platform dark:bg-dark_platform dark:border-dark"
     >
         <img src="/placeholder.webp" alt="placeholder" />
         <div class="w-full px-3">
@@ -21,7 +21,7 @@ import AddToCart from "./AddToCart.vue";
 
             <!-- price -->
             <span
-                class="w-full block pb-3 text-right text-lg font-semibold text-emerald-400"
+                class="w-full block pb-3 text-right text-lg font-semibold text-emerald-500 dark:text-emerald-400"
                 >2.99$</span
             >
         </div>
