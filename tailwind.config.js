@@ -15,6 +15,16 @@ export default {
             backgroundColor: {
                 dark: "#0b0f1a",
                 dark_platform: "#121727",
+                light: "#f9f9f9",
+                light_platform: "#fefefe",
+            },
+            borderColor: {
+                dark: "#374151",
+                light: "#D1D5DB",
+            },
+            divideColor: {
+                dark: "#374151",
+                light: "#D1D5DB",
             },
             fontFamily: {
                 sans: ["Figtree", ...defaultTheme.fontFamily.sans],

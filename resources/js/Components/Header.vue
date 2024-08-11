@@ -41,12 +41,16 @@ const header_height = "h-[55px] md:h-[65px]";
     <header
         :class="[
             header_height,
-            'w-full px-6 text-white bg-dark bg-opacity-80 backdrop-blur-md border-b-[1px] border-gray-400 flex fixed items-center justify-between transition-[top] duration-200 z-50',
+            'w-full px-6 bg-white dark:text-white dark:bg-dark bg-opacity-80 backdrop-blur-md border-b-[1px] border-gray-300 dark:border-gray-400 flex fixed items-center justify-between transition-[top] duration-200 z-50',
             isHidden ? '-top-[70px]' : 'top-0',
         ]"
     >
         <div class="flex gap-6 items-center justify-between">
-            <div class="px-3 py-1 border-[1px] rounded-lg">Profile</div>
+            <div
+                class="px-3 py-1 border-[1px] border-gray-500 dark:border-dark rounded-lg"
+            >
+                Profile
+            </div>
 
             <!-- cart svg -->
             <svg
