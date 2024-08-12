@@ -18,7 +18,7 @@ const loading = ref(false);
 const form = useForm({
     email: "",
     password: "",
-    remmeber: false,
+    remember: false,
 });
 
 function onSubmit() {
@@ -45,12 +45,13 @@ function onSubmit() {
 
     <div class="w-full h-svh flex items-center justify-center px-4">
         <section
-            class="w-full space-y-6 bg-light_platform border-light dark:bg-dark_platform dark:border-dark border-[1px] max-w-[450px] px-5 py-8 mx-auto rounded-lg shadow-md"
+            class="w-full space-y-6 bg-light_platform border-light dark:bg-dark_platform dark:border-dark border-[1px] max-w-[450px] px-5 pt-8 pb-7 mx-auto rounded-lg shadow-md"
         >
-            <h2 class="w-full text-center mt-6">Login</h2>
+            <h2 class="w-full text-center mt-6">Login to Laravue</h2>
 
-            <form @submit.prevent="onSubmit" class="w-full space-y-6">
-                <div class="flex flex-col space-y-1">
+            <form @submit.prevent="onSubmit" class="w-full">
+                <!-- email -->
+                <div class="flex flex-col space-y-1 mb-6">
                     <label title="password">Email</label>
                     <input
                         class="border-gray-300 focus:border-emerald-500 focus:ring-emerald-500 rounded-md shadow-sm text-black"
@@ -68,7 +69,8 @@ function onSubmit() {
                     </div>
                 </div>
 
-                <div class="flex flex-col space-y-1">
+                <!-- password -->
+                <div class="flex flex-col space-y-1 mb-6">
                     <label title="password">Password</label>
                     <input
                         class="border-gray-300 focus:border-emerald-500 focus:ring-emerald-500 rounded-md shadow-sm text-black"
@@ -86,12 +88,28 @@ function onSubmit() {
                     </div>
                 </div>
 
+                <!-- remember me -->
+                <div class="mb-2 flex items-center gap-1">
+                    <Checkbox name="remember" v-model:checked="form.remember" />
+                    <label title="remember">Remember Me</label>
+                </div>
+
                 <button
-                    class="w-full py-2 px-4 font-semibold rounded-lg bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700"
+                    class="w-full py-2 px-4 text-white font-semibold rounded-lg bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700"
                     type="submit"
                 >
                     {{ loading ? "Logging in..." : "Login" }}
                 </button>
+
+                <!-- register -->
+                <span class="w-full block text-center mt-4 text-sm italic"
+                    >Dont't have an Account?
+                    <a
+                        class="text-sky-500 dark:text-sky-300 underline ml-1 bold"
+                        href="/register"
+                        >Login</a
+                    ></span
+                >
             </form>
         </section>
     </div>
