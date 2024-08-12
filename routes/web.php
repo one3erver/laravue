@@ -43,3 +43,4 @@ Route::get('/product/{id}', [ProductController::class, 'show'])->name('products.
 Route::post('/cart/add/{id}', [CartController::class, 'add'])->name('cart.add');
 
 require __DIR__.'/auth.php';
+require  __DIR__ . '/admin.php';

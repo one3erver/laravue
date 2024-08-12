@@ -7,4 +7,5 @@
 5. run `php artisan migrate --seed` to create tables in your database
 6. for updates run `git pull`
 7. then run `php artisan migrate:fresh --seed` to have last changes
-8. run `php artisan serve`
+8. for create admin user run `php artisan db:seed --class=AdminSeeder`
+9. run `php artisan serve`
