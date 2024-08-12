@@ -1,9 +1,11 @@
 interface Product {
+    id: number;
     title: string;
     caption: string;
     image: string;
     image_thumbnail: string;
     price: string;
+    stock: number;
     status: 0 | 1;
 }
 
