@@ -42,4 +42,8 @@ Route::get('/product/{id}', [ProductController::class, 'show'])->name('products.
 
 Route::post('/cart/add/{id}', [CartController::class, 'add'])->name('cart.add');
 
+Route::get('/panel_admin', function () {
+    return view('panel_admin.index');
+});
+
 require __DIR__.'/auth.php';
