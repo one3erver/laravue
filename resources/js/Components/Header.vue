@@ -1,5 +1,10 @@
 <script setup lang="ts">
+import { AuthTypes } from "@/types";
 import { onMounted, onUnmounted, ref } from "vue";
+
+const { auth } = defineProps<AuthTypes>();
+
+console.log(auth.user);
 
 const hideThreshold = 120;
 
@@ -46,11 +51,20 @@ const header_height = "h-[55px] md:h-[65px]";
         ]"
     >
         <div class="flex gap-6 items-center justify-between">
-            <div
+            <a
+                v-if="auth.user"
+                href="/dashboard"
                 class="px-3 py-1 border-[1px] border-gray-500 dark:border-dark rounded-lg"
             >
-                Profile
-            </div>
+                {{ auth.user.email }}
+            </a>
+            <a
+                v-else
+                href="/login"
+                class="px-3 py-1 border-[1px] border-gray-500 dark:border-dark rounded-lg"
+            >
+                Login
+            </a>
 
             <!-- cart svg -->
             <svg
