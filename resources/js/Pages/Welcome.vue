@@ -3,8 +3,9 @@ import ProductItem from "@/Components/product/ProductItem.vue";
 import Header from "@/Components/Header.vue";
 import Footer from "@/Components/Footer.vue";
 import { Head } from "@inertiajs/vue3";
+import { ProductsType } from "@/types/Products";
 
-const products = Array(12).fill(null);
+const { products } = defineProps<ProductsType>();
 </script>
 
 <template>
@@ -29,9 +30,9 @@ const products = Array(12).fill(null);
 
         <!-- products -->
         <div
-            class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+            class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 items-stretch"
         >
-            <ProductItem v-for="product in products" />
+            <ProductItem v-for="product in products" v-bind="product" />
         </div>
     </section>
 

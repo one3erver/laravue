@@ -5,11 +5,30 @@ const quantity = ref(0);
 
 const addToCartWidth = ref(0);
 
-function AddToCart() {
+function IncrementFromCart() {
+    //pop animation - add scale and remove it after a short time
+    if (!add_to_cart.value) return;
+    add_to_cart.value.classList.add("scale-105");
+
+    setTimeout(() => {
+        if (!add_to_cart.value) return;
+        add_to_cart.value.classList.remove("scale-105");
+    }, 200);
+
     quantity.value += 1;
 }
 
-function RemoveFromCart() {
+function DecrementFromCart() {
+    //pop animation - add scale and remove it after a short time
+    if (!add_to_cart.value) return;
+    add_to_cart.value.classList.add("scale-105");
+
+    setTimeout(() => {
+        if (!add_to_cart.value) return;
+        add_to_cart.value.classList.remove("scale-105");
+    }, 200);
+
+    //remove until it reaches 0 items
     if (quantity.value > 0) {
         quantity.value -= 1;
     }
@@ -31,6 +50,7 @@ onMounted(() => {
 onUnmounted(() => observer.disconnect());
 
 function onAddtoCart() {
+    //pop animation - add scale and remove it after a short time
     if (!add_to_cart.value) return;
     add_to_cart.value.classList.add("scale-105");
 
@@ -39,6 +59,7 @@ function onAddtoCart() {
         add_to_cart.value.classList.remove("scale-105");
     }, 200);
 
+    //add item only if there is no instance of it
     if (quantity.value == 0) {
         quantity.value++;
     }
@@ -46,11 +67,11 @@ function onAddtoCart() {
 </script>
 
 <template>
-    <div class="flex items-center justify-between gap-2 h-11 mx-3 relative">
+    <div class="flex items-center justify-between gap-2 h-11 relative">
         <!-- decrememt -->
         <button
             class="bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white dark:bg-emerald-700 dark:hover:bg-emerald-600 dark:active:bg-emerald-800 transition-colors duration-150 text-base font-semibold h-full aspect-square rounded-lg flex items-center justify-center"
-            @click="RemoveFromCart"
+            @click="DecrementFromCart"
         >
             <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -90,7 +111,7 @@ function onAddtoCart() {
         <!-- increment -->
         <button
             class="bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white dark:bg-emerald-700 dark:hover:bg-emerald-600 dark:active:bg-emerald-800 transition-colors duration-75 text-base font-semibold h-full aspect-square rounded-lg flex items-center justify-center"
-            @click="AddToCart"
+            @click="IncrementFromCart"
         >
             <svg
                 xmlns="http://www.w3.org/2000/svg"

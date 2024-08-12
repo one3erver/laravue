@@ -1,31 +1,32 @@
 <script setup lang="ts">
+import { ProductType } from "@/types/Products";
 import AddToCart from "./AddToCart.vue";
+
+const { title, caption, image, image_thumbnail, price, status } =
+    defineProps<ProductType>();
 </script>
 
 <template>
     <div
-        class="border-[1px] border-light rounded-xl pb-5 overflow-hidden shadow-md bg-light_platform dark:bg-dark_platform dark:border-dark"
+        class="border-[1px] h-full flex flex-col items-center justify-between border-light rounded-xl pb-5 overflow-hidden shadow-md bg-light_platform dark:bg-dark_platform dark:border-dark"
     >
-        <img src="/placeholder.webp" alt="placeholder" />
-        <div class="w-full px-3">
+        <img :src="image" :alt="title" />
+        <div class="w-full flex flex-col items-center justify-start px-3">
             <!-- title -->
-            <h3 class="w-full text-center mt-3 mb-5">The Title of Product</h3>
+            <h3 class="w-full text-center mt-3 mb-5">{{ title }}</h3>
 
             <p class="text-center line-clamp-2">
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                Dolores, voluptatum possimus! Quod eius consequatur commodi,
-                quaerat laborum neque perferendis nihil eaque pariatur error,
-                repellendus, aspernatur deserunt voluptatem tempora voluptatum
-                molestias.
+                {{ caption }}
             </p>
-
-            <!-- price -->
-            <span
-                class="w-full block pb-3 text-right text-lg font-semibold text-emerald-500 dark:text-emerald-400"
-                >2.99$</span
-            >
         </div>
 
-        <AddToCart />
+        <div class="w-full px-3">
+            <!-- price -->
+            <span
+                class="w-full block pb-3 text-right text-lg font-semibold text-emerald-500 dark:text-emerald-400 mt-auto"
+                >{{ price }}$</span
+            >
+            <AddToCart />
+        </div>
     </div>
 </template>
