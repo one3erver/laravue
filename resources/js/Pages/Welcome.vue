@@ -4,14 +4,15 @@ import Header from "@/Components/Header.vue";
 import Footer from "@/Components/Footer.vue";
 import { Head } from "@inertiajs/vue3";
 import { ProductsType } from "@/types/Products";
+import { AuthTypes } from "@/types";
 
-const { products } = defineProps<ProductsType>();
+const { products, auth } = defineProps<ProductsType & AuthTypes>();
 </script>
 
 <template>
     <Head title="Welcome" />
 
-    <Header />
+    <Header :auth="auth" />
     <section
         class="container mx-auto px-8 mt-4 md:mt-8 flex flex-col items-center justify-start pb-12"
     >
