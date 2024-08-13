@@ -68,7 +68,7 @@ function onSubmit() {
 
             <form @submit.prevent="onSubmit" class="w-full">
                 <!-- email -->
-                <div class="flex flex-col space-y-1 mb-6">
+                <div class="flex flex-col gap-1 mb-6">
                     <label title="password">Email</label>
                     <input
                         class="border-gray-300 focus:border-emerald-500 focus:ring-emerald-500 rounded-md shadow-sm text-black"
@@ -83,7 +83,7 @@ function onSubmit() {
                 </div>
 
                 <!-- password -->
-                <div class="flex flex-col space-y-1 mb-6">
+                <div class="flex flex-col gap-1 mb-6">
                     <label title="password">Password</label>
                     <input
                         class="border-gray-300 focus:border-emerald-500 focus:ring-emerald-500 rounded-md shadow-sm text-black"
@@ -92,6 +92,15 @@ function onSubmit() {
                         v-model="form.password"
                         autocomplete="current-password"
                     />
+
+                    <Link
+                        v-if="canResetPassword"
+                        :href="route('password.request')"
+                        class="underline-offset-4 mt-2 text-sm text-sky-500 dark:text-sky-300"
+                        style="text-decoration: underline"
+                    >
+                        Forgot your password?
+                    </Link>
 
                     <!-- error -->
                     <InputError :message="form.errors.password" />
@@ -113,10 +122,11 @@ function onSubmit() {
                 <!-- register -->
                 <span class="w-full block text-center mt-6 text-base italic"
                     >Dont't have an Account?
-                    <a
+                    <Link
                         class="text-sky-500 dark:text-sky-300 underline bold"
                         href="/register"
-                        >Register</a
+                        style="text-decoration: underline"
+                        >Register</Link
                     ></span
                 >
             </form>
