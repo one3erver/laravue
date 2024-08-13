@@ -33,11 +33,12 @@ class ProductController extends Controller
     public function store(StoreProductRequest $request)
     {
         #TODO upload image
+        $image = uploadImage($request->image, 'products', 300, 300);
 
         Product::create([
             'title' => $request->title,
             'caption' => $request->caption,
-            'image' => 'test',
+            'image' => $image,
             'image_thumbnail' => 'test',
             'price' => $request->price,
             'status' => $request->status,
@@ -68,11 +69,15 @@ class ProductController extends Controller
     public function update(UpdateProductRequest $request, Product $product)
     {
         #TODO delete old image and save new one
+        if ($request->hasFile('image')) {
+            deleteImage($product->image);
+        }
+        $image = uploadImage($request->image, 'products', 300, 300);
 
         $product->update([
             'title' => $request->title,
             'caption' => $request->caption,
-            'image' => 'test',
+            'image' => $image,
             'image_thumbnail' => 'test',
             'price' => $request->price,
             'status' => $request->status,

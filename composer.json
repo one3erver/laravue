@@ -2,12 +2,16 @@
     "name": "laravel/laravel",
     "type": "project",
     "description": "The skeleton application for the Laravel framework.",
-    "keywords": ["laravel", "framework"],
+    "keywords": [
+        "laravel",
+        "framework"
+    ],
     "license": "MIT",
     "require": {
         "php": "^8.1",
         "guzzlehttp/guzzle": "^7.2",
         "inertiajs/inertia-laravel": "^0.6.8",
+        "intervention/image": "^3.7",
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.2",
         "laravel/tinker": "^2.8",
@@ -24,6 +28,9 @@
         "spatie/laravel-ignition": "^2.0"
     },
     "autoload": {
+        "files": [
+            "app/Helpers/helper.php"
+        ],
         "psr-4": {
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
