@@ -38,7 +38,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('/', [ProductController::class, 'index'])->name('products.index');
-Route::get('/product/{id}', [ProductController::class, 'show'])->name('products.show');
+Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
 
 Route::post('/cart/add/{id}', [CartController::class, 'add'])->name('cart.add');
 
