@@ -18,7 +18,7 @@ class InvoiceFactory extends Factory
     public function definition(): array
     {
         return [
-            'order_id' => Order::factory(),
+            'order_id' => Order::all()->random()->id,
             'transaction_id' => $this->faker->unique()->uuid,
             'status' => $this->faker->randomElement(['P', 'U']), // Paid, Unpaid
             'paid_at' => $this->faker->date()

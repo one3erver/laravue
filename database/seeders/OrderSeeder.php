@@ -16,7 +16,7 @@ class OrderSeeder extends Seeder
     {
         $users = User::all();
 
-        Order::factory()->count(10)->make()->each(function ($order) use ($users) {
+        Order::factory()->count(30)->make()->each(function ($order) use ($users) {
             $order->user_id = $users->random()->id;
             $order->save();
         });

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Customer;
 
+use App\Http\Controllers\Controller;
 use App\Models\Product;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class ProductController extends Controller
@@ -11,12 +11,12 @@ class ProductController extends Controller
     //For showing all products in the page
     public function index(){
         $products = Product::all();
-        return Inertia::render('Welcome', ['products' => $products]);
+        return Inertia::render('Customer/landing', compact('products'));
     }
 
     //For Showing a product with a specific ID
     public function show($id){
         $product = Product::findOrFail($id);
-        return Inertia::render('Products/show', ['product' => $product]);
+        return Inertia::render('Customer/Product', compact('product'));
     }
 }

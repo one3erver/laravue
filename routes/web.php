@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\CartController;
-use App\Http\Controllers\ProductController;
+use App\Http\Controllers\Customer\ProductController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -37,10 +37,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('/', [ProductController::class, 'index'])->name('products.index');
-Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
-
-Route::post('/cart/add/{id}', [CartController::class, 'add'])->name('cart.add');
 
 require __DIR__.'/auth.php';
 require  __DIR__ . '/admin.php';
+require __DIR__ . '/customer.php';
