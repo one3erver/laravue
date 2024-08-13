@@ -15,7 +15,7 @@ class CartController extends Controller
      */
     public function index()
     {
-        $carts = Auth::user()->carts;
+        $carts = Auth::user()->carts()->get();
         return inertia('Customer/Cart', compact('carts'));
     }
 

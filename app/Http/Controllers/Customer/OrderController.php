@@ -15,7 +15,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = Auth::user()->orders;
+        $orders = Auth::user()->orders()->get();
         return inertia('Customer/Orders/Index', compact('orders'));
     }
 
@@ -32,7 +32,7 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        $cart = Auth::user()->carts;
+        $cart = Auth::user()->carts()->get();
         $order = Auth::user()->orders()->create([
             'total_cost' => $request->total_cost,
 
