@@ -69,7 +69,7 @@ function onSubmit() {
             <form @submit.prevent="onSubmit" class="w-full">
                 <!-- email -->
                 <div class="flex flex-col gap-1 mb-6">
-                    <label title="password">Email</label>
+                    <label title="email">Email</label>
                     <input
                         class="border-gray-300 focus:border-emerald-500 focus:ring-emerald-500 rounded-md shadow-sm text-black"
                         type="email"
@@ -113,8 +113,12 @@ function onSubmit() {
                 </div>
 
                 <button
-                    class="w-full py-2 px-4 mt-6 text-white font-semibold rounded-lg bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700"
+                    :class="[
+                        'w-full py-2 px-4 mt-4 text-white font-semibold rounded-lg bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700',
+                        form.processing ? 'animate-pulse' : '',
+                    ]"
                     type="submit"
+                    :disabled="form.processing"
                 >
                     {{ loading ? "Logging in..." : "Login" }}
                 </button>

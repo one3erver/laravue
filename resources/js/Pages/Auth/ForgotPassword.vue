@@ -71,8 +71,12 @@ const submit = () => {
 
                 <div class="flex items-center justify-end mt-4">
                     <button
-                        class="w-full py-2 px-4 mt-4 text-white font-semibold rounded-lg bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700"
+                        :class="[
+                            'w-full py-2 px-4 mt-4 text-white font-semibold rounded-lg bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700',
+                            form.processing ? 'animate-pulse' : '',
+                        ]"
                         type="submit"
+                        :disabled="form.processing"
                     >
                         {{
                             form.processing
