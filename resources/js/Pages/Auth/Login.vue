@@ -75,15 +75,11 @@ function onSubmit() {
                         type="email"
                         placeholder="email"
                         v-model="form.email"
+                        autocomplete="username"
                     />
 
                     <!-- error -->
-                    <div
-                        class="text-red-400 border-red-400"
-                        v-if="form.errors.email"
-                    >
-                        {{ form.errors.email }}
-                    </div>
+                    <InputError :message="form.errors.email" />
                 </div>
 
                 <!-- password -->
@@ -94,15 +90,11 @@ function onSubmit() {
                         type="password"
                         placeholder="password"
                         v-model="form.password"
+                        autocomplete="current-password"
                     />
 
                     <!-- error -->
-                    <div
-                        class="text-red-400 border-red-400"
-                        v-if="form.errors.password"
-                    >
-                        {{ form.errors.password }}
-                    </div>
+                    <InputError :message="form.errors.password" />
                 </div>
 
                 <!-- remember me -->
