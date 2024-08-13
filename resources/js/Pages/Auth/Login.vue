@@ -95,19 +95,19 @@ function onSubmit() {
                 </div>
 
                 <button
-                    class="w-full py-2 px-4 text-white font-semibold rounded-lg bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700"
+                    class="w-full py-2 px-4 mt-6 text-white font-semibold rounded-lg bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700"
                     type="submit"
                 >
                     {{ loading ? "Logging in..." : "Login" }}
                 </button>
 
                 <!-- register -->
-                <span class="w-full block text-center mt-4 text-sm italic"
+                <span class="w-full block text-center mt-6 text-base italic"
                     >Dont't have an Account?
                     <a
-                        class="text-sky-500 dark:text-sky-300 underline ml-1 bold"
+                        class="text-sky-500 dark:text-sky-300 underline bold"
                         href="/register"
-                        >Login</a
+                        >Register</a
                     ></span
                 >
             </form>
