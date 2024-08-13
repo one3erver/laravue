@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import { ProductType } from "@/types/Products";
 import AddToCart from "./AddToCart.vue";
+import { Link } from "@inertiajs/vue3";
 
-const { title, caption, image, image_thumbnail, price, status } =
+const { id, title, caption, image, image_thumbnail, price, status } =
     defineProps<ProductType>();
 </script>
 
 <template>
-    <div
+    <Link
+        :href="`product/${id}`"
         class="border-[1px] h-full flex flex-col items-center justify-between border-light rounded-xl pb-5 overflow-hidden shadow-md bg-light_platform dark:bg-dark_platform dark:border-dark"
     >
         <img :src="image" :alt="title" />
@@ -28,5 +30,5 @@ const { title, caption, image, image_thumbnail, price, status } =
             >
             <AddToCart />
         </div>
-    </div>
+    </Link>
 </template>

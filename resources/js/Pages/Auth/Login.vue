@@ -43,7 +43,24 @@ function onSubmit() {
         {{ status }}
     </div>
 
-    <div class="w-full h-svh flex items-center justify-center px-4">
+    <div class="w-full h-svh flex items-center justify-center px-4 relative">
+        <!-- home button -->
+        <a class="absolute left-6 top-5" href="/">
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                class="size-7"
+            >
+                <path
+                    d="M11.47 3.841a.75.75 0 0 1 1.06 0l8.69 8.69a.75.75 0 1 0 1.06-1.061l-8.689-8.69a2.25 2.25 0 0 0-3.182 0l-8.69 8.69a.75.75 0 1 0 1.061 1.06l8.69-8.689Z"
+                />
+                <path
+                    d="m12 5.432 8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 0 1-.75-.75v-4.5a.75.75 0 0 0-.75-.75h-3a.75.75 0 0 0-.75.75V21a.75.75 0 0 1-.75.75H5.625a1.875 1.875 0 0 1-1.875-1.875v-6.198a2.29 2.29 0 0 0 .091-.086L12 5.432Z"
+                />
+            </svg>
+        </a>
+
         <section
             class="w-full space-y-6 bg-light_platform border-light dark:bg-dark_platform dark:border-dark border-[1px] max-w-[450px] px-5 pt-8 pb-7 mx-auto rounded-lg shadow-md"
         >
@@ -51,41 +68,42 @@ function onSubmit() {
 
             <form @submit.prevent="onSubmit" class="w-full">
                 <!-- email -->
-                <div class="flex flex-col space-y-1 mb-6">
-                    <label title="password">Email</label>
+                <div class="flex flex-col gap-1 mb-6">
+                    <label title="email">Email</label>
                     <input
                         class="border-gray-300 focus:border-emerald-500 focus:ring-emerald-500 rounded-md shadow-sm text-black"
                         type="email"
                         placeholder="email"
                         v-model="form.email"
+                        autocomplete="username"
                     />
 
                     <!-- error -->
-                    <div
-                        class="text-red-400 border-red-400"
-                        v-if="form.errors.email"
-                    >
-                        {{ form.errors.email }}
-                    </div>
+                    <InputError :message="form.errors.email" />
                 </div>
 
                 <!-- password -->
-                <div class="flex flex-col space-y-1 mb-6">
+                <div class="flex flex-col gap-1 mb-6">
                     <label title="password">Password</label>
                     <input
                         class="border-gray-300 focus:border-emerald-500 focus:ring-emerald-500 rounded-md shadow-sm text-black"
                         type="password"
                         placeholder="password"
                         v-model="form.password"
+                        autocomplete="current-password"
                     />
 
-                    <!-- error -->
-                    <div
-                        class="text-red-400 border-red-400"
-                        v-if="form.errors.password"
+                    <Link
+                        v-if="canResetPassword"
+                        :href="route('password.request')"
+                        class="underline-offset-4 mt-2 text-sm text-sky-500 dark:text-sky-300"
+                        style="text-decoration: underline"
                     >
-                        {{ form.errors.password }}
-                    </div>
+                        Forgot your password?
+                    </Link>
+
+                    <!-- error -->
+                    <InputError :message="form.errors.password" />
                 </div>
 
                 <!-- remember me -->
@@ -95,19 +113,24 @@ function onSubmit() {
                 </div>
 
                 <button
-                    class="w-full py-2 px-4 text-white font-semibold rounded-lg bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700"
+                    :class="[
+                        'w-full py-2 px-4 mt-4 text-white font-semibold rounded-lg bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700',
+                        form.processing ? 'animate-pulse' : '',
+                    ]"
                     type="submit"
+                    :disabled="form.processing"
                 >
                     {{ loading ? "Logging in..." : "Login" }}
                 </button>
 
                 <!-- register -->
-                <span class="w-full block text-center mt-4 text-sm italic"
+                <span class="w-full block text-center mt-6 text-base italic"
                     >Dont't have an Account?
-                    <a
-                        class="text-sky-500 dark:text-sky-300 underline ml-1 bold"
+                    <Link
+                        class="text-sky-500 dark:text-sky-300 underline bold"
                         href="/register"
-                        >Login</a
+                        style="text-decoration: underline"
+                        >Register</Link
                     ></span
                 >
             </form>

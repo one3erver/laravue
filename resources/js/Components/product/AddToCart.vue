@@ -71,7 +71,7 @@ function onAddtoCart() {
         <!-- decrememt -->
         <button
             class="bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white dark:bg-emerald-700 dark:hover:bg-emerald-600 dark:active:bg-emerald-800 transition-colors duration-150 text-base font-semibold h-full aspect-square rounded-lg flex items-center justify-center"
-            @click="DecrementFromCart"
+            @click.prevent="DecrementFromCart"
         >
             <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -90,16 +90,13 @@ function onAddtoCart() {
         </button>
 
         <!-- add to cart dom ref-->
-        <button
-            ref="add_to_cart_placeholder"
-            class="appearance-none w-full"
-        ></button>
+        <div ref="add_to_cart_placeholder" class="appearance-none w-full"></div>
 
         <!--actual add to cart -->
         <button
             ref="add_to_cart"
-            @click="onAddtoCart"
-            class="bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white transition-all duration-150 h-full w-full text-base font-semibold rounded-lg absolute left-2/4 -translate-x-2/4 top-2/4 -translate-y-2/4 dark:bg-emerald-700 dark:hover:bg-emerald-600 dark:active:bg-emerald-800"
+            @click.prevent="onAddtoCart"
+            class="bg-emerald-600 z-50 hover:bg-emerald-500 active:bg-emerald-700 text-white transition-all duration-150 h-full w-full text-base font-semibold rounded-lg absolute left-2/4 -translate-x-2/4 top-2/4 -translate-y-2/4 dark:bg-emerald-700 dark:hover:bg-emerald-600 dark:active:bg-emerald-800"
             :style="{
                 width: quantity == 0 ? '100%' : `${addToCartWidth}px`,
             }"
@@ -111,7 +108,7 @@ function onAddtoCart() {
         <!-- increment -->
         <button
             class="bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white dark:bg-emerald-700 dark:hover:bg-emerald-600 dark:active:bg-emerald-800 transition-colors duration-75 text-base font-semibold h-full aspect-square rounded-lg flex items-center justify-center"
-            @click="IncrementFromCart"
+            @click.prevent="IncrementFromCart"
         >
             <svg
                 xmlns="http://www.w3.org/2000/svg"
