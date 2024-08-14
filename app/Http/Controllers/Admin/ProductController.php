@@ -70,7 +70,7 @@ class ProductController extends Controller
         if ($request->hasFile('image')) {
             deleteImage($product->image);
         }
-        $image = uploadImage($request->image, 'products', 300, 300);
+        $image = uploadImage($request->image, 'products');
 
         $product->update([
             'title' => $request->title,
