@@ -25,6 +25,7 @@ class UpdateUserRequest extends FormRequest
             'name' => 'required',
             'email' => 'required|email',
             'mobile' => 'required',
+            'status' => 'required|boolean',
         ];
     }
 }
