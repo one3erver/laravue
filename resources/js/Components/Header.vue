@@ -4,8 +4,6 @@ import { onMounted, onUnmounted, ref } from "vue";
 
 const { auth } = defineProps<AuthTypes>();
 
-console.log(auth.user);
-
 const hideThreshold = 120;
 
 let prevScroll = 0;
@@ -54,9 +52,9 @@ const header_height = "h-[55px] md:h-[65px]";
             <a
                 v-if="auth.user"
                 href="/dashboard"
-                class="px-3 py-1 border-[1px] border-gray-500 dark:border-dark rounded-lg transition-all duration-75 hover:bg-gray-500 hover:text-white dark:hover:bg-gray-700"
+                class="px-3 py-1 max-w-[150px] inline-block text-nowrap text-ellipsis overflow-hidden border-[1px] border-gray-500 dark:border-dark rounded-lg transition-all duration-75 hover:bg-gray-500 hover:text-white dark:hover:bg-gray-700"
             >
-                {{ auth.user.email }}
+                {{ auth.user.name }}
             </a>
             <a
                 v-else
