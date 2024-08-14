@@ -9,7 +9,7 @@ const { id, title, caption, image, image_thumbnail, price, status } =
 
 <template>
     <Link
-        :href="`product/${id}`"
+        :href="`products/${id}`"
         class="border-[1px] h-full flex flex-col items-center justify-between border-light rounded-xl pb-5 overflow-hidden shadow-md bg-light_platform dark:bg-dark_platform dark:border-dark"
     >
         <img :src="image" :alt="title" />

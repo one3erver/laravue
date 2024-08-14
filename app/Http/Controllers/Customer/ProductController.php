@@ -11,12 +11,12 @@ class ProductController extends Controller
     //For showing all products in the page
     public function index(){
         $products = Product::all();
-        return Inertia::render('Customer/landing', compact('products'));
+        return Inertia::render('Landing', compact('products'));
     }
 
     //For Showing a product with a specific ID
     public function show($id){
         $product = Product::findOrFail($id);
-        return Inertia::render('Customer/Product', compact('product'));
+        return Inertia::render('Product', compact('product'));
     }
 }
