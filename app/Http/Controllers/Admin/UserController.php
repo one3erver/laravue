@@ -42,6 +42,7 @@ class UserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'mobile' => $request->mobile,
+            'status' => $request->status,
         ]);
         return redirect()->route('admin.users.index')->with('success', 'User updated successfully');
     }
