@@ -16,7 +16,7 @@ class InvoiceSeeder extends Seeder
     {
         $orders = Order::all();
 
-        Invoice::factory()->count(3)->make()->each(function ($invoice) use ($orders) {
+        Invoice::factory()->count(20)->make()->each(function ($invoice) use ($orders) {
             $invoice->order_id = $orders->random()->id;
             $invoice->save();
         });

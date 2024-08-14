@@ -18,7 +18,7 @@ class CartSeeder extends Seeder
         $users = User::all();
         $products = Product::all();
 
-        Cart::factory()->count(3)->make()->each(function ($cart) use ($users, $products) {
+        Cart::factory()->count(10)->make()->each(function ($cart) use ($users, $products) {
             $cart->user_id = $users->random()->id;
             $cart->save();
         });
