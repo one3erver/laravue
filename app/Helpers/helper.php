@@ -2,7 +2,7 @@
 
 use Intervention\Image\ImageManager;
 
-function uploadImage($file, $folder, $width, $height)
+function uploadImage($file, $folder, $width = 512, $height = 512)
 {
     if ($file) {
         $name = time() . '.' . $file->extension();
