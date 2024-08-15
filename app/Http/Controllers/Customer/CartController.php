@@ -16,7 +16,6 @@ class CartController extends Controller
     {
         $carts = Auth::user()->carts()->get();
         return inertia('Cart', compact('carts'));
-
     }
 
 

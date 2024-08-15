@@ -32,11 +32,13 @@ class SettingController extends Controller
      */
     public function store(StoreSettingRequest $request)
     {
+        $logo = uploadImage($request->logo, 'logo', 250, 250);
+
         Setting::create([
             'telegram_id' => $request->telegram_id,
             'telegram_token' => $request->telegram_token,
-            'header' => $request->header,
-            'logo' => $request->logo,
+            'landing_content' => $request->landing_content,
+            'logo' => $logo,
             'site_title' => $request->site_title,
         ]);
 
@@ -64,11 +66,15 @@ class SettingController extends Controller
      */
     public function update(UpdateSettingRequest $request, Setting $setting)
     {
+        if ($request->hasFile('logo')) {
+            deleteImage($setting->logo);
+        }
+        $logo = uploadImage($request->logo, 'logo', 250, 250);
         $setting->update([
             'telegram_id' => $request->telegram_id,
             'telegram_token' => $request->telegram_token,
             'landing_content' => $request->landing_content,
-            'logo' => $request->logo,
+            'logo' => $logo,
             'site_title' => $request->site_title,
         ]);
 
