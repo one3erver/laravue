@@ -1,9 +1,19 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref } from "vue";
+import { useAddToLocalCart, useDoesExistinCart } from "@/util/useCart";
+
+const { product_id } = defineProps(["product_id"]);
 
 const quantity = ref(0);
 
 const addToCartWidth = ref(0);
+
+onMounted(() => {
+    const itExistInCart = useDoesExistinCart(product_id);
+    if (itExistInCart) {
+        quantity.value = itExistInCart.quantity;
+    }
+});
 
 function IncrementFromCart() {
     //pop animation - add scale and remove it after a short time
@@ -16,6 +26,7 @@ function IncrementFromCart() {
     }, 200);
 
     quantity.value += 1;
+    useAddToLocalCart(product_id, quantity.value);
 }
 
 function DecrementFromCart() {
@@ -31,6 +42,7 @@ function DecrementFromCart() {
     //remove until it reaches 0 items
     if (quantity.value > 0) {
         quantity.value -= 1;
+        useAddToLocalCart(product_id, quantity.value);
     }
 }
 
@@ -63,6 +75,9 @@ function onAddtoCart() {
     if (quantity.value == 0) {
         quantity.value++;
     }
+
+    // addToLocalstorage();
+    useAddToLocalCart(product_id, quantity.value);
 }
 </script>
 
