@@ -28,7 +28,7 @@ const { id, title, caption, image, image_thumbnail, price, status } =
                 class="w-full block pb-3 text-right text-lg font-semibold text-emerald-500 dark:text-emerald-400 mt-auto"
                 >{{ price }}$</span
             >
-            <AddToCart />
+            <AddToCart :product_id="id" />
         </div>
     </Link>
 </template>
