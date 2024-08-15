@@ -3,9 +3,8 @@
 namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Customer\StoreCartRequest;
-use App\Http\Requests\Customer\UpdateCartRequest;
 use App\Models\Cart;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
@@ -23,30 +22,37 @@ class CartController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreCartRequest $request)
+    public function store(Request $request)
     {
         $user = Auth::user();
-        $user->carts()->create($request->validated());
+        $products = $request->input('products');
+        $productIds = array_column($products, 'id');
+        $existingCarts = $user->carts()->whereIn('product_id', $productIds)->get()->keyBy('product_id');
 
-//        return ???? back
+        foreach ($products as $product) {
+            $existingCart = $existingCarts->get($product['id']);
+
+            if (!$existingCart) {
+                $user->carts()->create([
+                    'product_id' => $product['id'],
+                    'count' => $product['count'],
+                ]);
+            } else {
+                $this->update($product, $existingCart);
+            }
+        }
+
+        return redirect()->back();
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified cart's count.
      */
-    public function update(UpdateCartRequest $request, Cart $cart)
+    protected function update(array $product, Cart $cart)
     {
-        $user = Auth::user();
-        $existingCart = $user->carts()->where('id', $cart->id)->first();
-
-        if ($existingCart) {
-            $existingCart->update($request->validated());
-//            return ????
-        }
-        else{
-//            ????
-            return $this->store($request);
-        }
+        $cart->update([
+            'count' => $product['count'],
+        ]);
     }
 
     /**
@@ -55,6 +61,6 @@ class CartController extends Controller
     public function destroy(Cart $cart)
     {
         $cart->delete();
-//        return ????
+        return redirect()->back();
     }
 }
