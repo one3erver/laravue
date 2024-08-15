@@ -27,6 +27,16 @@ export function useAddToLocalCart(product_id: number, quantity: number) {
             cart.push({ product_id, quantity });
         }
 
+        //dispatch cartchange event if a item is added
+        window.dispatchEvent(
+            new CustomEvent("cartchange", {
+                detail: {
+                    itemsInCart: cart.length,
+                    storage: localStorage.getItem("cart"),
+                },
+            })
+        );
+
         //atlast store the cart as a string in localstorage
         localStorage.setItem("cart", JSON.stringify(cart));
     }
@@ -57,5 +67,20 @@ export function useDoesExistinCart(product_id: number) {
                   product_id: number;
                   quantity: number;
               });
+    }
+}
+
+export function useNumberOfItemsInCart() {
+    if (localStorage.getItem("cart")) {
+        //turn our cart to a array
+        const cart = JSON.parse(
+            localStorage.getItem("cart") as string
+        ) as any[];
+
+        console.log(cart.length);
+
+        return cart.length;
+    } else {
+        return 0;
     }
 }
