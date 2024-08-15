@@ -20,17 +20,17 @@ const total_cost = 12.99;
 
             <hr class="w-4/5" />
 
-            <div class="w-full px-6 gap-6 flex flex-col md:grid grid-cols-5">
+            <div class="w-full px-6 gap-6 flex flex-col xl:grid grid-cols-5">
                 <!-- cart list -->
                 <div
-                    class="md:rounded-lg border-[1px] border-light dark:border-dark overflow-hidden divide-y-[1px] divide-light dark:divide-gray-700 col-span-3"
+                    class="xl:rounded-lg border-[1px] border-light dark:border-dark overflow-hidden divide-y-[1px] divide-light dark:divide-gray-700 col-span-3"
                 >
                     <CartProduct v-for="items in user_cart_items" />
                 </div>
 
                 <!-- checkout section -->
                 <div
-                    class="border-0 md:border-[1px] border-light bg-light_platform dark:border-dark dark:bg-dark dark:md:bg-dark_platform rounded-lg col-span-2 flex flex-col items-center justify-start py-6 px-6 gap-4"
+                    class="border-0 xl:border-[1px] border-light bg-light_platform dark:border-dark dark:bg-dark dark:xl:bg-dark_platform rounded-lg col-span-2 flex flex-col items-center justify-start py-6 px-6 gap-4"
                 >
                     <div
                         class="w-full flex justify-between items-center text-base sm:text-lg"
