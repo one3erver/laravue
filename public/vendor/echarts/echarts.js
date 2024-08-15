@@ -15215,7 +15215,7 @@
       return true;
     }
     /**
-     * Cross product of 2-dimension vector.
+     * Cross products of 2-dimension vector.
      */
 
     function crossProduct2d(x1, y1, x2, y2) {
@@ -20986,7 +20986,7 @@
           params.dimensionIndex = labelDimIndex;
           return formatter(params);
         } else if (isString(formatter)) {
-          var str = formatTpl(formatter, params); // Support 'aaa{@[3]}bbb{@product}ccc'.
+          var str = formatTpl(formatter, params); // Support 'aaa{@[3]}bbb{@products}ccc'.
           // Do not support '}' in dim name util have to.
 
           return str.replace(DIMENSION_LABEL_REG, function (origin, dimStr) {
@@ -22048,7 +22048,7 @@
          * Suppose the original `dataset.source` is:
          * ```js
          * [
-         *     ['product', '2012', '2013', '2014', '2015'],
+         *     ['products', '2012', '2013', '2014', '2015'],
          *     ['AAA', 41.1, 30.4, 65.1, 53.3],
          *     ['BBB', 86.5, 92.1, 85.7, 83.1],
          *     ['CCC', 24.1, 67.2, 79.5, 86.4]
@@ -37139,7 +37139,7 @@
       var dy1 = y2 - y1;
       var lineLen = Math.sqrt(dx1 * dx1 + dy1 * dy1);
       dx1 /= lineLen;
-      dy1 /= lineLen; // dot product
+      dy1 /= lineLen; // dot products
 
       var projectedLen = dx * dx1 + dy * dy1;
       var t = projectedLen / lineLen;
@@ -67994,7 +67994,7 @@
               x: pmin[0],
               y: pmin[1],
               width:  candleWidth ,
-              height:  pmax[1] - pmin[1] 
+              height:  pmax[1] - pmin[1]
             };
           }
 

@@ -14,9 +14,9 @@ class ProductController extends Controller
         return Inertia::render('Welcome', ['products' => $products]);
     }
 
-    //For Showing a product with a specific ID
+    //For Showing a products with a specific ID
     public function show($id){
         $product = Product::findOrFail($id);
-        return Inertia::render('Products/show', ['product' => $product]);
+        return Inertia::render('Products/show', ['products' => $product]);
     }
 }

@@ -1,11 +1,11 @@
-@extends('panel_admin.layouts.master')
+@extends('admin.layouts.master')
 @section('main_title')
     <div class="pagetitle">
         <h1>Products</h1>
 
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{route('admin.products.index')}}">Home</a></li>
                 <li class="breadcrumb-item active">Product_Management</li>
 
             </ol>
@@ -16,7 +16,7 @@
         <section class="section dashboard">
 
             <div class="row">
-                <button type="button" class="btn btn-secondary" onclick=" window.open('/panel_admin/add_product')" >ADD CLICK</button>
+                <a type="button" class="btn btn-secondary" href="{{route('admin.products.create')}}" >ADD CLICK</a>
                 <!-- Left side columns -->
                 <div class="col-lg-12">
                     <div class="row">
@@ -30,20 +30,21 @@
                                 <th scope="col">Position</th>
                                 <th scope="col">Stock</th>
                                 <th scope="col">Price</th>
-
-
                                 <th scope="col">Description</th>
                                 <th scope="col">Edit</th>
                                 <th scope="col">Remove</th>
                             </tr>
                             </thead>
                             <tbody>
+                            @foreach($products as $product)
+
+
                             <tr>
-                                <th scope="row"><img src="image/profile-img.jpg" alt="Profile" class="rounded-circle" width="50" height="50" ></th>
-                                <td>Brandon Jacob</td>
-                                <td>show</td>
-                                <td>28</td>
-                                <td>200</td>
+                                <th scope="row"><img src="{{$product->image}}" alt="Profile" class="rounded-circle" width="50" height="50" ></th>
+                                <td>{{$product->title}}</td>
+                                <td>{{$product->status}}</td>
+                                <td>{{$product->stock}}</td>
+                                <td>{{$product->price}}</td>
 
 
 
@@ -62,7 +63,7 @@
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    Non omnis incidunt qui sed occaecati magni asperiores est mollitia. Soluta at et reprehenderit. Placeat autem numquam et fuga numquam. Tempora in facere consequatur sit dolor ipsum. Consequatur nemo amet incidunt est facilis. Dolorem neque recusandae quo sit molestias sint dignissimos.
+                                                    {{$product->caption}}
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -74,15 +75,16 @@
                                 </td>
 
                                 <td>
-                                    <button type="button" class="btn btn-success" onclick=" window.open('/panel_admin/update_product')"><i class="ri-ball-pen-line"></i></button>
+                                    <a type="button" class="btn btn-success" href="{{route('admin.products.edit', $product)}}" ><i class="ri-ball-pen-line"></i></a>
 
                                 </td>
                                 <td>
-                                    <button type="button" class="btn btn-danger" onclick=" window.open('/panel_admin/remove_product')"><i class="ri-delete-bin-7-line"></i></button>
+                                    <a type="button" class="btn btn-danger" href="{{route('admin.products.destroy', $product)}}"><i class="ri-delete-bin-7-line"></i></a>
 
                                 </td>
 
                             </tr>
+                            @endforeach
 
                             </tbody>
                         </table>

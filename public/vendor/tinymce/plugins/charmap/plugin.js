@@ -632,7 +632,7 @@
             ],
             [
               8719,
-              'n-ary product'
+              'n-ary products'
             ],
             [
               8743,

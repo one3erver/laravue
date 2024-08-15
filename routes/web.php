@@ -38,30 +38,9 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('/', [ProductController::class, 'index'])->name('products.index');
-Route::get('/product/{id}', [ProductController::class, 'show'])->name('products.show');
+Route::get('/products/{id}', [ProductController::class, 'show'])->name('products.show');
 
 Route::post('/cart/add/{id}', [CartController::class, 'add'])->name('cart.add');
 
-//Route::get('/panel_admin', function () {
-//    return view('panel_admin.index');
-//});
-//Route::get('/panel_admin/add_product', function () {
-//    return view('panel_admin.add_product');
-//});
-//Route::get('/panel_admin/update_product', function () {
-//    return view('panel_admin.update_product');
-//});
-//Route::get('/panel_admin/orders', function () {
-//    return view('panel_admin.orders');
-//});
-//Route::get('/panel_admin/users', function () {
-//    return view('panel_admin.users');
-//});
-//Route::get('/panel_admin/update_user', function () {
-//    return view('panel_admin.update_user');
-//});
-//Route::get('/panel_admin/setting', function () {
-//    return view('panel_admin.setting');
-//});
 require __DIR__.'/auth.php';
 require  __DIR__ . '/admin.php';
