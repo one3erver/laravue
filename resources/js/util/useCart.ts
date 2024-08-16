@@ -43,7 +43,14 @@ export function useAddToLocalCart(id: number, count: number) {
         localStorage.setItem("cart", JSON.stringify(cart));
 
         //post data
-        router.post(route("carts.store"), { cart_list: JSON.stringify(cart) });
+        router.post(
+            route("carts.store"),
+            { cart_list: JSON.stringify(cart) },
+            {
+                preserveState: true,
+                preserveScroll: true,
+            }
+        );
     }
     //if we dont have a cart, create an empty one and then run this again
     else {
@@ -52,7 +59,7 @@ export function useAddToLocalCart(id: number, count: number) {
     }
 }
 
-export function useDoesExistinCart(product_id: number) {
+export function useDoesExistinCart(id: number) {
     if (localStorage.getItem("cart")) {
         //turn our cart to a array
         const cart = JSON.parse(
@@ -61,7 +68,7 @@ export function useDoesExistinCart(product_id: number) {
 
         //check if we have the product we are trying to add in our cart, if we dont the returned value would be -1
         let indexOfThisProductInCart = cart.findLastIndex((item) => {
-            if (item.product_id === product_id) {
+            if (item.id === id) {
                 return true;
             }
         });
