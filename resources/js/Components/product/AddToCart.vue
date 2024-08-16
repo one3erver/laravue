@@ -1,8 +1,11 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref } from "vue";
+import { inject, onMounted, onUnmounted, ref } from "vue";
 import { useAddToLocalCart, useDoesExistinCart } from "@/util/useCart";
+import { AuthTypes } from "@/types";
 
-const { product_id } = defineProps(["product_id"]);
+const { auth, product_id } = defineProps<AuthTypes & { product_id: any }>();
+
+const displayToast = inject("displayToast") as CallableFunction;
 
 const quantity = ref(0);
 
@@ -16,6 +19,11 @@ onMounted(() => {
 });
 
 function IncrementFromCart() {
+    if (!auth) {
+        displayToast();
+        return;
+    }
+
     //pop animation - add scale and remove it after a short time
     if (!add_to_cart.value) return;
     add_to_cart.value.classList.add("scale-105");
@@ -30,6 +38,11 @@ function IncrementFromCart() {
 }
 
 function DecrementFromCart() {
+    if (!auth) {
+        displayToast();
+        return;
+    }
+
     //pop animation - add scale and remove it after a short time
     if (!add_to_cart.value) return;
     add_to_cart.value.classList.add("scale-105");
@@ -62,6 +75,11 @@ onMounted(() => {
 onUnmounted(() => observer.disconnect());
 
 function onAddtoCart() {
+    if (!auth) {
+        displayToast();
+        return;
+    }
+
     //pop animation - add scale and remove it after a short time
     if (!add_to_cart.value) return;
     add_to_cart.value.classList.add("scale-105");
