@@ -5,7 +5,7 @@
 
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{url('/admin/products')}}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{url('/')}}">Home</a></li>
                 <li class="breadcrumb-item active">Product_Add</li>
 
             </ol>
@@ -13,10 +13,16 @@
     </div>
 @endsection
 @section('main')
-    <form class="row g-3" method="post" action="{{route('admin.products.store')}}">
+    <form class="row g-3" method="post" enctype="multipart/form-data"  action="{{route('admin.products.store')}}">
+
+
         <div class="col-md-5">
             <label for="title" class="form-label">Title</label>
             <input type="text" class="form-control" id="title" name="title" required>
+        </div>
+        <div class="col-md-5">
+            <label for="image_thumbnail" class="form-label">image_thumbnail</label>
+            <input type="text" class="form-control" id="image_thumbnail" name="image_thumbnail" required>
         </div>
         @csrf
         <div class="col-md-5">

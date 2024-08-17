@@ -79,7 +79,13 @@
 
                                 </td>
                                 <td>
-                                    <a type="button" class="btn btn-danger" href="{{route('admin.products.destroy', $product)}}"><i class="ri-delete-bin-7-line"></i></a>
+{{--                                    <a type="button" class="btn btn-danger" href="{{route('admin.products.destroy', $product)}}?_method=DELETE"><i class="ri-delete-bin-7-line"></i></a>--}}
+                                    <form action="{{route('admin.products.destroy', $product)}}" method="post" >
+                                        @method('DELETE')
+                                        @csrf
+                                        <button type="submit" class="btn btn-danger"><i class="ri-delete-bin-7-line "></i></button>
+                                    </form>
+
 
                                 </td>
 

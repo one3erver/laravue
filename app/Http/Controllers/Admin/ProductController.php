@@ -16,7 +16,6 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::all();
-
         return view('admin.products.index', compact('products'));
     }
 
@@ -34,7 +33,6 @@ class ProductController extends Controller
     public function store(StoreProductRequest $request)
     {
         $image = uploadImage($request->image, 'products', 300, 300);
-
         Product::create([
             'title' => $request->title,
             'caption' => $request->caption,

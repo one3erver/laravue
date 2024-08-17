@@ -81,8 +81,11 @@
                                     <!-- End Disabled Animation Modal-->
                                 </td>
                                 <td>
-                                    <a type="button" class="btn btn-danger" href="{{route('admin.orders.destroy',[$order])}}&Method=DELETE"><i class="ri-delete-bin-7-line"></i></a>
-
+                                    <form action="{{route('admin.orders.destroy', $order)}}" method="post" >
+                                        @method('DELETE')
+                                        @csrf
+                                        <button type="submit" class="btn btn-danger"><i class="ri-delete-bin-7-line "></i></button>
+                                    </form>
                                 </td>
                             </tr>
                             @endforeach
