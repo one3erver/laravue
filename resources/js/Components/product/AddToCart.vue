@@ -17,7 +17,7 @@ const addToCartWidth = ref(0);
 onMounted(() => {
     const itExistInCart = useDoesExistinCart(product_id);
     if (itExistInCart) {
-        quantity.value = itExistInCart.quantity;
+        quantity.value = itExistInCart.count;
     }
 });
 
