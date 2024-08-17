@@ -15,18 +15,18 @@ export function useAddToLocalCart(id: number, count: number) {
             }
         });
 
-        //if we have this product in our cart, update the quantity
+        //if we have this product in our cart, update the count
         if (indexOfThisProductInCart != -1) {
-            //if quantity reaches 0 delete it from the cart, else update it
+            //if count reaches 0 delete it from the cart, else update it
             if (count <= 0) {
                 cart.splice(indexOfThisProductInCart, 1);
             } else {
-                cart[indexOfThisProductInCart].quantity = count;
+                cart[indexOfThisProductInCart].count = count;
             }
         }
         //if we dont have this product in our cart, add it in
         else {
-            cart.push({ id, quantity: count });
+            cart.push({ id, count: count });
         }
 
         //dispatch cartchange event if a item is added
@@ -77,7 +77,7 @@ export function useDoesExistinCart(id: number) {
             ? null
             : (cart[indexOfThisProductInCart] as null | {
                   product_id: number;
-                  quantity: number;
+                  count: number;
               });
     }
 }

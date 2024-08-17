@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -25,20 +26,23 @@ class CartController extends Controller
     public function store(Request $request)
     {
         $user = Auth::user();
-        $products = $request->input('products');
-        $productIds = array_column($products, 'id');
-        $existingCarts = $user->carts()->whereIn('product_id', $productIds)->get()->keyBy('product_id');
 
-        foreach ($products as $product) {
-            $existingCart = $existingCarts->get($product['id']);
+        $cart_list = json_decode($request->post('cart_list'), true);
+        $productIds = array_column($cart_list, 'id');
+        $deletedCarts = $user->carts()->whereNotIn('product_id', $productIds)->get()->keyBy('product_id');
+        $this->destroy($deletedCarts);
+
+        $existingCarts = $user->carts()->whereIn('product_id', $productIds)->get()->keyBy('product_id');
+        foreach ($cart_list as $cart) {
+            $existingCart = $existingCarts->get($cart['id']);
 
             if (!$existingCart) {
                 $user->carts()->create([
-                    'product_id' => $product['id'],
-                    'count' => $product['count'],
+                    'product_id' => $cart['id'],
+                    'count' => $cart['count'],
                 ]);
             } else {
-                $this->update($product, $existingCart);
+                $this->update($cart, $existingCart);
             }
         }
 
@@ -58,9 +62,16 @@ class CartController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Cart $cart)
+    private function destroy($cart)
     {
-        $cart->delete();
+        if ($cart instanceof Collection) {
+            foreach ($cart as $item) {
+                $item->delete();
+            }
+        } else {
+            $cart->delete();
+        }
+
         return redirect()->back();
     }
 }

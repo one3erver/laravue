@@ -15,3 +15,7 @@ Route::middleware('auth')->group(function () {
         ->only('index', 'store', 'update', 'destroy');
     Route::resource('orders', OrderController::class)->names('orders');
 });
+
+Route::get('/test', function (){
+    return view('customer.test');
+});
