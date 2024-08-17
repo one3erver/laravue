@@ -15,28 +15,17 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = Auth::user()->orders()->get();
+        $orders = Auth::user()->orders;
         return inertia('Customer/Orders/Index', compact('orders'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        $cart = Auth::user()->carts()->get();
-        $order = Auth::user()->orders()->create([
-            'total_cost' => $request->total_cost,
-
-        ]);
+        return $request->user()->orders;
     }
 
     /**
