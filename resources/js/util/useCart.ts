@@ -1,6 +1,14 @@
 import { router } from "@inertiajs/vue3";
 
+let postCartTimeout: number | undefined = undefined;
+
 export function useAddToLocalCart(id: number, count: number) {
+    //if the is a postCartTimeout then i means we have a post request in queue and we will be sending a new one soon,
+    //to prevent spaming delete the old post request
+    if (postCartTimeout) {
+        clearTimeout(postCartTimeout);
+    }
+
     //check if we have a cart in localstorage, if we do add to that cart
     if (localStorage.getItem("cart")) {
         //turn our cart to a array
@@ -29,11 +37,17 @@ export function useAddToLocalCart(id: number, count: number) {
             cart.push({ id, count });
         }
 
+        //get the total count of items in cart including
+        const total_count = cart.reduce(
+            (sum, current) => sum + current.count,
+            0
+        );
+
         //dispatch cartchange event if a item is added
         window.dispatchEvent(
             new CustomEvent("cartchange", {
                 detail: {
-                    itemsInCart: cart.length,
+                    itemsInCart: total_count,
                     storage: localStorage.getItem("cart"),
                 },
             })
@@ -42,15 +56,17 @@ export function useAddToLocalCart(id: number, count: number) {
         //atlast store the cart as a string in localstorage
         localStorage.setItem("cart", JSON.stringify(cart));
 
-        //post data
-        router.post(
-            route("carts.store"),
-            { cart_list: JSON.stringify(cart) },
-            {
-                preserveState: true,
-                preserveScroll: true,
-            }
-        );
+        //post data to carts.store, it queues the posting in a timeout to prevent spaming by clicking add to cart rapidly
+        postCartTimeout = setTimeout(() => {
+            router.post(
+                route("carts.store"),
+                { cart_list: JSON.stringify(cart) },
+                {
+                    preserveState: true,
+                    preserveScroll: true,
+                }
+            );
+        }, 1000);
     }
     //if we dont have a cart, create an empty one and then run this again
     else {
@@ -88,8 +104,6 @@ export function useNumberOfItemsInCart() {
         const cart = JSON.parse(
             localStorage.getItem("cart") as string
         ) as any[];
-
-        console.log(cart.length);
 
         return cart.length;
     } else {
