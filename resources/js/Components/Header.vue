@@ -65,7 +65,7 @@ const header_height = "h-[55px] md:h-[65px]";
     <header
         :class="[
             header_height,
-            'w-full z-[99999] px-6 bg-white dark:text-white dark:bg-dark bg-opacity-70 dark:bg-opacity-70 backdrop-blur-md border-b-[1px] border-gray-300 dark:border-gray-400 flex fixed items-center justify-between transition-[top] duration-200 ',
+            'w-full z-[99] px-6 bg-white dark:text-white dark:bg-dark bg-opacity-70 dark:bg-opacity-70 backdrop-blur-md border-b-[1px] border-gray-300 dark:border-gray-400 flex fixed items-center justify-between transition-[top] duration-200 ',
             isHidden ? '-top-[70px]' : 'top-0',
         ]"
     >

@@ -37,11 +37,17 @@ export function useAddToLocalCart(id: number, count: number) {
             cart.push({ id, count });
         }
 
+        //get the total count of items in cart including
+        const total_count = cart.reduce(
+            (sum, current) => sum + current.count,
+            0
+        );
+
         //dispatch cartchange event if a item is added
         window.dispatchEvent(
             new CustomEvent("cartchange", {
                 detail: {
-                    itemsInCart: cart.length,
+                    itemsInCart: total_count,
                     storage: localStorage.getItem("cart"),
                 },
             })
