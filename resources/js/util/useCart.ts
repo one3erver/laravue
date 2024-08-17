@@ -10,7 +10,7 @@ export function useAddToLocalCart(id: number, count: number) {
 
         //check if we have the product we are trying to add in our cart, if we dont the returned value would be -1
         let indexOfThisProductInCart = cart.findLastIndex((item) => {
-            if (item.product_id === id) {
+            if (item.id === id) {
                 return true;
             }
         });
@@ -26,7 +26,7 @@ export function useAddToLocalCart(id: number, count: number) {
         }
         //if we dont have this product in our cart, add it in
         else {
-            cart.push({ id, count: count });
+            cart.push({ id, count });
         }
 
         //dispatch cartchange event if a item is added
@@ -76,7 +76,7 @@ export function useDoesExistinCart(id: number) {
         return indexOfThisProductInCart === -1
             ? null
             : (cart[indexOfThisProductInCart] as null | {
-                  product_id: number;
+                  id: number;
                   count: number;
               });
     }
