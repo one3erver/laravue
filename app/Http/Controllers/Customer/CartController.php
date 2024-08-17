@@ -7,6 +7,7 @@ use App\Models\Cart;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class CartController extends Controller
 {
@@ -15,8 +16,25 @@ class CartController extends Controller
      */
     public function index()
     {
-        $carts = Auth::user()->carts()->get();
-        return inertia('Cart', compact('carts'));
+        $user = Auth::user();
+        $cart_list = $user->carts;
+        $productIds = $cart_list->pluck('product_id')->toArray();
+        $products = DB::table('products')->whereIn('id', $productIds)
+            ->get(['id', 'price', 'title', 'image', 'image_thumbnail']);
+
+        $totalCost = 0;
+        foreach ($products as $product ) {
+            $count = $cart_list->where('product_id', $product->id)->first()->count;
+            $product->count = $count;
+            $price = $product->price;
+            $totalCost += $count*$price;
+        }
+        $submittedContent = [
+            'totalCost' => $totalCost,
+            'products' => $products
+        ];
+
+        return inertia('Cart', compact('submittedContent'));
     }
 
 
