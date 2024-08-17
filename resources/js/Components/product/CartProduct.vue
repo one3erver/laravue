@@ -1,19 +1,27 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+interface Product {
+    id: number;
+    count: number;
+    image: string;
+    image_thumbnail: string | null;
+    price: string;
+    title: string;
+}
+
+const { id, image, count, price, title } = defineProps<Product>();
+</script>
 
 <template>
     <div
         class="py-4 px-6 w-full flex gap-2 justify-between items-center bg-white odd:bg-dark odd:bg-opacity-5 dark:bg-gray-400 dark:bg-opacity-5 dark:odd:bg-black dark:odd:bg-opacity-25"
     >
         <div class="flex gap-2 md:gap-4">
-            <img
-                class="h-[80px] md:h-[100px] object-contain"
-                src="/placeholder.webp"
-            />
+            <img class="h-[80px] md:h-[100px] object-contain" :src="image" />
 
             <div class="flex flex-col justify-between">
-                <h3 class="mt-0 text-base">Product Title</h3>
+                <h3 class="mt-0 text-base">{{ title }}</h3>
                 <span class="block md:hidden font-semibold text-emerald-500"
-                    >2.99$</span
+                    >{{ price }}$</span
                 >
             </div>
         </div>
@@ -39,8 +47,10 @@
                 </svg>
             </button>
 
-            <!-- quantitiy  -->
-            <span class="font-semibold px-3">1</span>
+            <!-- count  -->
+            <span class="font-semibold px-3">
+                {{ count }}
+            </span>
 
             <!-- plus svg -->
             <button
@@ -64,7 +74,7 @@
         </div>
 
         <span class="hidden md:block font-semibold text-emerald-500"
-            >2.99$</span
+            >{{ price }}$</span
         >
     </div>
 </template>

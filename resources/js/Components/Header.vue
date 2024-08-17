@@ -65,25 +65,25 @@ const header_height = "h-[55px] md:h-[65px]";
     <header
         :class="[
             header_height,
-            'w-full px-6 bg-white dark:text-white dark:bg-dark bg-opacity-80 backdrop-blur-md border-b-[1px] border-gray-300 dark:border-gray-400 flex fixed items-center justify-between transition-[top] duration-200 z-50',
+            'w-full z-[99999] px-6 bg-white dark:text-white dark:bg-dark bg-opacity-70 dark:bg-opacity-70 backdrop-blur-md border-b-[1px] border-gray-300 dark:border-gray-400 flex fixed items-center justify-between transition-[top] duration-200 ',
             isHidden ? '-top-[70px]' : 'top-0',
         ]"
     >
         <div class="flex gap-6 items-center justify-between">
-            <a
+            <Link
                 v-if="auth.user"
                 href="/dashboard"
                 class="px-3 py-1 max-w-[150px] inline-block text-nowrap text-ellipsis overflow-hidden border-[1px] border-gray-500 dark:border-dark rounded-lg transition-all duration-75 hover:bg-gray-500 hover:text-white dark:hover:bg-gray-700"
             >
                 {{ auth.user.name }}
-            </a>
-            <a
+            </Link>
+            <Link
                 v-else
                 href="/login"
                 class="px-3 py-1 border-[1px] border-gray-500 dark:border-dark rounded-lg transition-all duration-75 hover:bg-gray-500 hover:text-white dark:hover:bg-gray-700"
             >
                 Login
-            </a>
+            </Link>
 
             <!-- cart link -->
             <Link class="relative" href="carts">
@@ -112,6 +112,6 @@ const header_height = "h-[55px] md:h-[65px]";
             </Link>
         </div>
 
-        <div>LOGO</div>
+        <Link href="/">LOGO</Link>
     </header>
 </template>

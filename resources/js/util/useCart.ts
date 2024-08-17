@@ -99,8 +99,6 @@ export function useNumberOfItemsInCart() {
             localStorage.getItem("cart") as string
         ) as any[];
 
-        console.log(cart.length);
-
         return cart.length;
     } else {
         return 0;
