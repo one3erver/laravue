@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Checkbox from "@/Components/Checkbox.vue";
 import CartProduct from "@/Components/product/CartProduct.vue";
 import MainLayout from "@/Layouts/MainLayout.vue";
 import { Head, usePage } from "@inertiajs/vue3";
@@ -22,6 +23,11 @@ interface SubmittedContentType {
 }
 
 const { submittedContent } = defineProps<SubmittedContentType>();
+
+const total_items = submittedContent.products.reduce(
+    (acum, current) => acum + current.count,
+    0
+);
 </script>
 
 <template>
@@ -53,8 +59,8 @@ const { submittedContent } = defineProps<SubmittedContentType>();
                     <div
                         class="w-full flex justify-between items-center text-base sm:text-lg"
                     >
-                        <span>Total Quantitiy : </span>
-                        <span>{{ submittedContent.products.length }}</span>
+                        <span>Total Items : </span>
+                        <span>{{ total_items }}</span>
                     </div>
                     <div
                         class="w-full flex justify-between items-center text-base sm:text-lg"
@@ -68,7 +74,7 @@ const { submittedContent } = defineProps<SubmittedContentType>();
                     <hr class="w-full mt-auto mb-2" />
 
                     <div class="flex items-center justify-center gap-3">
-                        <input type="checkbox" />
+                        <Checkbox name="remember" />
                         <span>I Agree with Terms and Services</span>
                     </div>
 
