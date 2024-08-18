@@ -33,37 +33,43 @@ class OrderController extends Controller
         $cartsList = json_decode($request->post('cartsList'), true);
         $productIds = array_column($cartsList, 'product_id');
 
-//      Finding the price and title of each product using the product ID
+//      Finding the Price and Title of each product using the products ID
         $products = DB::table('products')->whereIn('id', $productIds)
             ->select('id', 'price', 'title')
             ->get()
             ->keyBy('id');
 
         $totalCost = 0;
-//      Calculating the total cost and adding the count of each product from cart
+//      Calculating the TotalCost and adding the Count of each product from cart
         foreach ($cartsList as $cart) {
             $price = $products->get($cart['product_id'])->price;
             $totalCost += $price * $cart['count'];
 
+//          Adding Count of each product to its own product in products json
             $products->get($cart['product_id'])->count = $cart['count'];
 
-
+//          After saving the details of each Cart, send each Cart to destroy method to delete it
             $cart_to_delete =  $user->carts->where('product_id', $cart['product_id']);
             $cartController = new CartController();
             $cartController->destroy($cart_to_delete);
         }
 
+//      Making order list
         $products = array_values($products->toArray());
         $orderList = json_encode([
             'totalCost' => $totalCost,
             'products' => $products,
         ]);
+
         $trackingCode = Str::random(3).time().Str::random(3);
+
+//      Saving data to DB
         $user->orders()->create([
             'total_cost' => $totalCost,
             'order_list' => $orderList,
             'tracking_code' => $trackingCode,
         ]);
+
         return redirect()->back();
     }
 
@@ -96,6 +102,7 @@ class OrderController extends Controller
      */
     public function destroy(Order $order)
     {
-        //
+        $order->delete();
+        return redirect()->back();
     }
 }
