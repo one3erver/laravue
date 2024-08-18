@@ -17,12 +17,17 @@ class CartController extends Controller
     public function index()
     {
         $user = Auth::user();
+
+//      Get the list of user carts from the database
         $cart_list = $user->carts;
+
+//      Get the details of user cards from the database using the ID of each product
         $productIds = $cart_list->pluck('product_id')->toArray();
         $products = DB::table('products')->whereIn('id', $productIds)
             ->get(['id', 'price', 'title', 'image', 'image_thumbnail']);
 
         $totalCost = 0;
+//      Calculate the final price of the products selected by the user
         foreach ($products as $product ) {
             $count = $cart_list->where('product_id', $product->id)->first()->count;
             $product->count = $count;
@@ -47,9 +52,12 @@ class CartController extends Controller
 
         $cart_list = json_decode($request->post('cart_list'), true);
         $productIds = array_column($cart_list, 'id');
+
+//      Finding carts that the user has subsequently updated to zero and then delete them
         $deletedCarts = $user->carts()->whereNotIn('product_id', $productIds)->get()->keyBy('product_id');
         $this->destroy($deletedCarts);
 
+//      Finding carts that the user has subsequently added to cart or update it
         $existingCarts = $user->carts()->whereIn('product_id', $productIds)->get()->keyBy('product_id');
         foreach ($cart_list as $cart) {
             $existingCart = $existingCarts->get($cart['id']);
@@ -70,7 +78,7 @@ class CartController extends Controller
     /**
      * Update the specified cart's count.
      */
-    protected function update(array $product, Cart $cart)
+    private function update(array $product, Cart $cart)
     {
         $cart->update([
             'count' => $product['count'],
@@ -80,7 +88,7 @@ class CartController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    private function destroy($cart)
+    public function destroy($cart)
     {
         if ($cart instanceof Collection) {
             foreach ($cart as $item) {
@@ -89,7 +97,6 @@ class CartController extends Controller
         } else {
             $cart->delete();
         }
-
-        return redirect()->back();
+        return redirect()->intended();
     }
 }
