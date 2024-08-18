@@ -20,7 +20,7 @@ class OrderController extends Controller
         $user = Auth::user();
         $orders = json_decode($user->orders->pluck('order_list'));
         $ordersList = array_map('json_decode', $orders);
-        return inertia('Dashboard', compact('ordersList'));
+        return inertia('Orders', compact('ordersList'));
     }
 
 
