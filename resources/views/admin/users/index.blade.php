@@ -24,7 +24,6 @@
                     <table class="table table-striped ">
                         <thead>
                         <tr>
-                            <th scope="col">Image</th>
                             <th scope="col">Name</th>
                             <th scope="col">Email</th>
                             <th scope="col">Phone</th>
@@ -35,7 +34,6 @@
                         <tbody>
                         @foreach($users as $user)
                         <tr>
-                            <th scope="row"><img src="{{$user->image}}" alt="Profile" class="rounded-circle" width="50" height="50" ></th>
                             <td>{{$user->name}}</td>
                             <td>{{$user->email}}</td>
                             <td>{{$user->phone}}</td>

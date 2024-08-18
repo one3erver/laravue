@@ -14,7 +14,6 @@
 @endsection
 
 @section('main')
-
     <form class="row g-3" method="get" action="{{route('admin.settings.edit',$setting)}}">
         <div class="col-md-5">
             <label for="telegram_id" class="form-label">Telegram_Id</label>
