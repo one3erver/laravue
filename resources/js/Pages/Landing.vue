@@ -11,6 +11,11 @@ import { onMounted } from "vue";
 const { products, auth } = defineProps<ProductsType & AuthTypes>();
 
 onMounted(() => {
+    if (!auth.user) {
+        localStorage.removeItem("cart");
+        return;
+    }
+
     if (!localStorage.getItem("cart")) {
         const emptyCart: any[] = [];
         localStorage.setItem("cart", JSON.stringify(emptyCart));
