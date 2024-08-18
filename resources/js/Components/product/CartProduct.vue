@@ -49,11 +49,11 @@ function DeleteFromCart() {
             :class="[
                 'absolute left-0 top-0 w-full h-full flex flex-col gap-2 items-center justify-start z-50 transition-all scale-100',
                 delete_dialog
-                    ? 'backdrop-brightness-[0.15] backdrop-blur-sm pointer-events-auto opacity-100'
+                    ? 'backdrop-brightness-[0.25] dark:backdrop-brightness-[0.15] backdrop-blur-sm pointer-events-auto opacity-100'
                     : 'backdrop-brightness-100 backdrop-blur-0 pointer-events-none opacity-0',
             ]"
         >
-            <h4>Delete From Cart?</h4>
+            <h4 class="text-white">Delete From Cart?</h4>
             <div class="space-x-4 mt-auto mb-6">
                 <button
                     @click="delete_dialog = false"
@@ -65,7 +65,7 @@ function DeleteFromCart() {
                 <button
                     @click="DeleteFromCart"
                     :class="[
-                        'border-2 text-white hover:bg-red-600 hover:border-red-600 font-semibold px-2 py-1 rounded-md transition-all',
+                        'border-2 hover:bg-red-600 text-red-500 border-red-600 hover:text-white font-semibold px-2 py-1 rounded-md transition-all',
                         deleting
                             ? 'animate-pulse bg-red-600 border-red-600'
                             : '',
