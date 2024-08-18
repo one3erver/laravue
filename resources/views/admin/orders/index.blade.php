@@ -6,7 +6,7 @@
 
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{route('admin.products.index')}}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{url('/')}}">Home</a></li>
                 <li class="breadcrumb-item active">Order_Management</li>
 
             </ol>

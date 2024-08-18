@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManager;
 
 function uploadImage($file, $folder, $width = 512, $height = 512)
