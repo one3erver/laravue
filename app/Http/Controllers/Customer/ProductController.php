@@ -38,11 +38,20 @@ class ProductController extends Controller
     public function show($id){
         $user = Auth::user();
         $product = Product::findOrFail($id);
-        $product_Count_In_Cart = $user->carts()->where('product_id', $product->id)->first()->count;
-        $submittedContent = [
-            'product_count' => $product_Count_In_Cart,
-            'product' => $product,
-        ];
+
+        if ($user){
+            $product_Count_In_Cart = $user->carts()->where('product_id', $product->id)->first()->count;
+            $submittedContent = [
+                'product_count' => $product_Count_In_Cart,
+                'product' => $product,
+            ];
+        }
+        else{
+            $submittedContent =[
+                'product_count' => -1,
+                'product' => $product,
+            ];
+        }
         return Inertia::render('Product', compact('submittedContent'));
     }
 }
