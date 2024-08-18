@@ -80,7 +80,7 @@ class CartController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    private function destroy($cart)
+    public function destroy($cart)
     {
         if ($cart instanceof Collection) {
             foreach ($cart as $item) {
@@ -89,7 +89,6 @@ class CartController extends Controller
         } else {
             $cart->delete();
         }
-
-        return redirect()->back();
+        return redirect()->intended();
     }
 }

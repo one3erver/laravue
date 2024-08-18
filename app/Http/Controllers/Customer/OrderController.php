@@ -8,6 +8,7 @@ use App\Models\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class OrderController extends Controller
 {
@@ -16,8 +17,10 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = Auth::user()->orders;
-        return inertia('Customer/Orders/Index', compact('orders'));
+        $user = Auth::user();
+        $orders = json_decode($user->orders->pluck('order_list'));
+        $ordersList = array_map('json_decode', $orders);
+        return inertia('Customer/Orders/Index', compact('ordersList'));
     }
 
 
@@ -26,17 +29,42 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        $cart_list = json_decode($request->post('cart_list'), true);
-        $productIds = array_column($cart_list, 'product_id');
+        $user = Auth::user();
+        $cartsList = json_decode($request->post('cartsList'), true);
+        $productIds = array_column($cartsList, 'product_id');
 
-        $products = DB::table('products')->whereIn('id', $productIds)->pluck('price', 'id');
+//      Finding the price and title of each product using the product ID
+        $products = DB::table('products')->whereIn('id', $productIds)
+            ->select('id', 'price', 'title')
+            ->get()
+            ->keyBy('id');
 
         $totalCost = 0;
-        foreach ($cart_list as $cart) {
-            $price = $products->get($cart['product_id'], 0);
+//      Calculating the total cost and adding the count of each product from cart
+        foreach ($cartsList as $cart) {
+            $price = $products->get($cart['product_id'])->price;
             $totalCost += $price * $cart['count'];
+
+            $products->get($cart['product_id'])->count = $cart['count'];
+
+
+            $cart_to_delete =  $user->carts->where('product_id', $cart['product_id']);
+            $cartController = new CartController();
+            $cartController->destroy($cart_to_delete);
         }
-        return $totalCost;
+
+        $products = array_values($products->toArray());
+        $orderList = json_encode([
+            'totalCost' => $totalCost,
+            'products' => $products,
+        ]);
+        $trackingCode = Str::random(3).time().Str::random(3);
+        $user->orders()->create([
+            'total_cost' => $totalCost,
+            'order_list' => $orderList,
+            'tracking_code' => $trackingCode,
+        ]);
+        return redirect()->back();
     }
 
     /**
