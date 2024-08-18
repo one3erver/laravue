@@ -10,48 +10,39 @@ use Inertia\Inertia;
 class ProductController extends Controller
 {
     //For showing all products in the page
-    public function index(){
+    public function index()
+    {
         $user = Auth::user();
         $products = Product::all();
 
-        if ($user){
-            $userCarts = $user->carts;
+        if ($user) {
+            $userCarts = $user->carts->keyBy('product_id');
+
             foreach ($products as $product) {
-                foreach ($userCarts as $cart) {
-                    if ($cart->product_id == $product->id) {
-                        $product->count = $cart->count;
-                    }else{
-                        $product->count = 0;
-                    }
-                }
+                $product->count = $userCarts->has($product->id) ? $userCarts[$product->id]->count : 0;
             }
-        }
-        else{
+        } else {
             foreach ($products as $product) {
                 $product->count = -1;
             }
         }
+
         return Inertia::render('Landing', compact('products'));
     }
 
-    //For Showing a product with a specific ID
-    public function show($id){
+//For Showing a product with a specific ID
+    public function show($id)
+    {
         $user = Auth::user();
         $product = Product::findOrFail($id);
 
-        if ($user){
-            $product_Count_In_Cart = $user->carts()->where('product_id', $product->id)->first()->count;
-            $submittedContent = [
-                'product_count' => $product_Count_In_Cart,
-                'product' => $product,
-            ];
+        if ($user) {
+            $userCart = $user->carts->where('product_id', $product->id)->first();
+            $product->count = $userCart ? $userCart->count : 0;
+        } else {
+            $product->count = -1;
         }
-        else{
-            $submittedContent =[
-                'product_count' => -1,
-                'product' => $product,
-            ];
-        }
-        return Inertia::render('Product', compact('submittedContent'));
+
+        return Inertia::render('Product', compact('product'));
     }
 }
