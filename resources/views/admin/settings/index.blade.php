@@ -14,7 +14,7 @@
 @endsection
 
 @section('main')
-    @foreach($settings as $setting)
+
     <form class="row g-3" method="get" action="{{route('admin.settings.edit',$setting)}}">
         <div class="col-md-5">
             <label for="telegram_id" class="form-label">Telegram_Id</label>
@@ -41,5 +41,4 @@
             <button class="btn btn-primary" type="submit">update setting</button>
         </div>
     </form>
-    @endforeach
 @endsection

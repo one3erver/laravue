@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Seeting\StoreSettingRequest;
 use App\Http\Requests\Admin\Seeting\UpdateSettingRequest;
 use App\Models\Setting;
+use Database\Seeders\SettingSeeder;
 use Illuminate\Http\Request;
 
 class SettingController extends Controller
@@ -15,8 +16,13 @@ class SettingController extends Controller
      */
     public function index()
     {
-        $settings = Setting::all();
-        return view('admin.settings.index', compact('settings'));
+        $setting = Setting::first();
+        if ($setting === null) {
+            $default = new SettingSeeder();
+            $default->run();
+            $setting = Setting::first();
+        }
+        return view('admin.settings.index', compact('setting'));
     }
 
     /**
@@ -24,7 +30,7 @@ class SettingController extends Controller
      */
     public function create()
     {
-        return view('admin.settings.create');
+        //
     }
 
     /**
@@ -32,15 +38,7 @@ class SettingController extends Controller
      */
     public function store(StoreSettingRequest $request)
     {
-        Setting::create([
-            'telegram_id' => $request->telegram_id,
-            'telegram_token' => $request->telegram_token,
-            'header' => $request->header,
-            'logo' => $request->logo,
-            'site_title' => $request->site_title,
-        ]);
-
-        return redirect()->route('admin.settings.index')->with('success', 'Setting created successfully.');
+        //
     }
 
     /**
