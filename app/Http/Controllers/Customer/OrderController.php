@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
@@ -25,7 +26,17 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        return $request->user()->orders;
+        $cart_list = json_decode($request->post('cart_list'), true);
+        $productIds = array_column($cart_list, 'product_id');
+
+        $products = DB::table('products')->whereIn('id', $productIds)->pluck('price', 'id');
+
+        $totalCost = 0;
+        foreach ($cart_list as $cart) {
+            $price = $products->get($cart['product_id'], 0);
+            $totalCost += $price * $cart['count'];
+        }
+        return $totalCost;
     }
 
     /**
