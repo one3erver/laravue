@@ -34,6 +34,8 @@
                                 <th scope="col">Tracking_Code</th>
                                 <th scope="col">Total_Price</th>
                                 <th scope="col">Time</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Paid_at</th>
 
                                 <th scope="col">Order_List</th>
                                 <th scope="col">remove</th>
@@ -54,6 +56,8 @@
                                 <td>{{$order->tracking_code}}</td>
                                 <td>{{$order->total_cost}}</td>
                                 <td>{{$order->created_at}}</td>
+                                <td>{{ $order->invoice ? ($order->invoice->status == "P" ? 'Paid' : 'Unpaid') : '-'  }}</td>
+                                <td>{{ $order->invoice->paid_at ?? '-'  }}</td>
 
                                 <td>
                                     <!-- Disabled Animation Modal -->
