@@ -13,7 +13,8 @@ Route::get('/products/{product}', [ProductController::class, 'show'])->name('pro
 Route::middleware('auth')->group(function () {
     Route::resource('carts', CartController::class)->names('carts')
         ->only('index', 'store', 'update', 'destroy');
-    Route::resource('orders', OrderController::class)->names('orders');
+    Route::resource('orders', OrderController::class)->names('orders')
+        ->only('index', 'store');
 });
 
 Route::get('/test', function (){

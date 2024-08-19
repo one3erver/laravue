@@ -70,39 +70,6 @@ class OrderController extends Controller
             'tracking_code' => $trackingCode,
         ]);
 
-        return redirect()->back();
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Order $order)
-    {
-        return inertia('Customer/Orders/Show', compact('order'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Order $order)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Order $order)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Order $order)
-    {
-        $order->delete();
-        return redirect()->back();
+        return to_route('Invoice');
     }
 }
