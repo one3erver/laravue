@@ -28,6 +28,8 @@ class UpdateProductRequest extends FormRequest
             'image_thumbnail' => 'nullable|string',
             'price' => 'required|numeric|min:0',
             'status' => 'required|boolean',
+            'wallets' => 'required|array',
+            'wallets.*' => 'required|string|distinct',
         ];
     }
 }

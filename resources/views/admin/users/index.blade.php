@@ -26,7 +26,7 @@
                         <tr>
                             <th scope="col">Name</th>
                             <th scope="col">Email</th>
-                            <th scope="col">Phone</th>
+                            <th scope="col">Mobile</th>
                             <th scope="col">Is_Admin</th>
                             <th scope="col">Edit</th>
                         </tr>
@@ -36,7 +36,7 @@
                         <tr>
                             <td>{{$user->name}}</td>
                             <td>{{$user->email}}</td>
-                            <td>{{$user->phone}}</td>
+                            <td>{{$user->mobile ?? '-'}}</td>
 
                             <td>
                                 @if ($user->is_admin == 1)

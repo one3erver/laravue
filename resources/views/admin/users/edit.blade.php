@@ -22,7 +22,7 @@
         </div>
         @csrf
         <div class="col-md-5">
-            <label for="mobile" class="form-label">Phone</label>
+            <label for="mobile" class="form-label">Mobile</label>
             <input type="number" class="form-control" id="mobile" name="mobile" value="{{$user->mobile}}" required >
         </div>
         <div class="col-md-5">
