@@ -2,7 +2,11 @@ import { router } from "@inertiajs/vue3";
 
 let postCartTimeout: number | undefined = undefined;
 
-export function useAddToLocalCart(id: number, count: number) {
+export function useAddToLocalCart(
+    id: number,
+    count: number,
+    onSuccses?: () => void
+) {
     //if the is a postCartTimeout then i means we have a post request in queue and we will be sending a new one soon,
     //to prevent spaming delete the old post request
     if (postCartTimeout) {
@@ -64,6 +68,7 @@ export function useAddToLocalCart(id: number, count: number) {
                 {
                     preserveState: true,
                     preserveScroll: true,
+                    onSuccess: onSuccses,
                 }
             );
         }, 1000);

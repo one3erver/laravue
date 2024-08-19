@@ -36,7 +36,9 @@ function DecrementFromCart() {
 
 function DeleteFromCart() {
     deleting.value = true;
-    useAddToLocalCart(id, 0);
+    useAddToLocalCart(id, 0, () => {
+        delete_dialog.value = false;
+    });
 }
 </script>
 
