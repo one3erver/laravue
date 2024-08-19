@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import InputError from "@/Components/InputError.vue";
+import PasswordInput from "@/Components/PasswordInput.vue";
+import TextInput from "@/Components/TextInput.vue";
 import { Head, useForm } from "@inertiajs/vue3";
 
 const form = useForm({
@@ -42,41 +44,27 @@ const submit = () => {
         <section
             class="w-full bg-light_platform border-light dark:bg-dark_platform dark:border-dark border-[1px] max-w-[450px] px-5 pt-8 pb-7 mx-auto rounded-lg shadow-md"
         >
-            <h2 class="w-full text-center mt-6">Register in Laravue</h2>
+            <h2 class="w-full text-center mt-0">Register in Laravue</h2>
 
-            <form @submit.prevent="submit" class="w-full flex flex-col gap-2">
+            <form @submit.prevent="submit" class="w-full flex flex-col gap-4">
                 <!-- name -->
                 <div class="flex flex-col space-y-1 mb-1">
                     <label title="Name">Name</label>
-                    <input
-                        class="border-gray-300 focus:border-emerald-500 focus:ring-emerald-500 rounded-md shadow-sm text-black"
-                        type="text"
-                        placeholder="name"
-                        v-model="form.name"
-                    />
+                    <TextInput :placeholder="'name'" v-model="form.name" />
+
                     <InputError class="mt-2" :message="form.errors.name" />
                 </div>
                 <!-- email -->
                 <div class="flex flex-col space-y-1 mb-1">
                     <label title="password">Email</label>
-                    <input
-                        class="border-gray-300 focus:border-emerald-500 focus:ring-emerald-500 rounded-md shadow-sm text-black"
-                        type="email"
-                        placeholder="email"
-                        v-model="form.email"
-                    />
+                    <TextInput :placeholder="'email'" v-model="form.email" />
 
                     <InputError :message="form.errors.email" />
                 </div>
                 <!-- password -->
                 <div class="flex flex-col space-y-1 mb-1">
                     <label title="password">Password</label>
-                    <input
-                        class="border-gray-300 focus:border-emerald-500 focus:ring-emerald-500 rounded-md shadow-sm text-black"
-                        type="password"
-                        placeholder="password"
-                        v-model="form.password"
-                    />
+                    <PasswordInput v-model="form.password" />
 
                     <InputError :message="form.errors.password" />
                 </div>
@@ -84,12 +72,7 @@ const submit = () => {
                 <!-- pass confirm -->
                 <div class="flex flex-col space-y-1">
                     <label title="password">Password Confirm</label>
-                    <input
-                        class="border-gray-300 focus:border-emerald-500 focus:ring-emerald-500 rounded-md shadow-sm text-black"
-                        type="password"
-                        placeholder="password confirm"
-                        v-model="form.password_confirmation"
-                    />
+                    <PasswordInput v-model="form.password_confirmation" />
 
                     <InputError :message="form.errors.password_confirmation" />
                 </div>
