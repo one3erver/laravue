@@ -33,4 +33,13 @@ class OrderController extends Controller
         $order->delete();
         return redirect()->route('admin.orders.index')->with('success', 'Order deleted successfully.');
     }
+
+    public function deleteUnpaid()
+    {
+        $deletedOrders = Order::whereHas('invoice', function ($query) {
+            $query->where('status', 'U');
+        })->delete();
+
+        return redirect()->route('admin.orders.index')->with('success', 'Unpaid orders deleted successfully.');
+    }
 }

@@ -19,6 +19,13 @@
 
         <div class="row">
             <!-- Recent Sales -->
+            <div class="d-flex justify-content-end">
+                <form action="{{ route('admin.orders.delete-unpaid') }}" method="post" id="unpaid-delete">
+                    @csrf
+                    @method('DELETE')
+                    <button class="btn btn-danger btn-sm mb-2" >Delete Unpaid</button>
+                </form>
+            </div>
             <div class="col-12">
                 <div class="card recent-sales overflow-auto">
 
