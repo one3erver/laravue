@@ -4,13 +4,13 @@ import { useAddToLocalCart, useDoesExistinCart } from "@/util/useCart";
 import { AuthTypes } from "@/types";
 import { usePage } from "@inertiajs/vue3";
 
-const { product_id } = defineProps<{ product_id: number }>();
+const { product_id,count } = defineProps<{ product_id: number ,count:number}>();
 
 const { props: AuthProps } = usePage();
 
 const displayToast = inject("displayToast") as CallableFunction;
 
-const quantity = ref(0);
+const quantity = ref(count > 0 ? count : 0);
 
 const addToCartWidth = ref(0);
 

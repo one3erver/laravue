@@ -6,6 +6,7 @@ interface Product {
     image_thumbnail: string;
     price: string;
     stock: number;
+    count:number;
     status: 0 | 1;
 }
 
