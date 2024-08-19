@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->string('transaction_id')->unique();
             $table->char('status', 1)->default('U')->comment('P => Paid, U => Unpaid');
             $table->timestamp('paid_at')->nullable();
+            $table->char('wallet_id', 2);
             $table->timestamps();
         });
     }
