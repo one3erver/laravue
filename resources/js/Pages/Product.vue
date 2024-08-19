@@ -11,7 +11,7 @@ const { product } = defineProps<{ product: ProductType }>();
     <Head :title="product.title" />
     <MainLayout>
         <section class="container-md mx-auto px-4 lg:px-6 py-12">
-            <!-- product details -->
+            <!-- products details -->
             <div
                 class="flex flex-col lg:grid grid-cols-6 shadow-md border-[1px] border-light dark:border-dark w-full bg-light_platform dark:bg-dark_platform rounded-xl overflow-hidden"
             >
