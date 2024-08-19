@@ -3,8 +3,12 @@ import { ProductType } from "@/types/Products";
 import StockAvailability from "@/Components/product/StockAvailability.vue";
 import { Head } from "@inertiajs/vue3";
 import MainLayout from "@/Layouts/MainLayout.vue";
+import AddToCart from "@/Components/product/AddToCart.vue";
 
 const { product } = defineProps<{ product: ProductType }>();
+
+console.log(product);
+
 </script>
 
 <template>
@@ -38,11 +42,7 @@ const { product } = defineProps<{ product: ProductType }>();
                         >
                         <StockAvailability :stock="product.stock" />
 
-                        <button
-                            class="w-full bg-emerald-500 hover:bg-emerald-400 active:bg-emerald-600 dark:bg-emerald-600 dark:hover:bg-emerald-500 dark:active:bg-emerald-700 transition-all duration-150 px-4 py-2 font-semibold rounded-lg text-white"
-                        >
-                            Add To Cart
-                        </button>
+                        <AddToCart :product_id="product.id" :count="product.count"/>
                     </div>
                 </div>
             </div>

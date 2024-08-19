@@ -3,8 +3,9 @@ import { ProductType } from "@/types/Products";
 import AddToCart from "./AddToCart.vue";
 import { Link } from "@inertiajs/vue3";
 
-const { id, title, caption, image, image_thumbnail, price, status } =
-    defineProps<ProductType>();
+const {id,title,caption,image,price,count} = defineProps(['title','count','caption','price','id','image'])
+
+    
 </script>
 
 <template>
@@ -28,7 +29,7 @@ const { id, title, caption, image, image_thumbnail, price, status } =
                 class="w-full block pb-3 text-right text-lg font-semibold text-emerald-500 dark:text-emerald-400 mt-auto"
                 >{{ price }}$</span
             >
-            <AddToCart :product_id="id" />
+            <AddToCart :product_id="id" :count="count"/>
         </div>
     </Link>
 </template>
