@@ -105,7 +105,12 @@ export function useNumberOfItemsInCart() {
             localStorage.getItem("cart") as string
         ) as any[];
 
-        return cart.length;
+        const itemsInCart = cart.reduce(
+            (acum, currentValue) => acum + currentValue.count,
+            0
+        );
+
+        return itemsInCart;
     } else {
         return 0;
     }
