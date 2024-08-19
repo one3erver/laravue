@@ -1,11 +1,32 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref } from "vue";
+import { inject, onMounted, onUnmounted, ref } from "vue";
+import { useAddToLocalCart, useDoesExistinCart } from "@/util/useCart";
+import { AuthTypes } from "@/types";
+import { usePage } from "@inertiajs/vue3";
+
+const { product_id } = defineProps<{ product_id: number }>();
+
+const { props: AuthProps } = usePage();
+
+const displayToast = inject("displayToast") as CallableFunction;
 
 const quantity = ref(0);
 
 const addToCartWidth = ref(0);
 
+onMounted(() => {
+    const itExistInCart = useDoesExistinCart(product_id);
+    if (itExistInCart) {
+        quantity.value = itExistInCart.count;
+    }
+});
+
 function IncrementFromCart() {
+    if (!AuthProps.auth.user) {
+        displayToast();
+        return;
+    }
+
     //pop animation - add scale and remove it after a short time
     if (!add_to_cart.value) return;
     add_to_cart.value.classList.add("scale-105");
@@ -16,9 +37,15 @@ function IncrementFromCart() {
     }, 200);
 
     quantity.value += 1;
+    useAddToLocalCart(product_id, quantity.value);
 }
 
 function DecrementFromCart() {
+    if (!AuthProps.auth.user) {
+        displayToast();
+        return;
+    }
+
     //pop animation - add scale and remove it after a short time
     if (!add_to_cart.value) return;
     add_to_cart.value.classList.add("scale-105");
@@ -31,6 +58,7 @@ function DecrementFromCart() {
     //remove until it reaches 0 items
     if (quantity.value > 0) {
         quantity.value -= 1;
+        useAddToLocalCart(product_id, quantity.value);
     }
 }
 
@@ -50,6 +78,11 @@ onMounted(() => {
 onUnmounted(() => observer.disconnect());
 
 function onAddtoCart() {
+    if (!AuthProps.auth.user) {
+        displayToast();
+        return;
+    }
+
     //pop animation - add scale and remove it after a short time
     if (!add_to_cart.value) return;
     add_to_cart.value.classList.add("scale-105");
@@ -63,6 +96,9 @@ function onAddtoCart() {
     if (quantity.value == 0) {
         quantity.value++;
     }
+
+    // addToLocalstorage();
+    useAddToLocalCart(product_id, quantity.value);
 }
 </script>
 

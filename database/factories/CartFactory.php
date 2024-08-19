@@ -19,8 +19,8 @@ class CartFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => User::factory(),
-            'product_id' => Product::factory(),
+            'user_id' => User::all()->random()->id,
+            'product_id' => Product::all()->random()->id,
             'count' => $this->faker->numberBetween(1, 10),
         ];
     }

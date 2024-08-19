@@ -9,7 +9,7 @@ const { id, title, caption, image, image_thumbnail, price, status } =
 
 <template>
     <Link
-        :href="`product/${id}`"
+        :href="`products/${id}`"
         class="border-[1px] h-full flex flex-col items-center justify-between border-light rounded-xl pb-5 overflow-hidden shadow-md bg-light_platform dark:bg-dark_platform dark:border-dark"
     >
         <img :src="image" :alt="title" />
@@ -28,7 +28,7 @@ const { id, title, caption, image, image_thumbnail, price, status } =
                 class="w-full block pb-3 text-right text-lg font-semibold text-emerald-500 dark:text-emerald-400 mt-auto"
                 >{{ price }}$</span
             >
-            <AddToCart />
+            <AddToCart :product_id="id" />
         </div>
     </Link>
 </template>

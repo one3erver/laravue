@@ -6,8 +6,21 @@ import { Head } from "@inertiajs/vue3";
 import MainLayout from "@/Layouts/MainLayout.vue";
 import { ProductsType } from "@/types/Products";
 import { AuthTypes } from "@/types";
+import { onMounted } from "vue";
 
 const { products, auth } = defineProps<ProductsType & AuthTypes>();
+
+onMounted(() => {
+    if (!auth.user) {
+        localStorage.removeItem("cart");
+        return;
+    }
+
+    if (!localStorage.getItem("cart")) {
+        const emptyCart: any[] = [];
+        localStorage.setItem("cart", JSON.stringify(emptyCart));
+    }
+});
 </script>
 
 <template>
