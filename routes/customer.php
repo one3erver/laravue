@@ -2,6 +2,7 @@
 
 
 use App\Http\Controllers\Customer\CartController;
+use App\Http\Controllers\Customer\InvoiceController;
 use App\Http\Controllers\Customer\OrderController;
 use App\Http\Controllers\Customer\ProductController;
 use Illuminate\Support\Facades\Route;
@@ -15,6 +16,8 @@ Route::middleware('auth')->group(function () {
         ->only('index', 'store', 'update', 'destroy');
     Route::resource('orders', OrderController::class)->names('orders')
         ->only('index', 'store', 'update');
+    Route::resource('invoices', InvoiceController::class)->names('invoices')
+        ->only('store', 'update', 'destroy', 'show');
 });
 
 Route::get('/test', function (){
