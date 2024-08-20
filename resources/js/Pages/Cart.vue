@@ -42,7 +42,7 @@ function ClearCart() {
     clearCart(
         //on success
         () => {
-            router.reload();
+            window.location.reload();
         },
         //on fail
         () => {
