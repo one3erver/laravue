@@ -81,13 +81,44 @@
                                     <!-- End Disabled Animation Modal-->
                                 </td>
                                 <td>
-                                    <form action="{{route('admin.orders.destroy', $order)}}" method="post" >
+                                    <form action="{{route('admin.orders.destroy', $order->id )}}" method="post" >
                                         @method('DELETE')
                                         @csrf
-                                        <button type="submit" class="btn btn-danger"><i class="ri-delete-bin-7-line "></i></button>
+                                         <a  class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#smallModal" data-id="7">
+                                            <i class="ri-delete-bin-7-line "></i>
+                                         </a>
+                                         <div class="modal fade" id="smallModal" tabindex="-1"200  data-id>
+
+
+                                            <div class="modal-dialog modal-sm">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title text-danger">
+                                                                <i class="bi bi-exclamation-octagon me-1"></i>
+                                                                 Danger Alert</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        Are you sure you want to delete the product?
+
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                        <button type="submit" class="btn btn-danger">Delete</button>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </form>
+
                                 </td>
+                                <td>
+
+                                </td>
+
                             </tr>
+
                             @endforeach
 {{--                            icon status--}}
 {{--                            <span class="badge bg-danger">Rejected</span></td>--}}
