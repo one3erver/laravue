@@ -22,7 +22,7 @@ class ProductFactory extends Factory
             'caption' => $this->faker->sentence,
             'image' => $this->faker->imageUrl(),
             'status' => 1,
-            'stock' => $this->faker->numberBetween(0, 100)
+            'stock' => $this->faker->numberBetween(0, 20)
         ];
     }
 }

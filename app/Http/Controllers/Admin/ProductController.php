@@ -39,6 +39,7 @@ class ProductController extends Controller
             'image' => $image,
             'image_thumbnail' => 'test',
             'price' => $request->price,
+            'stock' => $request->stock,
             'status' => $request->status,
         ]);
 
@@ -67,16 +68,17 @@ class ProductController extends Controller
     public function update(UpdateProductRequest $request, Product $product)
     {
         if ($request->hasFile('image')) {
-            deleteImage($product->image);
+            deleteImage('/admin/products/' . $product->image);
         }
         $image = uploadImage($request->image, 'products');
 
         $product->update([
             'title' => $request->title,
             'caption' => $request->caption,
-            'image' => $image,
+            'image' => ($request->image ? $image : $product->image),
             'image_thumbnail' => 'test',
             'price' => $request->price,
+            'stock' => $request->stock,
             'status' => $request->status,
         ]);
 
@@ -88,6 +90,7 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
+        deleteImage('/admin/products/' . $product->image);
         $product->delete();
         return redirect()->route('admin.products.index')->with('success', 'Product deleted successfully.');
     }

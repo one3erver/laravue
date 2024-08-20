@@ -20,7 +20,7 @@ function uploadImage($file, $folder, $width = 512, $height = 512)
 
 function deleteImage($path)
 {
-    if (Storage::exists($path)) {
-        Storage::delete($path);
+    if (Storage::disk('local')->exists($path)) {
+        Storage::disk('local')->delete($path);
     }
 }

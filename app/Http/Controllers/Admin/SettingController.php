@@ -64,7 +64,7 @@ class SettingController extends Controller
     public function update(UpdateSettingRequest $request, Setting $setting)
     {
         if ($request->hasFile('logo')) {
-            deleteImage($setting->logo);
+            deleteImage('/admin/settings/' . $setting->logo);
         }
         $logo = uploadImage($request->logo, 'settings', 256, 256);
 
@@ -72,7 +72,7 @@ class SettingController extends Controller
             'telegram_id' => $request->telegram_id,
             'telegram_token' => $request->telegram_token,
             'landing_content' => $request->landing_content,
-            'logo' => $logo,
+            'logo' => ($request->logo ? $logo : $setting->logo),
             'site_title' => $request->site_title,
         ]);
 

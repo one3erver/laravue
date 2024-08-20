@@ -19,6 +19,13 @@
 
         <div class="row">
             <!-- Recent Sales -->
+            <div class="d-flex justify-content-end">
+                <form action="{{ route('admin.orders.delete-unpaid') }}" method="post" id="unpaid-delete">
+                    @csrf
+                    @method('DELETE')
+                    <button class="btn btn-danger btn-sm mb-2" >Delete Unpaid</button>
+                </form>
+            </div>
             <div class="col-12">
                 <div class="card recent-sales overflow-auto">
 
@@ -34,6 +41,8 @@
                                 <th scope="col">Tracking_Code</th>
                                 <th scope="col">Total_Price</th>
                                 <th scope="col">Time</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Paid_at</th>
 
                                 <th scope="col">Order_List</th>
                                 <th scope="col">remove</th>
@@ -54,6 +63,8 @@
                                 <td>{{$order->tracking_code}}</td>
                                 <td>{{$order->total_cost}}</td>
                                 <td>{{$order->created_at}}</td>
+                                <td>{{ $order->invoice ? ($order->invoice->status == "P" ? 'Paid' : 'Unpaid') : '-'  }}</td>
+                                <td>{{ $order->invoice->paid_at ?? '-'  }}</td>
 
                                 <td>
                                     <!-- Disabled Animation Modal -->

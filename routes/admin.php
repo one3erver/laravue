@@ -12,7 +12,8 @@ Route::prefix('admin')->middleware('admin')->group(function () {
    })->name('admin.dashboard');
 
    Route::resource('products', ProductController::class)->names('admin.products');
-   Route::resource('orders', OrderController::class)->names('admin.orders')->only(['index', 'show', 'destroy']);
+   Route::delete('/orders/delete-unpaid', [OrderController::class, 'deleteUnpaid'])->name('admin.orders.delete-unpaid');
+   Route::resource('orders', OrderController::class)->names('admin.orders')->only(['index', 'destroy']);
    Route::resource('users', UserController::class)->names('admin.users')->only(['index', 'show', 'edit', 'update']);
    Route::resource('settings', SettingController::class)->names('admin.settings')->except(['show', 'destroy']);
 });

@@ -14,7 +14,7 @@ class Invoice extends Model
         'order_id',
         'transaction_id',
         'status',
-        'date_paid',
+        'paid_at',
     ];
 
     public function order(): BelongsTo

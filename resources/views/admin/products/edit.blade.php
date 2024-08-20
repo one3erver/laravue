@@ -39,13 +39,13 @@
                 <legend class="col-form-label col-sm-2 pt-0">position</legend>
                 <div class="col-sm-10">
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="status" id="active" value="0" checked>
+                        <input class="form-check-input" type="radio" name="status" id="active" value="1" checked>
                         <label class="form-check-label" for="active">
                             active
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="status" id="inactive" value="1">
+                        <input class="form-check-input" type="radio" name="status" id="inactive" value="0">
                         <label class="form-check-label" for="inactive">
                             inactive
                         </label>
@@ -58,13 +58,13 @@
                 <legend class="col-form-label col-sm-2 pt-0">position</legend>
                 <div class="col-sm-10">
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="status" id="active" value="0" >
+                        <input class="form-check-input" type="radio" name="status" id="active" value="1" >
                         <label class="form-check-label" for="active">
                             active
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="status" id="inactive" value="1" checked>
+                        <input class="form-check-input" type="radio" name="status" id="inactive" value="0" checked>
                         <label class="form-check-label" for="inactive">
                             inactive
                         </label>
@@ -73,7 +73,7 @@
             </fieldset>
         @endif
         <div class="col-md-5">
-            <img src="{{$product->image}}" alt="Profile" class="rounded-circle" width="100" height="100" >
+            <img src="{{ url('images/admin/products/'. $product->image) }}" alt="Profile" class="rounded-circle" width="100" height="100" >
         </div>
 
         <div class="col-md-12">

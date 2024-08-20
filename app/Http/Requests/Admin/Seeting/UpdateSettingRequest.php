@@ -27,6 +27,8 @@ class UpdateSettingRequest extends FormRequest
             'landing_content' => 'nullable|string',
             'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'site_title' => 'required|string|max:255',
+            'wallets' => 'required|array',
+            'wallets.*' => 'required|string|distinct',
         ];
     }
 }

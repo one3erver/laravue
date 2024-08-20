@@ -14,7 +14,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('carts', CartController::class)->names('carts')
         ->only('index', 'store', 'update', 'destroy');
     Route::resource('orders', OrderController::class)->names('orders')
-        ->only('index', 'store');
+        ->only('index', 'store', 'update');
 });
 
 Route::get('/test', function (){
