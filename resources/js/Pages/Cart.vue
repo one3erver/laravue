@@ -18,6 +18,7 @@ interface SubmittedContentType {
                 image_thumbnail: string | null;
                 price: string;
                 title: string;
+                stock: number;
             }
         ];
         totalCost: number;
@@ -41,7 +42,7 @@ function ClearCart() {
     clearCart(
         //on success
         () => {
-            router.reload();
+            window.location.reload();
         },
         //on fail
         () => {

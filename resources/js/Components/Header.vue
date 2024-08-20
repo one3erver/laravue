@@ -72,7 +72,7 @@ const header_height = "h-[55px] md:h-[65px]";
         <div class="flex gap-6 items-center justify-between">
             <Link
                 v-if="auth.user"
-                href="/dashboard"
+                :href="auth.user.is_admin ? '/admin' : '/dashboard'"
                 class="px-3 py-1 max-w-[150px] inline-block text-nowrap text-ellipsis overflow-hidden border-[1px] border-gray-500 dark:border-dark rounded-lg transition-all duration-75 hover:bg-gray-500 hover:text-white dark:hover:bg-gray-700"
             >
                 {{ auth.user.name }}
@@ -112,6 +112,6 @@ const header_height = "h-[55px] md:h-[65px]";
             </Link>
         </div>
 
-        <Link href="/">LOGO</Link>
+        <a href="/">LOGO</a>
     </header>
 </template>

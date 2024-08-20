@@ -9,19 +9,25 @@ interface Product {
     image_thumbnail: string | null;
     price: string;
     title: string;
+    stock: number;
 }
 
-const { id, image, count, price, title } = defineProps<Product>();
+const { id, image, count, price, title, stock } = defineProps<Product>();
 
 const local_count = ref(count);
 const delete_dialog = ref(false);
 
+const price_as_number = parseFloat(price);
+
 const deleting = ref(false);
 
 function IncrementFromCart() {
-    local_count.value += 1;
+    //only add to cart if its lower then limit (stock)
+    if (local_count.value < stock || stock === -1) {
+        local_count.value += 1;
 
-    useAddToLocalCart(id, local_count.value);
+        useAddToLocalCart(id, local_count.value);
+    }
 }
 
 function DecrementFromCart() {
@@ -179,7 +185,7 @@ function DeleteFromCart() {
 
         <span
             class="hidden md:block font-semibold text-emerald-500 ml-2 text-center"
-            >{{ price }}$</span
+            >{{ price_as_number * local_count }}$</span
         >
     </div>
 </template>

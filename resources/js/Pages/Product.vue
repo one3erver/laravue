@@ -6,9 +6,6 @@ import MainLayout from "@/Layouts/MainLayout.vue";
 import AddToCart from "@/Components/product/AddToCart.vue";
 
 const { product } = defineProps<{ product: ProductType }>();
-
-console.log(product);
-
 </script>
 
 <template>
@@ -42,7 +39,11 @@ console.log(product);
                         >
                         <StockAvailability :stock="product.stock" />
 
-                        <AddToCart :product_id="product.id" :count="product.count"/>
+                        <AddToCart
+                            :product_id="product.id"
+                            :count="product.count"
+                            :limit="product.stock"
+                        />
                     </div>
                 </div>
             </div>
