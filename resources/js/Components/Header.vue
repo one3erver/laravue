@@ -112,6 +112,6 @@ const header_height = "h-[55px] md:h-[65px]";
             </Link>
         </div>
 
-        <Link href="/">LOGO</Link>
+        <a href="/">LOGO</a>
     </header>
 </template>
