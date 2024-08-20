@@ -2,7 +2,12 @@ import { router } from "@inertiajs/vue3";
 
 let postCartTimeout: number | undefined = undefined;
 
-export function useAddToLocalCart(id: number, count: number) {
+export function useAddToLocalCart(
+    id: number,
+    count: number,
+    onSuccses?: () => void,
+    onFail?: () => void
+) {
     //if the is a postCartTimeout then i means we have a post request in queue and we will be sending a new one soon,
     //to prevent spaming delete the old post request
     if (postCartTimeout) {
@@ -64,15 +69,62 @@ export function useAddToLocalCart(id: number, count: number) {
                 {
                     preserveState: true,
                     preserveScroll: true,
+                    onSuccess: onSuccses,
+                    onFinish: onSuccses,
+                    onError: onFail,
                 }
             );
-        }, 1000);
+        }, 100);
     }
     //if we dont have a cart, create an empty one and then run this again
     else {
         localStorage.setItem("cart", JSON.stringify([]));
         useAddToLocalCart(id, count);
     }
+}
+
+export function clearCart(onSuccses: () => void, onFail: () => void) {
+    router.post(
+        route("carts.store"),
+        { cart_list: JSON.stringify([]) },
+        {
+            preserveState: true,
+            preserveScroll: true,
+            onSuccess: () => {
+                //dispatch cartchange event
+                window.dispatchEvent(
+                    new CustomEvent("cartchange", {
+                        detail: {
+                            itemsInCart: 0,
+                            storage: JSON.stringify([]),
+                        },
+                    })
+                );
+
+                //atlast store a empty cart in localhost
+                localStorage.setItem("cart", JSON.stringify([]));
+
+                onSuccses();
+            },
+            onFinish: () => {
+                //dispatch cartchange event
+                window.dispatchEvent(
+                    new CustomEvent("cartchange", {
+                        detail: {
+                            itemsInCart: 0,
+                            storage: JSON.stringify([]),
+                        },
+                    })
+                );
+
+                //atlast store a empty cart in localhost
+                localStorage.setItem("cart", JSON.stringify([]));
+
+                onSuccses();
+            },
+            onError: onFail,
+        }
+    );
 }
 
 export function useDoesExistinCart(id: number) {
@@ -105,7 +157,12 @@ export function useNumberOfItemsInCart() {
             localStorage.getItem("cart") as string
         ) as any[];
 
-        return cart.length;
+        const itemsInCart = cart.reduce(
+            (acum, currentValue) => acum + currentValue.count,
+            0
+        );
+
+        return itemsInCart;
     } else {
         return 0;
     }

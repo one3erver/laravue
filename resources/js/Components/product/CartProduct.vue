@@ -36,7 +36,18 @@ function DecrementFromCart() {
 
 function DeleteFromCart() {
     deleting.value = true;
-    useAddToLocalCart(id, 0);
+    useAddToLocalCart(
+        id,
+        0,
+        //on success
+        () => {
+            delete_dialog.value = false;
+        },
+        //on fail
+        () => {
+            deleting.value = false;
+        }
+    );
 }
 </script>
 
@@ -56,18 +67,20 @@ function DeleteFromCart() {
             <h4 class="text-white">Delete From Cart?</h4>
             <div class="space-x-4 mt-auto mb-6">
                 <button
+                    :disabled="deleting"
                     @click="delete_dialog = false"
-                    class="border-2 text-white hover:bg-white hover:text-black font-semibold px-2 py-1 rounded-md transition-all"
+                    class="border-2 text-white hover:bg-white hover:text-black font-semibold px-2 py-1 rounded-md transition-all disabled:text-gray-400 disabled:border-gray-400 disabled:bg-transparent"
                 >
                     Cancele
                 </button>
 
                 <button
+                    :disabled="deleting"
                     @click="DeleteFromCart"
                     :class="[
                         'border-2 hover:bg-red-600 text-red-500 border-red-600 hover:text-white font-semibold px-2 py-1 rounded-md transition-all',
                         deleting
-                            ? 'animate-pulse bg-red-600 border-red-600'
+                            ? 'animate-pulse text-white bg-red-600 border-red-600'
                             : '',
                     ]"
                 >

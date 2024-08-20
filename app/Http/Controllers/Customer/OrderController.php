@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
-use App\Models\Order;
-use App\Models\Cart;
+use App\Models\Invoice;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -18,9 +18,28 @@ class OrderController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $orders = json_decode($user->orders->pluck('order_list'));
-        $ordersList = array_map('json_decode', $orders);
-        return inertia('Orders', compact('ordersList'));
+        $orders = $user->orders;
+        $orderID = $orders->pluck('id')->toArray();
+        $invoices = Invoice::whereIn('order_id', $orderID)->get();
+
+        $submittedOrders = [];
+        for ($i = 0; $i < count($orders); $i++) {
+            $order = $orders[$i];
+            $invoice = $invoices[$i];
+
+            $order_list = json_decode($order->order_list, true);
+
+            $submittedOrders[] = [
+                "tracking_code" => $order->tracking_code,
+                "payment" =>[
+                    'status' => $invoice->status,
+                    'paid_at' => $invoice->paid_at,
+                    'transaction_id' => $invoice->transaction_id,
+                ],
+                "order_list" => $order_list,
+            ];
+        }
+        return inertia('Orders', compact('submittedOrders'));
     }
 
 
@@ -33,69 +52,59 @@ class OrderController extends Controller
         $cartsList = json_decode($request->post('cartsList'), true);
         $productIds = array_column($cartsList, 'product_id');
 
-//      Finding the price and title of each product using the product ID
+//      Finding the Price and Title of each product using the products ID
         $products = DB::table('products')->whereIn('id', $productIds)
             ->select('id', 'price', 'title')
             ->get()
             ->keyBy('id');
 
         $totalCost = 0;
-//      Calculating the total cost and adding the count of each product from cart
+//      Calculating the TotalCost and adding the Count of each product from cart
         foreach ($cartsList as $cart) {
             $price = $products->get($cart['product_id'])->price;
             $totalCost += $price * $cart['count'];
 
+//          Adding Count of each product to its own product in products json
             $products->get($cart['product_id'])->count = $cart['count'];
 
-
+//          After saving the details of each Cart, send each Cart to destroy method to delete it
             $cart_to_delete =  $user->carts->where('product_id', $cart['product_id']);
             $cartController = new CartController();
             $cartController->destroy($cart_to_delete);
         }
 
+//      Making order list
         $products = array_values($products->toArray());
+
         $orderList = json_encode([
-            'totalCost' => $totalCost,
             'products' => $products,
+            'totalCost' => $totalCost,
         ]);
-        $trackingCode = Str::random(3).time().Str::random(3);
+
+//      Saving data to DB
         $user->orders()->create([
             'total_cost' => $totalCost,
             'order_list' => $orderList,
-            'tracking_code' => $trackingCode,
+            'tracking_code' => "",
         ]);
-        return redirect()->back();
+
+        return to_route('Invoice');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Order $order)
+    public function update($order_id, Request $request)
     {
-        return inertia('Customer/Orders/Show', compact('order'));
-    }
+        $user = Auth::user();
+        $order = $user->orders()->find($order_id);
+        $tracking_code = "trc".time().str::random(3);
+        $order->invoice()->create([
+            'transaction_id' => $request->post('transaction_id'),
+            'status' => "P",
+            'paid_at' => Carbon::createFromTimestamp(time())
+        ]);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Order $order)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Order $order)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Order $order)
-    {
-        //
+        $order->update([
+            'tracking_code' => $tracking_code,
+        ]);
     }
 }

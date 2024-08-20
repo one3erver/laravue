@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Seeting\StoreSettingRequest;
 use App\Http\Requests\Admin\Seeting\UpdateSettingRequest;
 use App\Models\Setting;
+use Database\Seeders\SettingSeeder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class SettingController extends Controller
 {
@@ -15,8 +17,13 @@ class SettingController extends Controller
      */
     public function index()
     {
-        $settings = Setting::all();
-        return view('admin.setting.index', compact('settings'));
+        $setting = Setting::first();
+        if ($setting === null) {
+            $default = new SettingSeeder();
+            $default->run();
+            $setting = Setting::first();
+        }
+        return view('admin.settings.index', compact('setting'));
     }
 
     /**
@@ -24,7 +31,7 @@ class SettingController extends Controller
      */
     public function create()
     {
-        return view('admin.setting.create');
+        //
     }
 
     /**
@@ -32,17 +39,7 @@ class SettingController extends Controller
      */
     public function store(StoreSettingRequest $request)
     {
-        $logo = uploadImage($request->logo, 'logo', 250, 250);
-
-        Setting::create([
-            'telegram_id' => $request->telegram_id,
-            'telegram_token' => $request->telegram_token,
-            'landing_content' => $request->landing_content,
-            'logo' => $logo,
-            'site_title' => $request->site_title,
-        ]);
-
-        return redirect()->route('admin.settings.index')->with('success', 'Setting created successfully.');
+        //
     }
 
     /**
@@ -58,7 +55,7 @@ class SettingController extends Controller
      */
     public function edit(Setting $setting)
     {
-        return view('admin.setting.edit', compact('setting'));
+        return view('admin.settings.edit', compact('setting'));
     }
 
     /**
@@ -69,14 +66,39 @@ class SettingController extends Controller
         if ($request->hasFile('logo')) {
             deleteImage($setting->logo);
         }
-        $logo = uploadImage($request->logo, 'logo', 250, 250);
+        $logo = uploadImage($request->logo, 'settings', 256, 256);
+
         $setting->update([
             'telegram_id' => $request->telegram_id,
             'telegram_token' => $request->telegram_token,
             'landing_content' => $request->landing_content,
-            'logo' => $logo,
+            'logo' => ($request->logo ? $logo : $setting->logo),
             'site_title' => $request->site_title,
         ]);
+
+        // Save wallets to a config file if provided in the request
+        if ($request->has('wallets')) {
+            // Split the wallets string by newline and trim each entry to remove any extra spaces
+            $wallets = array_filter(array_map('trim', explode("\n", $request->input('wallets')[0])));
+
+            // Create an associative array with integer keys starting from 1
+            $walletsArray = [];
+            foreach ($wallets as $index => $wallet) {
+                $walletsArray[$index + 1] = $wallet;
+            }
+
+            // Export the array as a PHP code string
+            $content = var_export($walletsArray, true);
+
+            // Replace array() with []
+            $content = str_replace(['array (', ')'], ['[', ']'], $content);
+
+            // Add the opening PHP tag and return statement
+            $content = "<?php\n\nreturn " . $content . ";\n";
+
+            // Save the wallets array to a config file (config/wallets.php)
+            File::put(config_path('wallets.php'), $content);
+        }
 
         return redirect()->route('admin.settings.index')->with('success', 'Setting updated successfully.');
     }

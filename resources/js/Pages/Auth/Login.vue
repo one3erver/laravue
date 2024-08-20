@@ -1,12 +1,10 @@
 <script setup lang="ts">
 import Checkbox from "@/Components/Checkbox.vue";
-import GuestLayout from "@/Layouts/GuestLayout.vue";
 import InputError from "@/Components/InputError.vue";
-import InputLabel from "@/Components/InputLabel.vue";
-import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
 import { Head, Link, useForm } from "@inertiajs/vue3";
 import { ref } from "vue";
+import PasswordInput from "@/Components/PasswordInput.vue";
 
 const { status, canResetPassword } = defineProps<{
     canResetPassword?: boolean;
@@ -70,13 +68,7 @@ function onSubmit() {
                 <!-- email -->
                 <div class="flex flex-col gap-1 mb-6">
                     <label title="email">Email</label>
-                    <input
-                        class="border-gray-300 focus:border-emerald-500 focus:ring-emerald-500 rounded-md shadow-sm text-black"
-                        type="email"
-                        placeholder="email"
-                        v-model="form.email"
-                        autocomplete="username"
-                    />
+                    <TextInput :placeholder="'email'" v-model="form.email" />
 
                     <!-- error -->
                     <InputError :message="form.errors.email" />
@@ -85,13 +77,8 @@ function onSubmit() {
                 <!-- password -->
                 <div class="flex flex-col gap-1 mb-6">
                     <label title="password">Password</label>
-                    <input
-                        class="border-gray-300 focus:border-emerald-500 focus:ring-emerald-500 rounded-md shadow-sm text-black"
-                        type="password"
-                        placeholder="password"
-                        v-model="form.password"
-                        autocomplete="current-password"
-                    />
+
+                    <PasswordInput v-model="form.password" />
 
                     <Link
                         v-if="canResetPassword"

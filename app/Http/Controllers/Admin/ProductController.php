@@ -15,8 +15,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::all();
-        return view('admin.product.index', compact('products'));
+        $products = Product::latest()->get();
+        return view('admin.products.index', compact('products'));
     }
 
     /**
@@ -24,7 +24,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('admin.product.create');
+        return view('admin.products.create');
     }
 
     /**
@@ -33,7 +33,6 @@ class ProductController extends Controller
     public function store(StoreProductRequest $request)
     {
         $image = uploadImage($request->image, 'products', 300, 300);
-
         Product::create([
             'title' => $request->title,
             'caption' => $request->caption,
@@ -51,7 +50,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        return view('admin.product.show', compact('product'));
+        return view('admin.products.show', compact('product'));
     }
 
     /**
@@ -59,7 +58,7 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        return view('admin.product.edit', compact('product'));
+        return view('admin.products.edit', compact('product'));
     }
 
     /**
@@ -75,7 +74,7 @@ class ProductController extends Controller
         $product->update([
             'title' => $request->title,
             'caption' => $request->caption,
-            'image' => $image,
+            'image' => ($request->image ? $image : $product->image),
             'image_thumbnail' => 'test',
             'price' => $request->price,
             'status' => $request->status,
