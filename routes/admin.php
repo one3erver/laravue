@@ -16,4 +16,8 @@ Route::prefix('admin')->middleware('admin')->group(function () {
    Route::resource('orders', OrderController::class)->names('admin.orders')->only(['index', 'destroy']);
    Route::resource('users', UserController::class)->names('admin.users')->only(['index', 'show', 'edit', 'update']);
    Route::resource('settings', SettingController::class)->names('admin.settings')->except(['show', 'destroy']);
+   Route::get('/logout', function () {
+        return view('admin.logout');
+    })->name('admin.logout');
+
 });

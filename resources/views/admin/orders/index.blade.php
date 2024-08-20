@@ -13,7 +13,6 @@
         </nav>
     </div>
 @endsection
-
 @section('main')
     <section class="section dashboard">
 
