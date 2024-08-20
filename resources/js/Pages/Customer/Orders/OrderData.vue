@@ -80,9 +80,9 @@ console.log(props.orders); // Log orders to verify data structure
                             <!-- Details Dropdown -->
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                 <button @click="toggleDropdown(order.id)" class="rounded-md bg-white hover:bg-blue-200 px-3 py-2">
-                                    {{ dropdownOpen.value === order.id ? 'Hide Details' : 'Show Details' }}
+                                    {{ dropdownOpen?.valueOf ? 'Hide Details' : 'Show Details' }}
                                 </button>
-                                <div v-if="dropdownOpen.value === order.id" class="mt-2 p-2 border border-gray-200 bg-gray-50 rounded-md">
+                                <div v-if="dropdownOpen?.valueOf" class="mt-2 p-2 border border-gray-200 bg-gray-50 rounded-md">
                                     <ul>
                                         <li v-for="(product, index) in order.order_list" :key="index">
                                             {{ product.title }} - {{ product.count }} x {{ product.price }}
