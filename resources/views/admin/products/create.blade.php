@@ -20,10 +20,6 @@
             <label for="title" class="form-label">Title</label>
             <input type="text" class="form-control" id="title" name="title" required>
         </div>
-        <div class="col-md-5">
-            <label for="image_thumbnail" class="form-label">image_thumbnail</label>
-            <input type="text" class="form-control" id="image_thumbnail" name="image_thumbnail" required>
-        </div>
         @csrf
         <div class="col-md-5">
             <label for="stock" class="form-label">stock</label>

@@ -25,7 +25,7 @@
                         <table class="table table-striped ">
                             <thead>
                             <tr>
-                                <th scope="col">Image_thumbnail</th>
+                                <th scope="col">Image</th>
                                 <th scope="col">Title</th>
                                 <th scope="col">Position</th>
                                 <th scope="col">Stock</th>
