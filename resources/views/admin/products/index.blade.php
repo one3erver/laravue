@@ -30,6 +30,7 @@
                                 <th scope="col">Position</th>
                                 <th scope="col">Stock</th>
                                 <th scope="col">Price</th>
+                                <th scope="col">Status</th>
                                 <th scope="col">Description</th>
                                 <th scope="col">Edit</th>
                                 <th scope="col">Remove</th>
@@ -45,6 +46,13 @@
                                 <td>{{$product->status}}</td>
                                 <td>{{$product->stock}}</td>
                                 <td>{{$product->price}}</td>
+                                <td>
+                                    @if ($product->status == 1)
+                                        <span class="text-success">Active</span>
+                                    @else
+                                        <span class="text-danger">Inactive</span>
+                                    @endif
+                                </td>
 
 
 
