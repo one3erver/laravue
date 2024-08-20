@@ -17,6 +17,8 @@ const { id, image, count, price, title, stock } = defineProps<Product>();
 const local_count = ref(count);
 const delete_dialog = ref(false);
 
+const price_as_number = parseFloat(price);
+
 const deleting = ref(false);
 
 function IncrementFromCart() {
@@ -183,7 +185,7 @@ function DeleteFromCart() {
 
         <span
             class="hidden md:block font-semibold text-emerald-500 ml-2 text-center"
-            >{{ price }}$</span
+            >{{ price_as_number * local_count }}$</span
         >
     </div>
 </template>
