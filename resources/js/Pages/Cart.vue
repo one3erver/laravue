@@ -2,7 +2,9 @@
 import Checkbox from "@/Components/Checkbox.vue";
 import CartProduct from "@/Components/product/CartProduct.vue";
 import MainLayout from "@/Layouts/MainLayout.vue";
-import { Head, usePage } from "@inertiajs/vue3";
+import { clearCart } from "@/util/useCart";
+import { Head, router, usePage } from "@inertiajs/vue3";
+import { ref } from "vue";
 
 const { props: AuthProps } = usePage();
 
@@ -24,6 +26,31 @@ interface SubmittedContentType {
 
 const { submittedContent } = defineProps<SubmittedContentType>();
 
+const clear_cart_dialog = ref(false);
+const clear_cart_loading = ref(false);
+
+function CloseClearCartDialog() {
+    clear_cart_dialog.value = false;
+}
+function OpenClearCartDialog() {
+    clear_cart_dialog.value = true;
+}
+function ClearCart() {
+    clear_cart_loading.value = true;
+
+    clearCart(
+        //on success
+        () => {
+            router.reload();
+        },
+        //on fail
+        () => {
+            (clear_cart_loading.value = false),
+                (clear_cart_dialog.value = false);
+        }
+    );
+}
+
 const total_items = submittedContent.products.reduce(
     (acum, current) => acum + current.count,
     0
@@ -41,6 +68,45 @@ const total_items = submittedContent.products.reduce(
 
             <hr class="w-4/5" />
 
+            <!-- clear cart dialog box -->
+            <div
+                @click.prevent="CloseClearCartDialog"
+                :class="[
+                    'fixed flex items-center justify-center z-50 left-0 top-0 w-full h-full bg-black dark:bg-opacity-50 backdrop-blur-sm transition-all duration-100',
+                    clear_cart_dialog
+                        ? 'opacity-100 pointer-events-auto'
+                        : 'pointer-events-none opacity-0',
+                ]"
+            >
+                <div
+                    class="bg-dark_platform px-10 py-6 border-2 rounded-xl border-dark text-center space-y-5"
+                >
+                    <h4 class="mt-2">Clear You'r Whole Cart?</h4>
+                    <div class="space-x-4 mt-auto mb-6">
+                        <button
+                            :disabled="clear_cart_loading"
+                            @click.prevent="CloseClearCartDialog"
+                            class="border-2 text-white hover:bg-white hover:text-black font-semibold px-2 py-1 rounded-md transition-all disabled:text-gray-400 disabled:border-gray-400 disabled:bg-transparent"
+                        >
+                            Cancele
+                        </button>
+
+                        <button
+                            :disabled="clear_cart_loading"
+                            @click.prevent="ClearCart"
+                            :class="[
+                                'border-2 hover:bg-red-600 text-red-500 border-red-600 hover:text-white font-semibold px-2 py-1 rounded-md transition-all',
+                                clear_cart_loading
+                                    ? 'animate-pulse text-white bg-red-600 border-red-600'
+                                    : '',
+                            ]"
+                        >
+                            {{ clear_cart_loading ? "Clearing.." : "Clear" }}
+                        </button>
+                    </div>
+                </div>
+            </div>
+
             <!-- if there is a product in cart dispay them with checkout -->
             <div
                 v-if="submittedContent.products.length > 0"
@@ -50,10 +116,36 @@ const total_items = submittedContent.products.reduce(
                 <div
                     class="xl:rounded-lg h-fit border-[1px] border-light dark:border-dark overflow-hidden divide-y-[1px] divide-light dark:divide-gray-700 col-span-3"
                 >
+                    <!-- list of carts -->
                     <CartProduct
+                        :key="product.id"
                         v-for="product in submittedContent.products"
                         v-bind="product"
                     />
+
+                    <!-- clear the whole cart  -->
+                    <button
+                        @click="OpenClearCartDialog"
+                        class="w-full pb-2 pt-3 px-6 flex gap-2 items-center justify-end stroke-red-500 text-red-500"
+                    >
+                        <!-- trash svg -->
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="inherit"
+                            class="size-6"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"
+                            />
+                        </svg>
+
+                        <span>Clear All</span>
+                    </button>
                 </div>
 
                 <!-- checkout section -->
