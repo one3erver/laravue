@@ -18,6 +18,7 @@ interface SubmittedContentType {
                 image_thumbnail: string | null;
                 price: string;
                 title: string;
+                stock: number;
             }
         ];
         totalCost: number;
