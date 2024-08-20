@@ -1,6 +1,28 @@
 <script setup lang="ts">
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
+import OrderData from "@/Pages/Customer/Orders/OrderData.vue";
+
+const props = defineProps<{
+    orders: Array<{
+        id: number;
+        user: {
+            name: string;
+        };
+        total_cost: string;
+        order_list: Array<{ // Ensure this is defined as an array of objects
+            title: string;
+            count: number;
+            price: number;
+        }>;
+        tracking_code: string;
+        payment: {
+            status: string;
+            paid_at: string;
+            transaction_id: string;
+        } | null;
+    }>
+}>();
 </script>
 
 <template>
@@ -17,6 +39,10 @@ import { Head } from '@inertiajs/vue3';
                     <div class="p-6 text-gray-900">You're logged in!</div>
                 </div>
             </div>
+        </div>
+        <div class="p-8 bg-gray-100 min-h-screen">
+            <!-- Ensure orders are being passed to OrderData -->
+            <OrderData :orders="props.orders"/>
         </div>
     </AuthenticatedLayout>
 </template>
