@@ -9,12 +9,20 @@ const props = defineProps<{
         user: {
             name: string;
         };
-        order_list: string;
-        total_cost: number;
+        total_cost: string;
+        order_list: Array<{ // Ensure this is defined as an array of objects
+            title: string;
+            count: number;
+            price: number;
+        }>;
         tracking_code: string;
+        payment: {
+            status: string;
+            paid_at: string;
+            transaction_id: string;
+        } | null;
     }>
 }>();
-
 </script>
 
 <template>
