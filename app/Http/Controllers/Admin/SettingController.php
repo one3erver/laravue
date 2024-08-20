@@ -72,7 +72,7 @@ class SettingController extends Controller
             'telegram_id' => $request->telegram_id,
             'telegram_token' => $request->telegram_token,
             'landing_content' => $request->landing_content,
-            'logo' => $logo,
+            'logo' => ($request->logo ? $logo : $setting->logo),
             'site_title' => $request->site_title,
         ]);
 

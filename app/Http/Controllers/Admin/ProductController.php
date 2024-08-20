@@ -74,7 +74,7 @@ class ProductController extends Controller
         $product->update([
             'title' => $request->title,
             'caption' => $request->caption,
-            'image' => $image,
+            'image' => ($request->image ? $image : $product->image),
             'image_thumbnail' => 'test',
             'price' => $request->price,
             'status' => $request->status,

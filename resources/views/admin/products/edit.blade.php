@@ -73,7 +73,7 @@
             </fieldset>
         @endif
         <div class="col-md-5">
-            <img src="{{$product->image}}" alt="Profile" class="rounded-circle" width="100" height="100" >
+            <img src="{{ url('images/admin/products/'. $product->image) }}" alt="Profile" class="rounded-circle" width="100" height="100" >
         </div>
 
         <div class="col-md-12">

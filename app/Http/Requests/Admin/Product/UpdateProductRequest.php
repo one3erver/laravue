@@ -29,8 +29,6 @@ class UpdateProductRequest extends FormRequest
             'price' => 'required|numeric|min:0',
             'stock' => 'sometimes|numeric',
             'status' => 'required|boolean',
-            'wallets' => 'required|array',
-            'wallets.*' => 'required|string|distinct',
         ];
     }
 }
