@@ -28,6 +28,7 @@
                             <th scope="col">Email</th>
                             <th scope="col">Mobile</th>
                             <th scope="col">Is_Admin</th>
+                            <th scope="col">Status</th>
                             <th scope="col">Edit</th>
                         </tr>
                         </thead>
@@ -44,6 +45,13 @@
 
                                 @else
                                     No
+                                @endif
+                            </td>
+                            <td>
+                                @if ($user->status == 1)
+                                   <span class="text-success">Active</span>
+                                @else
+                                    <span class="text-danger">Inactive</span>
                                 @endif
                             </td>
 
