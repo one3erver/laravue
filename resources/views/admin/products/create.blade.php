@@ -23,7 +23,7 @@
         @csrf
         <div class="col-md-5">
             <label for="stock" class="form-label">stock</label>
-            <input type="number" class="form-control" id="stock" name="stock"  required>
+            <input type="number" class="form-control" id="stock" name="stock">
         </div>
         <div class="col-md-5">
             <label for="price" class="form-label">price</label>
@@ -33,6 +33,7 @@
             <label for="image" class="form-label">Image</label>
             <input type="file" class="form-control" id="image" name="image" required>
         </div>
+        <input type="hidden" class="form-control" id="base64ImageInput" name="image_thumbnail">
 
 
         <div class="col-md-5">
@@ -51,4 +52,19 @@
             <button class="btn btn-primary" type="submit">Submit form</button>
         </div>
     </form>
+@endsection
+
+@section('scripts')
+    <script src="{{ asset('js/img2base64.js') }}"></script>
+    <script>
+        document.getElementById('image').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            console.log(file)
+            if (file) {
+                imgToBase64(file, function(base64Image) {
+                    document.getElementById('base64ImageInput').value = base64Image;
+                });
+            }
+        });
+    </script>
 @endsection
