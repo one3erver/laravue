@@ -34,23 +34,14 @@
             <input type="file" class="form-control" id="image" name="image" required>
         </div>
 
-        <fieldset class="col-mb-4">
-            <legend class="col-form-label col-sm-2 pt-0">position</legend>
-            <div class="col-sm-10">
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="status" id="active" value="1" checked>
-                    <label class="form-check-label" for="active">
-                        active
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="status" id="inactive" value="0">
-                    <label class="form-check-label" for="inactive">
-                        inactive
-                    </label>
-                </div>
-            </div>
-        </fieldset>
+
+        <div class="col-md-5">
+            <label for="status" class="form-label">Status</label>
+            <select name="status" id="status" class="form-control">
+                <option value="1" >Active</option>
+                <option value="0" >Inactive</option>
+            </select>
+        </div>
         <div class="col-md-12">
             <label for="caption" class="form-label">caption</label>
             <textarea class="form-control" placeholder="Leave a comment here" id="caption" name="caption" style="height: 100px;" required></textarea>

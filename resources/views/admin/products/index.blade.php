@@ -30,6 +30,7 @@
                                 <th scope="col">Position</th>
                                 <th scope="col">Stock</th>
                                 <th scope="col">Price</th>
+                                <th scope="col">Status</th>
                                 <th scope="col">Description</th>
                                 <th scope="col">Edit</th>
                                 <th scope="col">Remove</th>
@@ -45,6 +46,13 @@
                                 <td>{{$product->status}}</td>
                                 <td>{{$product->stock}}</td>
                                 <td>{{$product->price}}</td>
+                                <td>
+                                    @if ($product->status == 1)
+                                        <span class="text-success">Active</span>
+                                    @else
+                                        <span class="text-danger">Inactive</span>
+                                    @endif
+                                </td>
 
 
 
@@ -79,10 +87,8 @@
 
                                 </td>
                                 <td>
-{{--                                    <a type="button" class="btn btn-danger" href="{{route('admin.products.destroy', $product)}}?_method=DELETE"><i class="ri-delete-bin-7-line"></i></a>--}}
-                                    <form action="{{route('admin.products.destroy', $product)}}" method="post" >
-                                        @method('DELETE')
-                                        @csrf
+                                    <form action="{{route('admin.products.show', $product)}}" method="get" >
+
                                         <button type="submit" class="btn btn-danger"><i class="ri-delete-bin-7-line "></i></button>
                                     </form>
 
