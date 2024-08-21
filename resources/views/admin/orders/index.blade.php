@@ -13,7 +13,6 @@
         </nav>
     </div>
 @endsection
-
 @section('main')
     <section class="section dashboard">
 
@@ -92,11 +91,11 @@
                                     <!-- End Disabled Animation Modal-->
                                 </td>
                                 <td>
-                                    <form action="{{route('admin.orders.destroy', $order)}}" method="post" >
-                                        @method('DELETE')
-                                        @csrf
+                                    <form action="{{route('admin.orders.show', $order)}}" method="get" >
+
                                         <button type="submit" class="btn btn-danger"><i class="ri-delete-bin-7-line "></i></button>
                                     </form>
+
                                 </td>
                             </tr>
                             @endforeach

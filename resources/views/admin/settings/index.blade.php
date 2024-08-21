@@ -18,7 +18,7 @@
         @csrf
         <div class="col-md-5">
             <label for="telegram_id" class="form-label">Telegram_Id</label>
-            <input type="text" class="form-control" id="telegram_id" name="telegram_id" required value="{{$setting->telegram_id}}" disabled>
+            <input type="number" class="form-control" id="telegram_id" name="telegram_id" required value="{{$setting->telegram_id}}" disabled>
         </div>
         <div class="col-md-5">
             <label for="telegram_token" class="form-label">Telegram_Token</label>
@@ -30,7 +30,7 @@
         </div>
         <div class="col-md-5">
             <label for="logo" class="form-label">Logo</label>
-            <input type="text" class="form-control" id="logo" name="logo" required value="{{$setting->logo}}" disabled>
+            <img src="{{ url('images/admin/settings/'. $setting->logo) }}" alt="Profile" class="rounded-circle" width="100" height="100" >
         </div>
         <div class="col-md-12">
             <label for="landing_content" class="form-label">Landing_Content</label>
