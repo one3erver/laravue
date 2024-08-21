@@ -19,17 +19,37 @@
         <div class="row">
             <!-- Recent Sales -->
             <div class="d-flex justify-content-end">
-                <form action="{{ route('admin.orders.delete-unpaid') }}" method="post" id="unpaid-delete">
-                    @csrf
-                    @method('DELETE')
-                    <button class="btn btn-danger btn-sm mb-2" >Delete Unpaid</button>
-                </form>
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#unpaid-delete">
+                    Delete Unpaid
+                </button>
+
+                <div class="modal fade" id="unpaid-delete" tabindex="-1">
+                    <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">warring</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                Do you want to delete this order?
+                            </div>
+                            <div class="modal-footer">
+                                <form method="post" action="{{route('admin.orders.delete-unpaid')}}" >
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
             <div class="col-12">
                 <div class="card recent-sales overflow-auto">
 
                     <div class="card-body">
-                        {{--                        datatable--}}
 
 
                         <table class="table   table-borderless">
@@ -71,7 +91,7 @@
                                 <td>
                                     <!-- Disabled Animation Modal -->
                                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#disabledAnimation{{$i}}" >
-                                        <div class="icon">
+                                        <div class="icon" >
                                             <i class="bx ri-folder-open-fill"></i>
                                         </div>
                                     </button>
@@ -142,6 +162,5 @@
         </div>
         <!-- End Right side columns -->
 
-        </div>
     </section>
 @endsection
