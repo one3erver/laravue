@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
 use App\Models\Invoice;
+use App\Models\Order;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -82,29 +83,40 @@ class OrderController extends Controller
         ]);
 
 //      Saving data to DB
-        $user->orders()->create([
+        $order = $user->orders()->create([
             'total_cost' => $totalCost,
             'order_list' => $orderList,
-            'tracking_code' => "",
         ]);
 
-        return to_route('Invoice');
+//      After creating the Order, send the Order to [InvoiceController] to create an Invoice for it
+        $invoiceController = new InvoiceController();
+        $invoiceController->store($order);
+
+//      After creating Order and its Invoice it's ready to pay
+        return to_route('invoices.show', $order->invoice);
     }
 
-    public function update($order_id, Request $request)
+    public function update($invoice_id, Request $request)
     {
-        $user = Auth::user();
-        $order = $user->orders()->find($order_id);
+//      Find the Order and its Invoice
+        $invoice = Invoice::find($invoice_id);
+        $order = $invoice->order;
+
+//      Create the TrackingCode and put it in Order's tracking_code
         $tracking_code = "trc".time().str::random(3);
-        $order->invoice()->create([
-            'transaction_id' => $request->post('transaction_id'),
-            'status' => "P",
-            'paid_at' => Carbon::createFromTimestamp(time())
-        ]);
-
-
         $order->update([
             'tracking_code' => $tracking_code,
         ]);
+
+//      Sending the Transaction ID entered by the user to the InvoiceController for validation
+        $invoiceController = new InvoiceController();
+        $result = $invoiceController->update($request->transaction_id, $invoice);
+
+        if ($result == true){
+            return "Paid Successfully";
+        }
+        else{
+            return "Failed";
+        }
     }
 }
