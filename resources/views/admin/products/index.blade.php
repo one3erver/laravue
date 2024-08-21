@@ -37,8 +37,9 @@
                             </tr>
                             </thead>
                             <tbody>
+                            @php($i=1)
                             @foreach($products as $product)
-
+                            @php($i++)
 
                             <tr>
                                 <th scope="row"><img src="{{ url('images/admin/products/'. $product->image) }}" alt="Profile" class="rounded-circle" width="50" height="50" ></th>
@@ -87,11 +88,34 @@
 
                                 </td>
                                 <td>
-                                    <form action="{{route('admin.products.show', $product)}}" method="get" >
+                                <td>
+                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#smallModal{{$i}}">
+                                        <i class="ri-delete-bin-7-line "></i>
+                                    </button>
 
-                                        <button type="submit" class="btn btn-danger"><i class="ri-delete-bin-7-line "></i></button>
-                                    </form>
+                                    <div class="modal fade" id="smallModal{{$i}}" tabindex="-1">
+                                        <div class="modal-dialog modal-sm">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">warring</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Do you want to delete this product?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <form method="post" action="{{route('admin.products.destroy', $product)}}">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
 
+                                </td>
 
                                 </td>
 
