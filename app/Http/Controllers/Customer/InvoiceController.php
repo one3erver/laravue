@@ -7,6 +7,8 @@ use App\Models\Invoice;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
+use Inertia\Inertia;
 
 class InvoiceController extends Controller
 {
@@ -15,7 +17,7 @@ class InvoiceController extends Controller
      */
     public function index()
     {
-        //
+
     }
 
     /**
@@ -24,12 +26,10 @@ class InvoiceController extends Controller
     public function store(Order $order)
     {
         $user = Auth::user();
-        $wallet = rand(1,10);
+        $wallet = random_int(1,10);
         $order->invoice()->create([
-            'transaction_id' => "",
-            'status' => "u",
-            'wallet_id' => $wallet,
-            'paid_at' => now()
+            'status' => "U",
+            'wallet_id' => $wallet
         ]);
     }
 
@@ -38,7 +38,12 @@ class InvoiceController extends Controller
      */
     public function show(Invoice $invoice)
     {
-        //
+        if ($invoice->status == "U"){
+            return view('test_1', compact('invoice'));
+        }
+        else{
+            return to_route('orders.index');
+        }
     }
 
     /**
@@ -52,9 +57,28 @@ class InvoiceController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Invoice $invoice)
+    public function update($transaction_id, Invoice $invoice)
     {
-        //
+        $response = json_decode(Http::get('https://apilist.tronscan.org/api/new/token_trc20/transfers', [
+            'direction' => 'in',
+            'count' => 5,
+            'tokens' => 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t',
+            'relatedAddress' => 'TCN6S5TfAPYf6aWbSgotEfsmNWgoDwa1Gm'
+        ]));
+
+        $totalCost = $invoice->order->total_cost;
+        foreach ($response->token_transfers as $transaction) {
+            if ($transaction->transaction_id == $transaction_id && $totalCost == ($transaction->quant/1000000)) {
+                $invoice->update([
+                    'status' => 'P',
+                    'paid_at' => now(),
+                ]);
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
     }
 
     /**
