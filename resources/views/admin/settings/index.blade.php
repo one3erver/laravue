@@ -30,7 +30,7 @@
         </div>
         <div class="col-md-5">
             <label for="logo" class="form-label">Logo</label>
-            <input type="text" class="form-control" id="logo" name="logo" required value="{{$setting->logo}}" disabled>
+            <img src="{{ url('images/admin/products/1724138875.jpg') }}" alt="Profile" class="rounded-circle" width="100" height="100" >
         </div>
         <div class="col-md-12">
             <label for="landing_content" class="form-label">Landing_Content</label>
