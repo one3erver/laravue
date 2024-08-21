@@ -5,6 +5,7 @@ export interface User {
     name: string;
     email: string;
     email_verified_at: string;
+    is_admin: 0 | 1;
 }
 
 export type PageProps<

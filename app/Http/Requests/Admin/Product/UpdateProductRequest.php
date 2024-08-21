@@ -25,9 +25,8 @@ class UpdateProductRequest extends FormRequest
             'title' => 'required|string|max:255',
             'caption' => 'required|string|max:5000',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Max size 2MB
-            'image_thumbnail' => 'nullable|string',
             'price' => 'required|numeric|min:0',
-            'stock' => 'sometimes|numeric',
+            'stock' => 'nullable|numeric',
             'status' => 'required|boolean',
         ];
     }

@@ -16,27 +16,28 @@ onMounted(() => {
         return;
     }
 
-    const cartItems = products.filter(product=>product.count>0).map(product=>{
-    return {id:product.id,count:product.count}
-})
+    const cartItems = products
+        .filter((product) => product.count > 0)
+        .map((product) => {
+            return { id: product.id, count: product.count };
+        });
 
-        localStorage.setItem("cart", JSON.stringify(cartItems));
+    localStorage.setItem("cart", JSON.stringify(cartItems));
 
-        const total_count = cartItems.reduce(
-            (sum, current) => sum + current.count,
-            0
-        );
+    const total_count = cartItems.reduce(
+        (sum, current) => sum + current.count,
+        0
+    );
 
-        window.dispatchEvent(
-            new CustomEvent("cartchange", {
-                detail: {
-                    itemsInCart: total_count,
-                    storage: localStorage.getItem("cart"),
-                },
-            })
-        );
+    window.dispatchEvent(
+        new CustomEvent("cartchange", {
+            detail: {
+                itemsInCart: total_count,
+                storage: localStorage.getItem("cart"),
+            },
+        })
+    );
 });
-
 </script>
 
 <template>
@@ -68,7 +69,7 @@ onMounted(() => {
             <div
                 class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 items-stretch"
             >
-                <ProductItem v-for="product in products" v-bind="product"/>
+                <ProductItem v-for="product in products" v-bind="product" />
             </div>
         </section>
     </MainLayout>

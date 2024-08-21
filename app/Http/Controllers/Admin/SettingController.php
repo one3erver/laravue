@@ -64,7 +64,7 @@ class SettingController extends Controller
     public function update(UpdateSettingRequest $request, Setting $setting)
     {
         if ($request->hasFile('logo')) {
-            deleteImage($setting->logo);
+            deleteImage('/admin/settings/' . $setting->logo);
         }
         $logo = uploadImage($request->logo, 'settings', 256, 256);
 
