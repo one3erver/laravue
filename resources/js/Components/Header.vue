@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { PageProps } from "@/types";
-import { onMounted, onUnmounted, ref, watch } from "vue";
+import { onMounted, onUnmounted, ref } from "vue";
 import { useNumberOfItemsInCart } from "@/util/useCart";
 import { Link, usePage } from "@inertiajs/vue3";
+import { userThemePreference } from "@/util/useDarkmode";
+import DarkmodeButton from "./DarkmodeButton.vue";
 
 const {
     props: { auth, setting },
@@ -19,6 +21,8 @@ const itemsInCart = ref(useNumberOfItemsInCart());
 const cart_badge = ref<HTMLSpanElement | null>(null);
 
 onMounted(() => {
+    userThemePreference();
+
     window.addEventListener("cartchange", handleCartChange);
     window.addEventListener("scroll", handleScroll);
 });
@@ -121,13 +125,18 @@ const header_height = "h-[55px] md:h-[65px]";
             {{ setting.site_title }}
         </span>
 
-        <a class="size-[32px]" href="/">
+        <!-- right side -->
+        <div class="flex flex-row-reverse gap-2 md:gap-4 h-[32px] w-full">
             <!-- site logo -->
-            <img
-                class="size-full object-contain"
-                :src="setting.logo"
-                alt="logo"
-            />
-        </a>
+            <a class="size-[32px]" href="/">
+                <img
+                    class="size-full object-contain"
+                    :src="setting.logo"
+                    alt="logo"
+                />
+            </a>
+
+            <DarkmodeButton />
+        </div>
     </header>
 </template>
