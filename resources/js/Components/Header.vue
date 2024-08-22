@@ -92,7 +92,7 @@ const header_height = "h-[55px] md:h-[65px]";
             </a>
 
             <!-- cart link -->
-            <Link class="relative" href="carts">
+            <Link class="relative" href="/carts">
                 <!-- cart svg -->
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -120,7 +120,7 @@ const header_height = "h-[55px] md:h-[65px]";
 
         <!-- site title -->
         <span
-            class="absolute pointer-events-none left-2/4 top-2/4 -translate-x-2/4 -translate-y-2/4 font-semibold"
+            class="absolute pointer-events-none left-2/4 top-2/4 -translate-x-2/4 -translate-y-2/4 font-semibold text-center"
         >
             {{ setting.site_title }}
         </span>
