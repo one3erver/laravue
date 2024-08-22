@@ -6,7 +6,7 @@ interface Product {
     id: number;
     count: number;
     image: string;
-    image_thumbnail: string | null;
+    image_thumbnail: string;
     price: string;
     title: string;
     stock: number;
@@ -96,7 +96,22 @@ function DeleteFromCart() {
         </div>
 
         <div class="flex gap-2 w-full md:gap-4">
-            <img class="h-[80px] md:h-[100px] object-contain" :src="image" />
+            <!-- image division -->
+            <div class="size-[80px] md:size-[100px] relative bg-red-500">
+                <!-- image thumbnail -->
+                <img
+                    class="size-full absolute left-0 top-0"
+                    :src="image_thumbnail"
+                    alt="thumbnail"
+                />
+                <!-- image thumbnail -->
+
+                <img
+                    class="size-full absolute left-0 top-0"
+                    :src="'/images/admin/products/' + image"
+                    :alt="title"
+                />
+            </div>
 
             <div class="flex flex-col justify-between">
                 <h3 class="mt-0 text-base line-clamp-5">
