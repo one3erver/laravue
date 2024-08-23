@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('title', 100);
             $table->text('caption');
             $table->string('image');
-            $table->string('image_thumbnail')->nullable();
+            $table->text('image_thumbnail')->nullable();
             $table->decimal('price', 20);
             $table->integer('stock')->default(-1)->comment('-1 mean infinity');
             $table->boolean('status')->default(0);

@@ -4,7 +4,11 @@ import { useAddToLocalCart, useDoesExistinCart } from "@/util/useCart";
 import { AuthTypes } from "@/types";
 import { usePage } from "@inertiajs/vue3";
 
-const { product_id,count } = defineProps<{ product_id: number ,count:number}>();
+const { product_id, count, limit } = defineProps<{
+    product_id: number;
+    count: number;
+    limit: number;
+}>();
 
 const { props: AuthProps } = usePage();
 
@@ -36,8 +40,11 @@ function IncrementFromCart() {
         add_to_cart.value.classList.remove("scale-105");
     }, 200);
 
-    quantity.value += 1;
-    useAddToLocalCart(product_id, quantity.value);
+    //only add to cart if its lower then limit (stock)
+    if (quantity.value < limit || limit === -1) {
+        quantity.value += 1;
+        useAddToLocalCart(product_id, quantity.value);
+    }
 }
 
 function DecrementFromCart() {
