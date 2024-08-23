@@ -36,6 +36,8 @@ const copyToClipboard = (text: string) => {
 };
 
 console.log(props.orders); // Log orders to verify data structure
+// const order_as_json = JSON.parse(props.orders[0].order_list)
+// console.log(order_as_json)
 </script>
 
 <template>
@@ -66,8 +68,9 @@ console.log(props.orders); // Log orders to verify data structure
                             </td>
                             <!-- Tracking Code -->
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                {{ order.tracking_code || 'N/A' }}
-                                <button @click="copyToClipboard(order.tracking_code || '')" class="bg-blue-400 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded">Copy</button>
+                                <sapn v-if="order.tracking_code?.length>0 ">{{ order.tracking_code || 'N/A' }}</sapn>
+
+                                <button v-if="order.tracking_code?.length>0 " @click="copyToClipboard(order.tracking_code || '')" class="bg-blue-400 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded">Copy</button>
                             </td>
                             <!-- Total Cost -->
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
@@ -79,10 +82,10 @@ console.log(props.orders); // Log orders to verify data structure
                             </td>
                             <!-- Details Dropdown -->
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                <button @click="toggleDropdown(order.id)" class="rounded-md bg-white hover:bg-blue-200 px-3 py-2">
-                                    {{ dropdownOpen?.valueOf ? 'Hide Details' : 'Show Details' }}
+                                <button @click="toggleDropdown(order.id)" class=" rounded-md bg-blue-300 hover:bg-blue-200 px-3 py-2">
+                                    {{ dropdownOpen === order.id ? 'Hide Details' : 'Show Details' }}
                                 </button>
-                                <div v-if="dropdownOpen?.valueOf" class="mt-2 p-2 border border-gray-200 bg-gray-50 rounded-md">
+                                <div v-if="dropdownOpen" class="mt-2 p-2 border border-gray-200 bg-gray-50 rounded-md">
                                     <ul>
                                         <li v-for="(product, index) in order.order_list" :key="index">
                                             {{ product.title }} - {{ product.count }} x {{ product.price }}
