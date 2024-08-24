@@ -25,7 +25,7 @@ class CheckoutController extends Controller
             session()->forget('redirect');
             $submittedContent['wallet_id'] = $invoice->wallet_id;
 //            return view('test_1', compact('submittedContent'));
-            return Inertia::render('Checkout', $submittedContent);
+            return Inertia::render('Checkout',  compact('submittedContent'));
         }
         else{
 //          Specify the Wallet by its key
@@ -34,7 +34,7 @@ class CheckoutController extends Controller
             $submittedContent['wallet_id'] = $wallet_id;
 
 //            return view('test_1', compact('submittedContent'));
-            return Inertia::render('Checkout', $submittedContent);
+            return Inertia::render('Checkout', compact('submittedContent'));
         }
     }
 

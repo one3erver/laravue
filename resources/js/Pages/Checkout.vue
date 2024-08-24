@@ -51,7 +51,7 @@ function onPay() {
     }
 
     router.post(
-        route("checkouts.checkoutValidate"),
+        route("checkouts.validate"),
         {
             transaction_id: form.user_wallet,
             invoice_id: submittedContent.invoive_id,
