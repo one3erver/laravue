@@ -76,7 +76,7 @@ class ProductController extends Controller
             'title' => $request->title,
             'caption' => $request->caption,
             'image' => ($request->image ? $image : $product->image),
-            'image_thumbnail' => $product->image_thumbnail,
+            'image_thumbnail' => $request->image_thumbnail,
             'price' => $request->price,
             'stock' => $request->stock,
             'status' => $request->status,
