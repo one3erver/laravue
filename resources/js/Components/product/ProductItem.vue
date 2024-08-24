@@ -17,7 +17,7 @@ const { id, title, caption, image, price, count, stock, image_thumbnail } =
 </script>
 
 <template>
-    <Link
+    <a
         :href="`products/${id}`"
         class="border-[1px] h-full flex flex-col items-center justify-between border-light rounded-xl pb-5 overflow-hidden shadow-md bg-light_platform dark:bg-dark_platform dark:border-dark"
     >
@@ -53,5 +53,5 @@ const { id, title, caption, image, price, count, stock, image_thumbnail } =
             >
             <AddToCart :product_id="id" :count="count" :limit="stock" />
         </div>
-    </Link>
+    </a>
 </template>

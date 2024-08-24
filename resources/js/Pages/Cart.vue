@@ -56,6 +56,37 @@ const total_items = submittedContent.products.reduce(
     (acum, current) => acum + current.count,
     0
 );
+
+function onCheckout() {
+    const products_for_checkout = submittedContent.products.map((p) => {
+        return { product_id: p.id, count: p.count };
+    });
+
+    // router.post(route("/checkouts",),);
+
+    router.post(
+        route("orders.store"),
+        { cartsList: JSON.stringify(products_for_checkout) },
+        {
+            onSuccess: () => {
+                //clear cart in localstorage
+                window.dispatchEvent(
+                    new CustomEvent("cartchange", {
+                        detail: {
+                            itemsInCart: 0,
+                            storage: JSON.stringify([]),
+                        },
+                    })
+                );
+
+                //atlast store a empty cart in localhost
+                localStorage.setItem("cart", JSON.stringify([]));
+            },
+        }
+    );
+
+    // console.log(products_for_checkout);
+}
 </script>
 
 <template>
@@ -176,6 +207,7 @@ const total_items = submittedContent.products.reduce(
                     </div>
 
                     <button
+                        @click="onCheckout"
                         class="w-full py-4 px-6 mt-4 bg-emerald-500 hover:bg-emerald-600 text-white dark:bg-emerald-700 dark:hover:bg-emerald-600 transition-colors duration-150 rounded-lg font-semibold"
                     >
                         Checkout
