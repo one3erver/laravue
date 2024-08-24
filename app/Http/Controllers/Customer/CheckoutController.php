@@ -24,6 +24,7 @@ class CheckoutController extends Controller
         if (session('redirect')){
             session()->forget('redirect');
             $submittedContent['wallet_id'] = $invoice->wallet_id;
+            return view('test_1', compact('submittedContent'));
             return Inertia::render('Checkout', $submittedContent);
         }
         else{
@@ -32,6 +33,7 @@ class CheckoutController extends Controller
             $wallet_id = $wallets[$invoice->wallet_id];
             $submittedContent['wallet_id'] = $wallet_id;
 
+            return view('test_1', compact('submittedContent'));
             return Inertia::render('Checkout', $submittedContent);
         }
     }
@@ -40,6 +42,15 @@ class CheckoutController extends Controller
     {
         $invoice = Invoice::find($request->input('invoice_id'));
         $transaction_id = $request->input('transaction_id');
+
+        $existingTransaction = Invoice::where('transaction_id', $transaction_id)->first();
+        if ($existingTransaction) {
+            session(['redirect' => true]);
+            return to_route('checkouts.show')->with([
+                'error' => 'The entered transaction_id has already been entered by someone else. Please be careful.',
+                'hint' => 'If you think there is a problem, contact us by email.'
+            ]);
+        }
 
         $response = json_decode(Http::get('https://apilist.tronscan.org/api/new/token_trc20/transfers', [
             'direction' => 'in',
