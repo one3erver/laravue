@@ -27,8 +27,20 @@ class UpdateProductRequest extends FormRequest
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Max size 2MB
             'image_thumbnail' => 'required|string',
             'price' => 'required|numeric|min:0',
-            'stock' => 'nullable|numeric',
+            'stock' => 'required|numeric',
             'status' => 'required|boolean',
+        ];
+    }
+    public function messages()
+    {
+        return [
+            'title.required' => 'You must complete the title field',
+            'stock.required' => 'You must complete the stock field',
+            'stock.numeric' => 'You must enter a number in the stock field',
+            'image.image' => 'The uploaded file must be an image',
+            'price.required' => 'You must complete the price field',
+            'price.numeric' => 'You must enter a number in the price field',
+            'caption.required' => 'You must complete the caption field',
         ];
     }
 }

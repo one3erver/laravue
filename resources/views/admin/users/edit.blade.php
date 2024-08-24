@@ -19,15 +19,24 @@
         @method('PUT')
         <div class="col-md-5">
             <label for="name" class="form-label">Name</label>
-            <input type="text" class="form-control" id="name" name="name" value="{{$user->name}}" required>
+            <input type="text" class="form-control" id="name" name="name" value="{{$user->name}}">
+            @if ($errors->has('name'))
+                <div class="alert alert-danger">{{ $errors->first('name') }}</div>
+            @endif
         </div>
         <div class="col-md-5">
             <label for="mobile" class="form-label">Mobile</label>
-            <input type="number" class="form-control" id="mobile" name="mobile" value="{{$user->mobile}}" required >
+            <input type="number" class="form-control" id="mobile" name="mobile" value="{{$user->mobile}}">
+            @if ($errors->has('mobile'))
+                <div class="alert alert-danger">{{ $errors->first('mobile') }}</div>
+            @endif
         </div>
         <div class="col-md-5">
             <label for="email" class="form-label">Email</label>
-            <input type="email" class="form-control" id="email" name="email" value="{{$user->email}}" required>
+            <input type="email" class="form-control" id="email" name="email" value="{{$user->email}}">
+            @if ($errors->has('email'))
+                <div class="alert alert-danger">{{ $errors->first('email') }}</div>
+            @endif
         </div>
         <div class="col-md-5">
             <label for="status" class="form-label">Status</label>
