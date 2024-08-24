@@ -24,7 +24,7 @@ class CartController extends Controller
 //      Get the details of user cards from the database using the ID of each product
         $productIds = $cart_list->pluck('product_id')->toArray();
         $products = DB::table('products')->whereIn('id', $productIds)
-            ->get(['id', 'price', 'title', 'image', 'image_thumbnail']);
+            ->get(['id', 'price', 'title', 'image', 'image_thumbnail', 'stock']);
 
         $totalCost = 0;
 //      Calculate the final price of the products selected by the user
