@@ -22,10 +22,21 @@ class UpdateUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required',
+            'name' => 'required|string',
             'email' => 'required|email',
-            'mobile' => 'required',
+            'mobile' => 'required|max:11',
             'status' => 'required|boolean',
+        ];
+    }
+    public function messages()
+    {
+        return [
+            'name.required' => 'You must complete the name field',
+            'name.string' => 'You must use a text string',
+            'email.required' => 'You must complete the email field',
+            'email.email' => 'You must enter an email',
+            'mobile.required' => 'You must complete the phone field',
+            'mobile.numeric' => 'You must use a number',
         ];
     }
 }

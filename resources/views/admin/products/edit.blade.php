@@ -18,70 +18,54 @@
         @method('PUT')
         <div class="col-md-5">
             <label for="title" class="form-label">Title</label>
-            <input type="text" class="form-control" id="title" name="title" required value="{{$product->title}}">
+            <input type="text" class="form-control" id="title" name="title" value="{{$product->title}}">
+            @if ($errors->has('title'))
+                <div class="alert alert-danger">{{ $errors->first('title') }}</div>
+            @endif
         </div>
         @csrf
         <div class="col-md-5">
             <label for="stock" class="form-label">stock</label>
             <input type="number" class="form-control" id="stock" name="stock" value="{{$product->stock}}">
+            @if ($errors->has('stock'))
+                <div class="alert alert-danger">{{ $errors->first('stock') }}</div>
+            @endif
+        </div>
+
         </div>
         <div class="col-md-5">
             <label for="price" class="form-label">price</label>
-            <input type="number" class="form-control" id="price" name="price" required value="{{$product->price}}">
+            <input type="number" class="form-control" id="price" name="price"  value="{{$product->price}}">
+            @if ($errors->has('price'))
+                <div class="alert alert-danger">{{ $errors->first('price') }}</div>
+            @endif
         </div>
         <div class="col-md-5">
             <label for="image" class="form-label">Image</label>
             <input type="file" class="form-control" id="image" name="image" value="{{$product->image}}">
+            @if ($errors->has('image'))
+                <div class="alert alert-danger">{{ $errors->first('image') }}</div>
+            @endif
         </div>
         <input type="hidden" class="form-control" id="base64ImageInput" name="image_thumbnail" value="{{ $product->image_thumbnail }}">
 
-
-    @if ($product->status == 1)
-
-            <fieldset class="col-md-5">
-                <legend class="col-form-label col-sm-2 pt-0">position</legend>
-                <div class="col-sm-10">
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="status" id="active" value="1" checked>
-                        <label class="form-check-label" for="active">
-                            active
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="status" id="inactive" value="0">
-                        <label class="form-check-label" for="inactive">
-                            inactive
-                        </label>
-                    </div>
-                </div>
-            </fieldset>
-        @else
-
-            <fieldset class="col-md-5">
-                <legend class="col-form-label col-sm-2 pt-0">position</legend>
-                <div class="col-sm-10">
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="status" id="active" value="1" >
-                        <label class="form-check-label" for="active">
-                            active
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="status" id="inactive" value="0" checked>
-                        <label class="form-check-label" for="inactive">
-                            inactive
-                        </label>
-                    </div>
-                </div>
-            </fieldset>
-        @endif
+        <div class="col-md-5">
+            <label for="status" class="form-label">Status</label>
+            <select name="status" id="status" class="form-control">
+                <option value="0" @if (old('status', $product->status) == 0) selected @endif>Inactive</option>
+                <option value="1" @if (old('status', $product->status) == 1) selected @endif>Active</option>
+            </select>
+        </div>
         <div class="col-md-5">
             <img src="{{ url('images/admin/products/'. $product->image) }}" alt="Profile" class="rounded-circle" width="100" height="100" >
         </div>
 
         <div class="col-md-12">
             <label for="caption" class="form-label">caption</label>
-            <textarea class="form-control" placeholder="Leave a comment here"  id="caption" name="caption"  style="height: 100px;" required >{{$product->caption}}</textarea>
+            <textarea class="form-control" placeholder="Leave a comment here"  id="caption" name="caption"  style="height: 100px;" >{{$product->caption}}</textarea>
+            @if ($errors->has('caption'))
+                <div class="alert alert-danger">{{ $errors->first('caption') }}</div>
+            @endif
         </div>
 
 

@@ -59,12 +59,12 @@
 
                                 <td>
                                     <!-- Disabled Animation Modal -->
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#disabledAnimation">
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#disabledAnimation{{$i}}">
                                         <div class="icon">
                                             <i class="bx bxs-comment-detail"></i>
                                         </div>
                                     </button>
-                                    <div class="modal" id="disabledAnimation" tabindex="-1">
+                                    <div class="modal" id="disabledAnimation{{$i}}" tabindex="-1">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header">
@@ -87,7 +87,7 @@
                                     <a type="button" class="btn btn-success" href="{{route('admin.products.edit', $product)}}" ><i class="ri-ball-pen-line"></i></a>
 
                                 </td>
-                                <td>
+
                                 <td>
                                     <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#smallModal{{$i}}">
                                         <i class="ri-delete-bin-7-line "></i>
@@ -117,7 +117,6 @@
 
                                 </td>
 
-                                </td>
 
                             </tr>
                             @endforeach
