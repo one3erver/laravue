@@ -80,14 +80,14 @@ function onSubmit() {
 
                     <PasswordInput v-model="form.password" />
 
-                    <Link
+                    <a
                         v-if="canResetPassword"
                         :href="route('password.request')"
                         class="underline-offset-4 mt-2 text-sm text-sky-500 dark:text-sky-300"
                         style="text-decoration: underline"
                     >
                         Forgot your password?
-                    </Link>
+                    </a>
 
                     <!-- error -->
                     <InputError :message="form.errors.password" />
@@ -113,11 +113,11 @@ function onSubmit() {
                 <!-- register -->
                 <span class="w-full block text-center mt-6 text-base italic"
                     >Dont't have an Account?
-                    <Link
+                    <a
                         class="text-sky-500 dark:text-sky-300 underline bold"
                         href="/register"
                         style="text-decoration: underline"
-                        >Register</Link
+                        >Register</a
                     ></span
                 >
             </form>
