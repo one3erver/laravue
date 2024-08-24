@@ -24,13 +24,15 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
         $setting = Setting::first();
-        view()->composer('admin.layouts.header', function ($view) use ($setting) {
-            $view->with("site_title", $setting->site_title);
-            $view->with('logo', $setting->logo);
-        });
+        if ($setting) {
+            $sharedSettings = $setting->only(['site_title', 'landing_content', 'logo']);
+            view()->composer('admin.layouts.header', function ($view) use ($sharedSettings) {
+                $view->with('site_title', $sharedSettings['site_title']);
+                $view->with('logo', $sharedSettings['logo']);
+            });
 
-        Inertia::share([
-            'setting' => Setting::first()->only('site_title', 'landing_content', 'logo')
-        ]);
+
+            Inertia::share('setting', $sharedSettings);
+        }
     }
 }
