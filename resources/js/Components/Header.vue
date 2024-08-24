@@ -1,10 +1,14 @@
 <script setup lang="ts">
-import { AuthTypes } from "@/types";
-import { onMounted, onUnmounted, ref, watch } from "vue";
+import { PageProps } from "@/types";
+import { onMounted, onUnmounted, ref } from "vue";
 import { useNumberOfItemsInCart } from "@/util/useCart";
-import { Link } from "@inertiajs/vue3";
+import { Link, usePage } from "@inertiajs/vue3";
+import { userThemePreference } from "@/util/useDarkmode";
+import DarkmodeButton from "./DarkmodeButton.vue";
 
-const { auth } = defineProps<AuthTypes>();
+const {
+    props: { auth, setting },
+} = usePage<PageProps>();
 
 const hideThreshold = 120;
 
@@ -17,6 +21,8 @@ const itemsInCart = ref(useNumberOfItemsInCart());
 const cart_badge = ref<HTMLSpanElement | null>(null);
 
 onMounted(() => {
+    userThemePreference();
+
     window.addEventListener("cartchange", handleCartChange);
     window.addEventListener("scroll", handleScroll);
 });
@@ -65,25 +71,25 @@ const header_height = "h-[55px] md:h-[65px]";
     <header
         :class="[
             header_height,
-            'w-full z-[99] px-6 bg-white dark:text-white dark:bg-dark bg-opacity-70 dark:bg-opacity-70 backdrop-blur-md border-b-[1px] border-gray-300 dark:border-gray-400 flex fixed items-center justify-between transition-[top] duration-200 ',
+            'w-full z-[99] px-2 md:px-6 bg-white dark:text-white dark:bg-dark bg-opacity-70 dark:bg-opacity-70 backdrop-blur-md border-b-[1px] border-gray-300 dark:border-gray-400 flex fixed items-center justify-between transition-[top] duration-200 ',
             isHidden ? '-top-[70px]' : 'top-0',
         ]"
     >
-        <div class="flex gap-6 items-center justify-between">
-            <Link
+        <div class="flex gap-3 md:gap-6 items-center justify-between relative">
+            <a
                 v-if="auth.user"
                 :href="auth.user.is_admin ? '/admin' : '/dashboard'"
-                class="px-3 py-1 max-w-[150px] inline-block text-nowrap text-ellipsis overflow-hidden border-[1px] border-gray-500 dark:border-dark rounded-lg transition-all duration-75 hover:bg-gray-500 hover:text-white dark:hover:bg-gray-700"
+                class="px-3 py-1 max-w-[75px] md:max-w-[150px] inline-block text-nowrap text-ellipsis overflow-hidden border-[1px] border-gray-500 dark:border-dark rounded-lg transition-all duration-75 hover:bg-gray-500 hover:text-white dark:hover:bg-gray-700"
             >
                 {{ auth.user.name }}
-            </Link>
-            <Link
+            </a>
+            <a
                 v-else
                 href="/login"
                 class="px-3 py-1 border-[1px] border-gray-500 dark:border-dark rounded-lg transition-all duration-75 hover:bg-gray-500 hover:text-white dark:hover:bg-gray-700"
             >
                 Login
-            </Link>
+            </a>
 
             <!-- cart link -->
             <Link class="relative" href="carts">
@@ -112,6 +118,25 @@ const header_height = "h-[55px] md:h-[65px]";
             </Link>
         </div>
 
-        <a href="/">LOGO</a>
+        <!-- site title -->
+        <span
+            class="absolute pointer-events-none left-2/4 top-2/4 -translate-x-2/4 -translate-y-2/4 font-semibold"
+        >
+            {{ setting.site_title }}
+        </span>
+
+        <!-- right side -->
+        <div class="flex flex-row-reverse gap-2 md:gap-4 h-[32px] w-full">
+            <!-- site logo -->
+            <a class="size-[32px]" href="/">
+                <img
+                    class="size-full object-contain"
+                    :src="setting.logo"
+                    alt="logo"
+                />
+            </a>
+
+            <DarkmodeButton />
+        </div>
     </header>
 </template>

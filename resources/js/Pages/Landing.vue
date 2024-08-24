@@ -1,14 +1,15 @@
 <script setup lang="ts">
 import ProductItem from "@/Components/product/ProductItem.vue";
-import Header from "@/Components/Header.vue";
-import Footer from "@/Components/Footer.vue";
-import { Head } from "@inertiajs/vue3";
+import { Head, usePage } from "@inertiajs/vue3";
 import MainLayout from "@/Layouts/MainLayout.vue";
 import { ProductsType } from "@/types/Products";
-import { AuthTypes } from "@/types";
 import { onMounted } from "vue";
+import { PageProps } from "@/types";
 
-const { products, auth } = defineProps<ProductsType & AuthTypes>();
+const { products } = defineProps<ProductsType>();
+const {
+    props: { auth, setting },
+} = usePage<PageProps>();
 
 onMounted(() => {
     if (!auth.user) {
@@ -49,18 +50,7 @@ onMounted(() => {
         >
             <!-- landing content -->
             <div class="w-full max-w-3xl text-center">
-                <img
-                    class="mx-auto"
-                    src="/placeholder.webp"
-                    alt="placeholder"
-                />
-
-                <p class="text-center text-lg">
-                    Lorem ipsum dolor sit amet elit. Veniam omnis quod ad
-                    tempore pariatur eos tempora, porro nostrum optio soluta. Et
-                    debitis, repellat cum reprehenderit aperiam error id
-                    veritatis!
-                </p>
+                {{ setting.landing_content }}
             </div>
 
             <hr class="w-full" />
