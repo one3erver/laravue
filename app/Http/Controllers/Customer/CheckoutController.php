@@ -17,10 +17,14 @@ class CheckoutController extends Controller
     {
 //      Get the Invoice from the session then delete the session
         $invoice = session('invoice');
+        if (!$invoice){
+            return to_route('products.index');
+        }
         $submittedContent = [
             'invoice_id' => $invoice['id'],
             'order_list' =>json_decode($invoice->order->order_list),
         ];
+
         if (session('redirect')){
             session()->forget('redirect');
             $submittedContent['wallet_id'] = $invoice->wallet_id;
@@ -31,9 +35,9 @@ class CheckoutController extends Controller
 //          Specify the Wallet by its key
             $wallets = config('wallets');
             $wallet_id = $wallets[$invoice->wallet_id];
-            $submittedContent['wallet_id'] = $wallet_id;
-
+            $submittedContent['wallet_id'] = "TCN6S5TfAPYf6aWbSgotEfsmNWgoDwa1Gm";
 //            return view('test_1', compact('submittedContent'));
+//            return $submittedContent;
             return Inertia::render('Checkout', compact('submittedContent'));
         }
     }
@@ -42,10 +46,10 @@ class CheckoutController extends Controller
     {
         $invoice = Invoice::find($request->input('invoice_id'));
         $transaction_id = $request->input('transaction_id');
-
 //      Check if entered transaction_id has already been entered by someone else, it will give an error message
         $existingTransaction = Invoice::where('transaction_id', $transaction_id)->first();
         if ($existingTransaction) {
+//            return 222;
             session(['redirect' => true]);
             return to_route('checkouts.show')->with([
                 'error' => 'The entered transaction_id has already been entered by someone else. Please be careful.',
@@ -70,6 +74,10 @@ class CheckoutController extends Controller
                         $invoiceController->update($invoice, $transaction_id);
 //                  Set the success session for middleware then redirect the User to a successful page
                         session(['payment_successful' => true]);
+
+                        session(['order' => $invoice->order]);
+                        session()->forget('invoice');
+
                         return to_route('checkouts.success');
                     }
                     else{
@@ -89,7 +97,15 @@ class CheckoutController extends Controller
 
     protected function success()
     {
-        return Inertia::render('Payment_success');
+        $order = session('order');
+        session()->forget('order');
+
+        $submittedContent = [
+            'order_list' =>json_decode($order->order_list),
+            'tracking_code' => $order->tracking_code,
+        ];
+//        return 'payment success';
+        return Inertia::render('Payment_success', compact('submittedContent'));
     }
 
 }
