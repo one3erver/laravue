@@ -31,6 +31,6 @@ export default {
             },
         },
     },
-
+    darkMode: "selector",
     plugins: [forms, require("@tailwindcss/typography")],
 };

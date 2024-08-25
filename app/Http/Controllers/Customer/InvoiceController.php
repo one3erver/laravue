@@ -25,26 +25,16 @@ class InvoiceController extends Controller
      */
     public function store(Order $order)
     {
-        $user = Auth::user();
         $wallet = random_int(1,10);
         $order->invoice()->create([
             'status' => "U",
             'wallet_id' => $wallet
         ]);
+
+        session(['invoice' => $order->invoice]);
+        return to_route('checkouts.show');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Invoice $invoice)
-    {
-        if ($invoice->status == "U"){
-            return view('test_1', compact('invoice'));
-        }
-        else{
-            return to_route('orders.index');
-        }
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -57,28 +47,17 @@ class InvoiceController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update($transaction_id, Invoice $invoice)
+    public function update(Invoice $invoice, $transaction_id)
     {
-        $response = json_decode(Http::get('https://apilist.tronscan.org/api/new/token_trc20/transfers', [
-            'direction' => 'in',
-            'count' => 5,
-            'tokens' => 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t',
-            'relatedAddress' => 'TCN6S5TfAPYf6aWbSgotEfsmNWgoDwa1Gm'
-        ]));
+        $invoice->update([
+            'transaction_id' => $transaction_id,
+            'status' => 'P',
+            'paid_at' => now()
+        ]);
 
-        $totalCost = $invoice->order->total_cost;
-        foreach ($response->token_transfers as $transaction) {
-            if ($transaction->transaction_id == $transaction_id && $totalCost == ($transaction->quant/1000000)) {
-                $invoice->update([
-                    'status' => 'P',
-                    'paid_at' => now(),
-                ]);
-                return true;
-            }
-            else{
-                return false;
-            }
-        }
+
+        $orderController = new OrderController();
+        $orderController->update($invoice->order);
     }
 
     /**

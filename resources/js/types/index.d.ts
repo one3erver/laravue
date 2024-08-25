@@ -15,10 +15,9 @@ export type PageProps<
         user: User;
     };
     ziggy: Config & { location: string };
-};
-
-export type AuthTypes = {
-    auth: {
-        user: User;
+    setting: {
+        landing_content: string;
+        logo: string;
+        site_title: string;
     };
 };

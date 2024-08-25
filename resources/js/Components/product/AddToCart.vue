@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { inject, onMounted, onUnmounted, ref } from "vue";
 import { useAddToLocalCart, useDoesExistinCart } from "@/util/useCart";
-import { AuthTypes } from "@/types";
 import { usePage } from "@inertiajs/vue3";
 
 const { product_id, count, limit } = defineProps<{
@@ -10,7 +9,9 @@ const { product_id, count, limit } = defineProps<{
     limit: number;
 }>();
 
-const { props: AuthProps } = usePage();
+const {
+    props: { auth },
+} = usePage();
 
 const displayToast = inject("displayToast") as CallableFunction;
 
@@ -26,7 +27,7 @@ onMounted(() => {
 });
 
 function IncrementFromCart() {
-    if (!AuthProps.auth.user) {
+    if (!auth.user) {
         displayToast();
         return;
     }
@@ -48,7 +49,7 @@ function IncrementFromCart() {
 }
 
 function DecrementFromCart() {
-    if (!AuthProps.auth.user) {
+    if (!auth.user) {
         displayToast();
         return;
     }
@@ -85,7 +86,7 @@ onMounted(() => {
 onUnmounted(() => observer.disconnect());
 
 function onAddtoCart() {
-    if (!AuthProps.auth.user) {
+    if (!auth.user) {
         displayToast();
         return;
     }

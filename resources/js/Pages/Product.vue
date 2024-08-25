@@ -11,18 +11,29 @@ const { product } = defineProps<{ product: ProductType }>();
 <template>
     <Head :title="product.title" />
     <MainLayout>
-        <section class="container-md mx-auto px-4 lg:px-6 py-12">
+        <section class="w-full max-w-screen-lg mx-auto px-4 lg:px-6 py-12">
             <!-- products details -->
             <div
-                class="flex flex-col lg:grid grid-cols-6 shadow-md border-[1px] border-light dark:border-dark w-full bg-light_platform dark:bg-dark_platform rounded-xl overflow-hidden"
+                class="flex flex-col md:grid grid-cols-6 p-2 shadow-md border-[1px] border-light dark:border-dark w-full bg-light_platform dark:bg-dark_platform rounded-xl overflow-hidden"
             >
-                <div class="h-full col-span-3">
+                <!-- image -->
+                <div
+                    class="relative aspect-square w-full col-span-3 rounded-lg overflow-hidden border-[1px] border-light dark:border-dark bg-light_platform dark:bg-dark_platform"
+                >
+                    <!-- thumbnail image -->
                     <img
-                        class="w-full h-full object-cover"
-                        :src="product.image"
+                        class="absolute left-0 top-0 w-full object-contain"
+                        :src="product.image_thumbnail"
+                    />
+
+                    <img
+                        class="absolute left-0 top-0 w-full object-contain"
+                        :src="'/images/admin/products/' + product.image"
+                        :alt="product.title"
                     />
                 </div>
 
+                <!-- content -->
                 <div
                     class="w-full h-full flex flex-col items-start justify-start px-4 pt-2 pb-6 col-span-3"
                 >

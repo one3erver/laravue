@@ -6,7 +6,7 @@ interface Product {
     id: number;
     count: number;
     image: string;
-    image_thumbnail: string | null;
+    image_thumbnail: string;
     price: string;
     title: string;
     stock: number;
@@ -59,7 +59,7 @@ function DeleteFromCart() {
 
 <template>
     <div
-        class="relative py-4 px-6 w-full flex gap-2 justify-start items-center bg-white odd:bg-dark odd:bg-opacity-5 dark:bg-gray-400 dark:bg-opacity-5 dark:odd:bg-black dark:odd:bg-opacity-25"
+        class="relative py-4 px-6 w-full flex gap-2 justify-start items-center bg-white even:bg-dark even:bg-opacity-5 dark:bg-gray-400 dark:bg-opacity-5 dark:odd:bg-black dark:odd:bg-opacity-25"
     >
         <!-- delete dialog box -->
         <div
@@ -96,7 +96,22 @@ function DeleteFromCart() {
         </div>
 
         <div class="flex gap-2 w-full md:gap-4">
-            <img class="h-[80px] md:h-[100px] object-contain" :src="image" />
+            <!-- image division -->
+            <div class="size-[80px] md:size-[100px] relative bg-red-500">
+                <!-- image thumbnail -->
+                <img
+                    class="size-full absolute left-0 top-0"
+                    :src="image_thumbnail"
+                    alt="thumbnail"
+                />
+                <!-- image thumbnail -->
+
+                <img
+                    class="size-full absolute left-0 top-0"
+                    :src="'/images/admin/products/' + image"
+                    :alt="title"
+                />
+            </div>
 
             <div class="flex flex-col justify-between">
                 <h3 class="mt-0 text-base line-clamp-5">
@@ -115,10 +130,10 @@ function DeleteFromCart() {
             <button
                 @click="DecrementFromCart"
                 :class="[
-                    'border-2 flex items-center justify-center p-1 hover:scale-105 transition-all duration-100 rounded-md',
+                    'border-2 flex items-center justify-center  p-1 hover:scale-105 transition-all duration-100 rounded-md',
                     local_count <= 1
                         ? 'stroke-red-600 border-red-600 hover:border-red-500 hover:stroke-red-500'
-                        : 'border-gray-600 stroke-gray-600 dark:border-white dark:stroke-white',
+                        : 'border-black stroke-black dark:border-white dark:stroke-white hover:bg-red-500 hover:border-red-500 hover:stroke-white',
                 ]"
             >
                 <!-- minus svg -->
@@ -164,7 +179,7 @@ function DeleteFromCart() {
             <!-- plus svg -->
             <button
                 @click="IncrementFromCart"
-                class="border-2 border-gray-600 stroke-gray-600 dark:border-white dark:stroke-white p-1 hover:scale-105 transition-all duration-100 rounded-md"
+                class="border-2 border-gray-600 stroke-black dark:border-white dark:stroke-white p-1 hover:scale-105 transition-all duration-100 rounded-md hover:bg-emerald-500 hover:stroke-white hover:border-emerald-500 dark:hover:bg-emerald-600 dark:hover:border-emerald-600"
             >
                 <svg
                     xmlns="http://www.w3.org/2000/svg"

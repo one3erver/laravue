@@ -68,4 +68,9 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'admin' => \App\Http\Middleware\IsAdmin::class
     ];
+
+    protected $routeMiddleware = [
+        'check.payment' => \App\Http\Middleware\CheckPaymentSuccess::class,
+        'check.banned' => \App\Http\Middleware\CheckBanned::class,
+    ];
 }
