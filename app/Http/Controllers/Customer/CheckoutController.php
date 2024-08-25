@@ -17,23 +17,32 @@ class CheckoutController extends Controller
     {
 //      Get the Invoice from the session then delete the session
         $invoice = session('invoice');
+
+        if (!$invoice){
+            return to_route('products.index');
+        }
+
         $submittedContent = [
             'invoice_id' => $invoice['id'],
             'order_list' =>json_decode($invoice->order->order_list),
         ];
+
         if (session('redirect')){
             session()->forget('redirect');
-            $submittedContent['wallet_id'] = $invoice->wallet_id;
+            $wallets = config('wallets');
+            $wallet_id = $wallets[$invoice->wallet_id];
+            $submittedContent['wallet_id'] = "TCN6S5TfAPYf6aWbSgotEfsmNWgoDwa1Gm";
 //            return view('test_1', compact('submittedContent'));
+//            return 111;
             return Inertia::render('Checkout',  compact('submittedContent'));
         }
         else{
 //          Specify the Wallet by its key
             $wallets = config('wallets');
             $wallet_id = $wallets[$invoice->wallet_id];
-            $submittedContent['wallet_id'] = $wallet_id;
-
+            $submittedContent['wallet_id'] = "TCN6S5TfAPYf6aWbSgotEfsmNWgoDwa1Gm";
 //            return view('test_1', compact('submittedContent'));
+//            return $submittedContent;
             return Inertia::render('Checkout', compact('submittedContent'));
         }
     }
@@ -60,7 +69,7 @@ class CheckoutController extends Controller
                 'relatedAddress' => 'TCN6S5TfAPYf6aWbSgotEfsmNWgoDwa1Gm'
             ]));
 
-//      Search in the api to match the TransactionID and Transferred Tether with transactions
+//          Search in the api to match the TransactionID and Transferred Tether with transactions
             $totalCost = $invoice->order->total_cost;
             foreach ($response->token_transfers as $transaction) {
                 if ($transaction->transaction_id == $transaction_id) {
@@ -70,18 +79,18 @@ class CheckoutController extends Controller
                         $invoiceController->update($invoice, $transaction_id);
 //                  Set the success session for middleware then redirect the User to a successful page
                         session(['payment_successful' => true]);
+
+                        session(['order' => $invoice->order]);
+                        session()->forget('invoice');
+
                         return to_route('checkouts.success');
                     }
                     else{
-                        session(['redirect' => true]);
                         return to_route('checkouts.show')->with([
                             'error' => 'Tether transferred is lower than your order price. Please pay the order amount in full.',
                             'hint' => 'To track the Tether amount already transferred, contact us via email.'
                         ]);
                     }
-                }
-                else{
-
                 }
             }
         }
@@ -89,7 +98,23 @@ class CheckoutController extends Controller
 
     protected function success()
     {
-        return Inertia::render('Payment_success');
+        $order = session('order');
+        session()->forget('order');
+
+        $submittedContent = [
+            'order_list' =>json_decode($order->order_list),
+            'tracking_code' => $order->tracking_code,
+        ];
+//        return 'payment success';
+        return Inertia::render('Payment_success', compact('submittedContent'));
+    }
+
+    protected function unpaid(Request $request)
+    {
+        $order_id = $request->input('order_id');
+        $invoice = Invoice::where ('order_id', $order_id)->first();
+        session(['invoice' => $invoice]);
+        return to_route('checkouts.show');
     }
 
 }
