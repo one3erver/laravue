@@ -37,7 +37,6 @@ Route::middleware(['auth', 'check.banned'])->group(function () {
         Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
         Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     });
-    require __DIR__ . '/customer.php';
 });
 
 Route::get('/', [ProductController::class, 'index'])->name('products.index');
@@ -45,3 +44,7 @@ Route::get('/', [ProductController::class, 'index'])->name('products.index');
 
 require __DIR__.'/auth.php';
 require  __DIR__ . '/admin.php';
+
+Route::middleware(['check.banned'])->group(function () {
+    require __DIR__ . '/customer.php';
+});
