@@ -5,12 +5,14 @@ import { usePage } from "@inertiajs/vue3";
 import LoginToast from "@/Components/LoginToast.vue";
 
 const { auth } = usePage().props;
+
+const { hidden } = defineProps<{ hidden?: boolean }>();
 </script>
 
 <template>
-    <Header :auth="auth" />
+    <Header v-if="!hidden" :auth="auth" />
     <LoginToast>
         <slot />
     </LoginToast>
-    <Footer />
+    <Footer v-if="!hidden" />
 </template>
