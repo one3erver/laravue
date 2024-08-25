@@ -39,6 +39,10 @@ class AuthenticatedSessionController extends Controller
         if ($request->user() && $request->user()->is_admin) {
             return Inertia::location(route('admin.dashboard'));
         } else {
+            if ($request->user()->status == 0) {
+                Auth::guard('web')->logout();
+                return redirect()->route('login')->withErrors(['email' => 'Your account is banned !']);
+            }
             return redirect()->intended(RouteServiceProvider::HOME);
         }
     }
