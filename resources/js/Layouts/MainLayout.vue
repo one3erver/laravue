@@ -10,7 +10,7 @@ const { hidden } = defineProps<{ hidden?: boolean }>();
 </script>
 
 <template>
-    <Header v-if="!hidden" :auth="auth" />
+    <Header :hidden="hidden" :auth="auth" />
     <LoginToast>
         <slot />
     </LoginToast>
