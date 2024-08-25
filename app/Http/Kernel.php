@@ -71,5 +71,6 @@ class Kernel extends HttpKernel
 
     protected $routeMiddleware = [
         'check.payment' => \App\Http\Middleware\CheckPaymentSuccess::class,
+        'check.banned' => \App\Http\Middleware\CheckBanned::class,
     ];
 }
