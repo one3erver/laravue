@@ -35,7 +35,7 @@ const copyToClipboard = (text: string) => {
     });
 };
 
-console.log(props.orders);
+
 </script>
 
 <template>
@@ -82,7 +82,7 @@ console.log(props.orders);
                                 <button @click="toggleDropdown(order.id)" class="rounded-md bg-blue-300 hover:bg-blue-200 px-3 py-2">
                                     {{ dropdownOpen === order.id ? 'Hide Details' : 'Show Details' }}
                                 </button>
-                                <div v-if="dropdownOpen=== order.id" class="mt-2 p-2 border border-gray-200 bg-gray-50 rounded-md">
+                                <div v-if="dropdownOpen === order.id" class="mt-2 p-2 border border-gray-200 bg-gray-50 rounded-md">
                                     <ul>
                                         <li v-for="(product, index) in order.order_list" :key="index">
                                             {{ product.title }} - {{ product.count }} x {{ product.price }}
