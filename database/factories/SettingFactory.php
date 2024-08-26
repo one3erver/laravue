@@ -17,7 +17,7 @@ class SettingFactory extends Factory
     public function definition(): array
     {
         return [
-            'telegram_id' => $this->faker->unique()->regexify('[A-Za-z0-9]{10}'),
+            'telegram_id' => $this->faker->unique()->numerify('67######'),
             'telegram_token' => $this->faker->unique()->regexify('[A-Za-z0-9]{10}'),
             'landing_content' => $this->faker->sentence,
             'logo' => $this->faker->imageUrl(),
