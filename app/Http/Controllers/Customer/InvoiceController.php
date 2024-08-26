@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Inertia\Inertia;
+use App\Http\classes\Telegram;
 
 class InvoiceController extends Controller
 {
@@ -47,7 +48,9 @@ class InvoiceController extends Controller
             'status' => 'P',
             'paid_at' => now()
         ]);
-
+        // Send a message to Telegram
+        $telegram = new Telegram();
+        $telegram->sendMessage("Payment Successful: Order ID {$invoice->order->id}, Transaction ID: {$transaction_id}");
 
         $orderController = new OrderController();
         $orderController->update($invoice->order);
