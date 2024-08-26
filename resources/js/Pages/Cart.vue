@@ -4,7 +4,7 @@ import CartProduct from "@/Components/product/CartProduct.vue";
 import MainLayout from "@/Layouts/MainLayout.vue";
 import { clearCart, useSyncCart } from "@/util/useCart";
 import { Head, router, usePage } from "@inertiajs/vue3";
-import { ref, watch } from "vue";
+import { ref } from "vue";
 
 const { props: AuthProps } = usePage();
 
@@ -26,8 +26,6 @@ interface SubmittedContentType {
         totalCost: number;
     };
 }
-
-watch(disableCheckout, () => console.log(disableCheckout.value));
 
 const { submittedContent } = defineProps<SubmittedContentType>();
 
@@ -64,10 +62,12 @@ const total_items = submittedContent.products.reduce(
 function onCheckout() {
     disableCheckout.value = true;
 
-    const local_cart = localStorage.getItem("cart");
+    let local_cart = localStorage.getItem("cart");
 
     if (!local_cart) {
-        return;
+        //set the current products to localstoage
+        localStorage.setItem("cart", JSON.stringify(submittedContent.products));
+        local_cart = JSON.stringify(submittedContent.products);
     }
 
     const local_cart_as_array = JSON.parse(local_cart) as [
