@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import VueQrcode from "vue-qrcode";
-import { Head, router, useForm } from "@inertiajs/vue3";
+import { Head, router, useForm, usePage } from "@inertiajs/vue3";
 import MainLayout from "@/Layouts/MainLayout.vue";
 import TextInput from "@/Components/TextInput.vue";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import InputError from "@/Components/InputError.vue";
 
 interface checkout {
@@ -18,14 +18,16 @@ interface checkout {
         wallet_id: string;
     };
 }
+const page = usePage();
 
-const { submittedContent } = defineProps<checkout>();
+const { submittedContent, error } = defineProps<checkout & { error: string }>();
 
 const copyied = ref(false);
 
 const payying = ref(false);
 
 const paymentErr = ref("");
+const paymentHint = ref("");
 
 function copyToClipboard(text: string) {
     navigator.clipboard.writeText(text);
@@ -62,15 +64,15 @@ function onPay() {
             invoice_id: submittedContent.invoice_id,
         },
         {
-            onSuccess: (e) => {},
-            onCancel: () => {
-                console.log("camc");
+            onStart: () => {
+                paymentErr.value = "";
+                paymentHint.value = "";
             },
+            onSuccess: (e) => {},
             onError: (err) => {
+                paymentErr.value = err.error;
+                paymentHint.value = err.hint;
                 payying.value = false;
-                // console.log(err);
-
-                // paymentErr.value=err;
             },
         }
     );
@@ -288,7 +290,6 @@ function toggleCancleDialog() {
                     >
                         Pay
                     </button>
-                    <InputError :message="paymentErr" />
 
                     <!-- cancel -->
                     <button
@@ -299,6 +300,9 @@ function toggleCancleDialog() {
                     >
                         Cancle
                     </button>
+
+                    <InputError :message="paymentErr" />
+                    <InputError :message="paymentHint" />
                 </div>
             </form>
         </section>
