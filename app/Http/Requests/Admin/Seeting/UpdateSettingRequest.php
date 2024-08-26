@@ -31,4 +31,11 @@ class UpdateSettingRequest extends FormRequest
             'wallets.*' => 'required|string|distinct',
         ];
     }
+    public function messages()
+    {
+        return [
+            'site_title.required' => 'You must complete the site_title field',
+            'wallets.required' => 'You must complete the wallets field',
+        ];
+    }
 }
