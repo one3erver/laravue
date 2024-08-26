@@ -13,13 +13,11 @@ class ProductController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $products = Product::all()->where("status", 1)->Where("stock", "!=", "0");
-
+        $products = Product::all()->where("status", 1)->Where("stock", "!=", "0")->values();
 //      If the user is logged in, the count of each product in the cart is stored in Count,
 //      but if the user is not logged in, the value -1 is sent in Count.
         if ($user) {
             $userCarts = $user->carts->keyBy('product_id');
-
             foreach ($products as $product) {
                 $product->count = $userCarts->has($product->id) ? $userCarts[$product->id]->count : 0;
             }
@@ -45,5 +43,10 @@ class ProductController extends Controller
         }
 
         return Inertia::render('Product', compact('product'));
+    }
+
+    public function update($cart_list)
+    {
+
     }
 }

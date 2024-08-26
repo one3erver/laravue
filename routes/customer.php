@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
+Route::post('/products', [ProductController::class, 'update'])->name('products.update');
 
 Route::middleware('auth')->group(function () {
     Route::resource('carts', CartController::class)->names('carts')
