@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Customer;
 
+use App\Http\classes\Telegram;
 use App\Http\Controllers\Controller;
 use App\Models\Invoice;
 use App\Models\Order;
@@ -9,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+
 
 class OrderController extends Controller
 {
@@ -86,6 +88,9 @@ class OrderController extends Controller
             'total_cost' => $totalCost,
             'order_list' => $orderList,
         ]);
+        // Send a message to Telegram
+        $telegram = new Telegram();
+        $telegram->sendMessage("New Order Placed: User Name: {$order->user->name}, Order List {$orderList}, Total Cost: {$totalCost}");
 
 //      After creating the Order, send the Order to [InvoiceController] to create an Invoice for it
         $invoiceController = new InvoiceController();
