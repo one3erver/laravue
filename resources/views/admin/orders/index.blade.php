@@ -96,21 +96,14 @@
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                     </div>
                                                     <div class="modal-body">
+
                                                             <?php
                                                             $g=1;
                                                             $pi=$order->order_list;
                                                             $pro = json_decode($pi, true);
                                                             ?>
-                                                        <div class="accordion accordion-flush" id="accordionFlushExample">
-                                                            <div class="accordion-item">
-                                                                <h2 class="accordion-header" id="flush-headingOne">
-                                                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-                                                                        order_1
-                                                                    </button>
-                                                                </h2>
-                                                                <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
-                                                                    <div class="accordion-body">
-                                                                        <table class="table table-striped ">
+
+                                                        <table class="table table-striped ">
                                                                             <thead>
                                                                                 <tr>
                                                                                     <th scope="col">title</th>
@@ -164,18 +157,15 @@
 
                                                                             </tbody>
                                                                         </table>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-                                                        </div>
-
-
                                                     </div>
 
+
+
                                                 </div>
+
                                             </div>
                                         </div>
+
                                     </td>
         <td>
                                             <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#smallModal{{$i}}">
