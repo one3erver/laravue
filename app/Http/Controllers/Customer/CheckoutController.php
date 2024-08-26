@@ -75,8 +75,8 @@ class CheckoutController extends Controller
                 if ($transaction->transaction_id == $transaction_id) {
                     if ($transaction->confirmed != true) {
                         return to_route('checkouts.show')->with([
-                            'error' => 'The entered transaction ID does not exist in the list of transactions.',
-                            'hint' => 'If you are sure of the correctness of the entered transaction, check again in a few minutes'
+                            'error' => 'Your deposited Tether has not yet been deposited into the wallet, please check back in a few minutes',
+                            'hint' => 'If you are sure of the correctness of the entered transaction, contact us by email.'
                         ]);
                     }
                     elseif (($transaction->quant/1000000) >= $totalCost){
@@ -103,6 +103,10 @@ class CheckoutController extends Controller
                     }
                 }
             }
+            return to_route('checkouts.show')->with([
+                'error' => 'The entered transaction ID does not exist in the list of transactions.',
+                'hint' => 'If you are sure of the correctness of the entered transaction, check again in a few minutes'
+            ]);
         }
     }
 
