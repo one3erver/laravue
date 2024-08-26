@@ -25,7 +25,8 @@ class InvoiceController extends Controller
      */
     public function store(Order $order)
     {
-        $wallet = random_int(1,10);
+        $walletCount = count(config('wallets'));
+        $wallet = random_int(1,$walletCount);
         $order->invoice()->create([
             'status' => "U",
             'wallet_id' => $wallet
