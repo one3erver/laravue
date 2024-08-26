@@ -39,7 +39,7 @@ class ProductController extends Controller
             'image' => $image,
             'image_thumbnail' => $request->image_thumbnail,
             'price' => $request->price,
-            'stock' => $request->stock,
+            'stock' => $request->stock ?? -1,
             'status' => $request->status,
         ]);
 
@@ -78,7 +78,7 @@ class ProductController extends Controller
             'image' => ($request->image ? $image : $product->image),
             'image_thumbnail' => $request->image_thumbnail,
             'price' => $request->price,
-            'stock' => $request->stock,
+            'stock' => $request->stock ?? -1,
             'status' => $request->status,
         ]);
 

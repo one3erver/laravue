@@ -27,7 +27,7 @@ class StoreProductRequest extends FormRequest
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Max size 2MB
             'image_thumbnail' => 'required|string',
             'price' => 'required|numeric|min:0',
-            'stock' => 'required|numeric',
+            'stock' => 'nullable|numeric',
             'status' => 'required|boolean',
         ];
     }
@@ -35,7 +35,6 @@ class StoreProductRequest extends FormRequest
     {
         return [
             'title.required' => 'You must complete the title field',
-            'stock.required' => 'You must complete the stock field',
             'stock.numeric' => 'You must enter a number in the stock field',
             'image.image' => 'The uploaded file must be an image',
             'price.required' => 'You must complete the price field',
