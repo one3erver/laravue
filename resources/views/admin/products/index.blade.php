@@ -43,7 +43,6 @@
                             <tr>
                                 <th scope="row"><img src="{{ url('images/admin/products/'. $product->image) }}" alt="Profile" class="rounded-circle" width="50" height="50" ></th>
                                 <td>{{$product->title}}</td>
-                                <td>{{$product->status}}</td>
                                 <td>{{$product->stock !== -1 ? $product->stock : 'Infinity'}}</td>
                                 <td>{{$product->price}}</td>
                                 <td>
