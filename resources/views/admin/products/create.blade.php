@@ -31,7 +31,7 @@
                 <div class="alert alert-danger">{{ $errors->first('stock') }}</div>
             @endif
         </div>
-        </div>
+
         <div class="col-md-5">
             <label for="price" class="form-label">price</label>
             <input type="number" class="form-control" id="price" name="price">
