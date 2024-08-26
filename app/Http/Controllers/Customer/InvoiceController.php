@@ -14,14 +14,6 @@ use App\Http\classes\Telegram;
 class InvoiceController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(Order $order)
@@ -50,17 +42,10 @@ class InvoiceController extends Controller
         ]);
         // Send a message to Telegram
         $telegram = new Telegram();
-        $telegram->sendMessage("Payment Successful: Order ID {$invoice->order->id}, Transaction ID: {$transaction_id}");
+        $message = "Payment Successful for {$invoice->order->user->email} \n Order ID : {$invoice->order->id} \n Transaction ID: {$transaction_id}";
+        $telegram->sendMessage($message);
 
         $orderController = new OrderController();
         $orderController->update($invoice->order);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Invoice $invoice)
-    {
-        //
     }
 }

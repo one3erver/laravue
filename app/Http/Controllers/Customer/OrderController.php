@@ -44,7 +44,6 @@ class OrderController extends Controller
         return inertia('Orders', compact('submittedOrders'));
     }
 
-
     /**
      * Store a newly created resource in storage.
      */
@@ -93,7 +92,8 @@ class OrderController extends Controller
         ]);
         // Send a message to Telegram
         $telegram = new Telegram();
-        $telegram->sendMessage("New Order Placed: User Name: {$order->user->name}, Order List {$orderList}, Total Cost: {$totalCost}");
+        $message = "Email : {$order->user->email},\n Order Id : {$order->id} \n Order List :{$orderList}";
+        $telegram->sendMessage($message);
 
 //      After creating the Order, send the Order to [InvoiceController] to create an Invoice for it
         $invoiceController = new InvoiceController();

@@ -20,9 +20,9 @@ class Telegram
 
     public function sendMessage($message)
     {
-        $url = "https://api.telegram.org/bot%7B$this->telegramToken%7D/sendMessage";
+        $url = "https://api.telegram.org/bot{$this->telegramToken}/sendMessage";
 
-        $response = Http::post($url, [
+        $response = Http::get($url, [
             'chat_id' => $this->telegramId,
             'text' => $message,
         ]);
