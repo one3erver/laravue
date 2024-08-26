@@ -3,6 +3,7 @@
 use App\Http\Controllers\Customer\ProductController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -39,12 +40,12 @@ Route::middleware(['auth', 'check.banned'])->group(function () {
     });
 });
 
-Route::get('/', [ProductController::class, 'index'])->name('products.index');
 
 
 require __DIR__.'/auth.php';
 require  __DIR__ . '/admin.php';
 
-Route::middleware(['check.banned'])->group(function () {
+Route::middleware('check.banned')->group(function () {
+    Route::get('/', [ProductController::class, 'index'])->name('products.index');
     require __DIR__ . '/customer.php';
 });

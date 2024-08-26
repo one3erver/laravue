@@ -27,7 +27,6 @@
                             <tr>
                                 <th scope="col">Image</th>
                                 <th scope="col">Title</th>
-                                <th scope="col">Position</th>
                                 <th scope="col">Stock</th>
                                 <th scope="col">Price</th>
                                 <th scope="col">Status</th>
@@ -45,7 +44,7 @@
                                 <th scope="row"><img src="{{ url('images/admin/products/'. $product->image) }}" alt="Profile" class="rounded-circle" width="50" height="50" ></th>
                                 <td>{{$product->title}}</td>
                                 <td>{{$product->status}}</td>
-                                <td>{{$product->stock !== -1 ? $product->stock : "infinity"}}</td>
+                                <td>{{$product->stock}}</td>
                                 <td>{{$product->price}}</td>
                                 <td>
                                     @if ($product->status == 1)
