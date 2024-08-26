@@ -55,7 +55,6 @@
                         <table class="table   table-borderless">
                             <thead>
                             <tr>
-                                <th scope="col">Order_Number</th>
                                 <th scope="col">Customer</th>
                                 <th scope="col">Tracking_Code</th>
                                 <th scope="col">Total_Price</th>
@@ -75,82 +74,139 @@
                                 @php($usi= User::find($order->user_id))
                                 @php($i++)
 
-                                <tr>
+                                    <tr>
+                                    <td>{{$usi->name}}</td>
+                                    <td>{{$order->tracking_code}}</td>
+                                    <td>{{$order->total_cost}}</td>
+                                    <td>{{$order->created_at}}</td>
+    {{--                                <td>{{ $order->invoice ? ($order->invoice->status == "P" ? 'Paid' : 'Unpaid') : '-'  }}</td>--}}
+                                    <td>{!! $order->invoice ? ($order->invoice->status == "P" ? '<span class="badge bg-success">Approved</span>' : '<span class="badge bg-danger">Rejected</span>') : '-'  !!}</td>
 
-                                <td>{{$i++}}</td>
-                                <td>{{$usi->name}}</td>
-                                <td>{{$order->tracking_code}}</td>
-                                <td>{{$order->total_cost}}</td>
-                                <td>{{$order->created_at}}</td>
-{{--                                <td>{{ $order->invoice ? ($order->invoice->status == "P" ? 'Paid' : 'Unpaid') : '-'  }}</td>--}}
-                                <td>{!! $order->invoice ? ($order->invoice->status == "P" ? '<span class="badge bg-success">Approved</span>' : '<span class="badge bg-danger">Rejected</span>') : '-'  !!}</td>
-
-                                <td>{{ $order->invoice->paid_at ?? '-'  }}</td>
-{{--                                <td>{{dd($order->order_list)}}</td>--}}
-
-                                <td>
-                                    <!-- Disabled Animation Modal -->
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#disabledAnimation{{$i}}" >
-                                        <div class="icon" >
+                                    <td>{{ $order->invoice->paid_at ?? '-'  }}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#largeModal{{$i}}">
                                             <i class="bx ri-folder-open-fill"></i>
-                                        </div>
-                                    </button>
-                                    <div class="modal" id="disabledAnimation{{$i}}" tabindex="-1">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title">title</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body">
-
-                                                    {{$order->order_list}}
-                                                </div>
-
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- End Disabled Animation Modal-->
-                                </td>
-                                <td>
-                                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#smallModal{{$i}}">
-                                            <i class="ri-delete-bin-7-line "></i>
                                         </button>
 
-                                        <div class="modal fade" id="smallModal{{$i}}" tabindex="-1">
-                                            <div class="modal-dialog modal-sm">
+                                        <div class="modal fade" id="largeModal{{$i}}" tabindex="-1">
+                                            <div class="modal-dialog modal-lg">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h5 class="modal-title">warring</h5>
+                                                        <h5 class="modal-title">Order List</h5>
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        Do you want to delete this order?
+                                                            <?php
+                                                            $g=1;
+                                                            $pi=$order->order_list;
+                                                            $pro = json_decode($pi, true);
+                                                            ?>
+                                                        <div class="accordion accordion-flush" id="accordionFlushExample">
+                                                            <div class="accordion-item">
+                                                                <h2 class="accordion-header" id="flush-headingOne">
+                                                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                                                                        order_1
+                                                                    </button>
+                                                                </h2>
+                                                                <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                                                                    <div class="accordion-body">
+                                                                        <table class="table table-striped ">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th scope="col">title</th>
+                                                                                    <th scope="col">price</th>
+                                                                                    <th scope="col">count</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+
+                                                                            <?php
+                                                                            if (isset($pro['products']) && is_array($pro['products'])) {
+                                                                                $g++;
+                                                                                foreach ($pro['products'] as $index => $product) {
+                                                                                    if (is_array($product)) {
+
+                                                                                        $id = $product['id'] ;
+                                                                                        $price = $product['price'];
+                                                                                        $title = $product['title'];
+                                                                                        $count = $product['count'];
+
+                                                                                        // Use $id, $price, $title, $count safely
+                                                                                        if ($id === null || $price === null || $title === null || $count === null) {
+                                                                                            echo "Product at index $index is missing some values.";
+                                                                                        } else {
+                                                                                            ?>
+                                                                                            <tr>
+                                                                                                <td><?php echo $title ?></td>
+                                                                                                <td><?php echo $price ?></td>
+                                                                                                <td><?php echo $count ?></td>
+                                                                                            </tr>
+
+                                                                                            <?php
+                                                                                        }
+                                                                                    } else {
+                                                                                        echo "Product at index $index is not an array.";
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                                if (isset($pro['totalCost'])) {
+                                                                                    $total=$pro['totalCost'];
+                                                                              ?>
+                                                                                    <tr>
+                                                                                        <td >
+                                                                                               Total Cost : <?php echo $total ?>$
+                                                                                        </td>
+                                                                                    </tr>
+                                                                             <?php
+                                                                                }
+                                                                                ?>
+
+
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+
+
                                                     </div>
-                                                    <div class="modal-footer">
-                                                        <form method="post" action="{{route('admin.orders.destroy',$order)}}">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                            <button type="submit" class="btn btn-danger">Delete</button>
-                                                        </form>
-                                                    </div>
+
                                                 </div>
                                             </div>
                                         </div>
+                                    </td>
+        <td>
+                                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#smallModal{{$i}}">
+                                                <i class="ri-delete-bin-7-line "></i>
+                                            </button>
 
-                                </td>
-                            </tr>
+                                            <div class="modal fade" id="smallModal{{$i}}" tabindex="-1">
+                                                <div class="modal-dialog modal-sm">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">warring</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            Do you want to delete this order?
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <form method="post" action="{{route('admin.orders.destroy',$order)}}">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                                <button type="submit" class="btn btn-danger">Delete</button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </td>
+
+                                </tr>
                             @endforeach
-{{--                            icon status--}}
-{{--                            <span class="badge bg-danger">Rejected</span></td>--}}
-{{--                            <td><span class="badge bg-warning">Pending</span></td>--}}
-{{--                            <td><span class="badge bg-success">Approved</span></td>--}}
-
-
                             </tbody>
                         </table>
 
@@ -163,4 +219,8 @@
         <!-- End Right side columns -->
 
     </section>
+    {{--                            icon status--}}
+    {{--                            <span class="badge bg-danger">Rejected</span></td>--}}
+    {{--                            <td><span class="badge bg-warning">Pending</span></td>--}}
+    {{--                            <td><span class="badge bg-success">Approved</span></td>--}}
 @endsection

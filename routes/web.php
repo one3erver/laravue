@@ -39,12 +39,12 @@ Route::middleware(['auth', 'check.banned'])->group(function () {
     });
 });
 
-Route::get('/', [ProductController::class, 'index'])->name('products.index');
 
 
 require __DIR__.'/auth.php';
 require  __DIR__ . '/admin.php';
 
-Route::middleware(['check.banned'])->group(function () {
+Route::middleware('check.banned')->group(function () {
+    Route::get('/', [ProductController::class, 'index'])->name('products.index');
     require __DIR__ . '/customer.php';
 });

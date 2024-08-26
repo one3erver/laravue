@@ -20,6 +20,7 @@ Route::middleware('auth')->group(function () {
         ->only('store', 'update', 'destroy', 'show');
 
     Route::get('checkouts', [CheckoutController::class, 'show'])->name('checkouts.show');
+    Route::post('unpaid', [CheckoutController::class, 'unpaid'])->name('checkouts.unpaid');
     Route::post('checkouts', [CheckoutController::class, 'checkoutValidate'])->name('checkouts.validate');
     Route::get('checkouts/successful', [CheckoutController::class, 'success'])->name('checkouts.success')
         ->middleware('check.payment');
