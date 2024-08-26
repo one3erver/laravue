@@ -47,6 +47,7 @@ class ProductController extends Controller
 
     public function update($cart_list)
     {
-
+        $products = Product::all()->whereIn('id', $cart_list[0]);
+        return $products;
     }
 }

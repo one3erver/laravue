@@ -54,7 +54,7 @@ class CartController extends Controller
         $productIds = array_column($cart_list, 'id');
 //        return $cart_list;
         $productController = new ProductController();
-        $productController->update($cart_list);
+        return$productController->update($cart_list);
 
 //      Finding carts that the user has subsequently updated to 0 and then delete them
         $deletedCarts = $user->carts()->whereNotIn('product_id', $productIds)->get()->keyBy('product_id');
