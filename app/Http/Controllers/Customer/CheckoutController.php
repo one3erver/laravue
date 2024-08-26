@@ -56,7 +56,7 @@ class CheckoutController extends Controller
         $existingTransaction = Invoice::where('transaction_id', $transaction_id)->first();
         if ($existingTransaction) {
             session(['existingTransaction' => true]);
-            return to_route('checkouts.show')->with([
+            return to_route('checkouts.show')->withErrors([
                 'error' => 'The entered transaction_id has already been entered by someone else. Please be careful.',
                 'hint' => 'If you think there is a problem, contact us by email.'
             ]);
@@ -74,9 +74,9 @@ class CheckoutController extends Controller
             foreach ($response->token_transfers as $transaction) {
                 if ($transaction->transaction_id == $transaction_id) {
                     if ($transaction->confirmed != true) {
-                        return to_route('checkouts.show')->with([
-                            'error' => 'The entered transaction ID does not exist in the list of transactions.',
-                            'hint' => 'If you are sure of the correctness of the entered transaction, check again in a few minutes'
+                        return to_route('checkouts.show')->withErrors([
+                            'error' => 'Your deposited Tether has not yet been deposited into the wallet, please check back in a few minutes',
+                            'hint' => 'If you are sure of the correctness of the entered transaction, contact us by email.'
                         ]);
                     }
                     elseif (($transaction->quant/1000000) >= $totalCost){
@@ -96,27 +96,36 @@ class CheckoutController extends Controller
                         return to_route('checkouts.success');
                     }
                     else{
-                        return to_route('checkouts.show')->with([
+                        return to_route('checkouts.show')->withErrors([
                             'error' => 'Tether transferred is lower than your order price. Please pay the order amount in full.',
                             'hint' => 'To track the Tether amount already transferred, contact us via email.'
                         ]);
                     }
                 }
             }
+            return to_route('checkouts.show')->withErrors([
+                'error' => 'The entered transaction ID does not exist in the list of transactions.',
+                'hint' => 'If you are sure of the correctness of the entered transaction, check again in a few minutes'
+            ]);
         }
     }
 
     protected function success()
     {
-        $order = session('order');
-        session()->forget('order');
+        if (session('order')){
+            $order = session('order');
+            session()->forget('order');
 
-        $submittedContent = [
-            'order_list' =>json_decode($order->order_list),
-            'tracking_code' => $order->tracking_code,
-        ];
-//        return 'payment success';
-        return Inertia::render('Payment_success', compact('submittedContent'));
+            $submittedContent = [
+                'order_list' =>json_decode($order->order_list),
+                'tracking_code' => $order->tracking_code,
+            ];
+//          return 'payment success';
+            return Inertia::render('SuccessPay', compact('submittedContent'));
+        }
+        else{
+            return to_route('products.index');
+        }
     }
 
     protected function unpaid(Request $request)

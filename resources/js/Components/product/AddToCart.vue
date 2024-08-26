@@ -2,6 +2,7 @@
 import { inject, onMounted, onUnmounted, ref } from "vue";
 import { useAddToLocalCart, useDoesExistinCart } from "@/util/useCart";
 import { usePage } from "@inertiajs/vue3";
+import { injectedDisplayToastType } from "@/util/useToast";
 
 const { product_id, count, limit } = defineProps<{
     product_id: number;
@@ -13,9 +14,11 @@ const {
     props: { auth },
 } = usePage();
 
-const displayToast = inject("displayToast") as CallableFunction;
-
 const quantity = ref(count > 0 ? count : 0);
+
+const displayToast = inject("displayToast") as ({
+    message,
+}: injectedDisplayToastType) => void;
 
 const addToCartWidth = ref(0);
 
@@ -28,7 +31,9 @@ onMounted(() => {
 
 function IncrementFromCart() {
     if (!auth.user) {
-        displayToast();
+        displayToast({
+            message: "please Login to continue",
+        });
         return;
     }
 
@@ -45,12 +50,18 @@ function IncrementFromCart() {
     if (quantity.value < limit || limit === -1) {
         quantity.value += 1;
         useAddToLocalCart(product_id, quantity.value);
+    } else {
+        displayToast({
+            message: "cannot add more, out of stock",
+        });
     }
 }
 
 function DecrementFromCart() {
     if (!auth.user) {
-        displayToast();
+        displayToast({
+            message: "please Login to continue",
+        });
         return;
     }
 
@@ -87,7 +98,9 @@ onUnmounted(() => observer.disconnect());
 
 function onAddtoCart() {
     if (!auth.user) {
-        displayToast();
+        displayToast({
+            message: "please Login to continue",
+        });
         return;
     }
 

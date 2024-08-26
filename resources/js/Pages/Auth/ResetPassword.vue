@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import InputError from "@/Components/InputError.vue";
+import MainLayout from "@/Layouts/MainLayout.vue";
 import { Head, useForm } from "@inertiajs/vue3";
 
 const props = defineProps<{
@@ -26,88 +27,95 @@ const submit = () => {
 <template>
     <Head title="Reset Password" />
 
-    <div class="w-full h-svh flex items-center justify-center px-4 relative">
-        <!-- home button -->
-        <a class="absolute left-6 top-5" href="/">
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                class="size-7"
-            >
-                <path
-                    d="M11.47 3.841a.75.75 0 0 1 1.06 0l8.69 8.69a.75.75 0 1 0 1.06-1.061l-8.689-8.69a2.25 2.25 0 0 0-3.182 0l-8.69 8.69a.75.75 0 1 0 1.061 1.06l8.69-8.689Z"
-                />
-                <path
-                    d="m12 5.432 8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 0 1-.75-.75v-4.5a.75.75 0 0 0-.75-.75h-3a.75.75 0 0 0-.75.75V21a.75.75 0 0 1-.75.75H5.625a1.875 1.875 0 0 1-1.875-1.875v-6.198a2.29 2.29 0 0 0 .091-.086L12 5.432Z"
-                />
-            </svg>
-        </a>
-
-        <section
-            class="w-full space-y-6 bg-light_platform border-light dark:bg-dark_platform dark:border-dark border-[1px] max-w-[450px] px-5 pt-8 pb-7 mx-auto rounded-lg shadow-md"
+    <MainLayout hidden>
+        <div
+            class="w-full h-svh flex items-center justify-center px-4 relative"
         >
-            <h2 class="w-full text-center mt-6">Login to Laravue</h2>
-            <form @submit.prevent="submit" class="w-full">
-                <div class="flex flex-col gap-1 mb-6">
-                    <label title="email">Email</label>
-                    <input
-                        class="border-gray-300 focus:border-emerald-500 focus:ring-emerald-500 rounded-md shadow-sm text-black"
-                        type="email"
-                        placeholder="email"
-                        v-model="form.email"
-                        autocomplete="username"
-                    />
-
-                    <!-- error -->
-                    <InputError :message="form.errors.email" />
-                </div>
-
-                <div class="flex flex-col gap-2">
-                    <label title="password">Password</label>
-
-                    <input
-                        class="border-gray-300 focus:border-emerald-500 focus:ring-emerald-500 rounded-md shadow-sm text-black"
-                        type="password"
-                        placeholder="password"
-                        v-model="form.password"
-                        autocomplete="new-password"
-                    />
-
-                    <InputError class="mt-2" :message="form.errors.password" />
-                </div>
-
-                <div class="flex flex-col gap-2">
-                    <label title="password-confirm">Confirm Password</label>
-                    <input
-                        class="border-gray-300 focus:border-emerald-500 focus:ring-emerald-500 rounded-md shadow-sm text-black"
-                        type="password"
-                        placeholder="password"
-                        v-model="form.password_confirmation"
-                        autocomplete="new-password"
-                    />
-
-                    <InputError
-                        class="mt-2"
-                        :message="form.errors.password_confirmation"
-                    />
-                </div>
-
-                <button
-                    :class="[
-                        'w-full py-2 px-4 mt-6 text-white font-semibold rounded-lg bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700',
-                        form.processing ? 'animate-pulse' : '',
-                    ]"
-                    type="submit"
-                    :disabled="form.processing"
+            <!-- home button -->
+            <a class="absolute left-6 top-5" href="/">
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    class="size-7"
                 >
-                    {{
-                        form.processing
-                            ? "Sending Email..."
-                            : "Send Reset Password"
-                    }}
-                </button>
-            </form>
-        </section>
-    </div>
+                    <path
+                        d="M11.47 3.841a.75.75 0 0 1 1.06 0l8.69 8.69a.75.75 0 1 0 1.06-1.061l-8.689-8.69a2.25 2.25 0 0 0-3.182 0l-8.69 8.69a.75.75 0 1 0 1.061 1.06l8.69-8.689Z"
+                    />
+                    <path
+                        d="m12 5.432 8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 0 1-.75-.75v-4.5a.75.75 0 0 0-.75-.75h-3a.75.75 0 0 0-.75.75V21a.75.75 0 0 1-.75.75H5.625a1.875 1.875 0 0 1-1.875-1.875v-6.198a2.29 2.29 0 0 0 .091-.086L12 5.432Z"
+                    />
+                </svg>
+            </a>
+
+            <section
+                class="w-full space-y-6 bg-light_platform border-light dark:bg-dark_platform dark:border-dark border-[1px] max-w-[450px] px-5 pt-8 pb-7 mx-auto rounded-lg shadow-md"
+            >
+                <h2 class="w-full text-center mt-6">Login to Laravue</h2>
+                <form @submit.prevent="submit" class="w-full">
+                    <div class="flex flex-col gap-1 mb-6">
+                        <label title="email">Email</label>
+                        <input
+                            class="border-gray-300 focus:border-emerald-500 focus:ring-emerald-500 rounded-md shadow-sm text-black"
+                            type="email"
+                            placeholder="email"
+                            v-model="form.email"
+                            autocomplete="username"
+                        />
+
+                        <!-- error -->
+                        <InputError :message="form.errors.email" />
+                    </div>
+
+                    <div class="flex flex-col gap-2">
+                        <label title="password">Password</label>
+
+                        <input
+                            class="border-gray-300 focus:border-emerald-500 focus:ring-emerald-500 rounded-md shadow-sm text-black"
+                            type="password"
+                            placeholder="password"
+                            v-model="form.password"
+                            autocomplete="new-password"
+                        />
+
+                        <InputError
+                            class="mt-2"
+                            :message="form.errors.password"
+                        />
+                    </div>
+
+                    <div class="flex flex-col gap-2">
+                        <label title="password-confirm">Confirm Password</label>
+                        <input
+                            class="border-gray-300 focus:border-emerald-500 focus:ring-emerald-500 rounded-md shadow-sm text-black"
+                            type="password"
+                            placeholder="password"
+                            v-model="form.password_confirmation"
+                            autocomplete="new-password"
+                        />
+
+                        <InputError
+                            class="mt-2"
+                            :message="form.errors.password_confirmation"
+                        />
+                    </div>
+
+                    <button
+                        :class="[
+                            'w-full py-2 px-4 mt-6 text-white font-semibold rounded-lg bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700',
+                            form.processing ? 'animate-pulse' : '',
+                        ]"
+                        type="submit"
+                        :disabled="form.processing"
+                    >
+                        {{
+                            form.processing
+                                ? "Sending Email..."
+                                : "Send Reset Password"
+                        }}
+                    </button>
+                </form>
+            </section>
+        </div>
+    </MainLayout>
 </template>

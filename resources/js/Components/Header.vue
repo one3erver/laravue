@@ -10,6 +10,8 @@ const {
     props: { auth, setting },
 } = usePage<PageProps>();
 
+const { hidden } = defineProps<{ hidden?: boolean }>();
+
 const hideThreshold = 120;
 
 let prevScroll = 0;
@@ -65,7 +67,7 @@ const header_height = "h-[55px] md:h-[65px]";
 
 <template>
     <!-- dom placeholder for header -->
-    <div :class="header_height"></div>
+    <div :class="[header_height, hidden ? 'hidden' : 'block']"></div>
 
     <!-- header -->
     <header
@@ -73,6 +75,7 @@ const header_height = "h-[55px] md:h-[65px]";
             header_height,
             'w-full z-[99] px-2 md:px-6 bg-white dark:text-white dark:bg-dark bg-opacity-70 dark:bg-opacity-70 backdrop-blur-md border-b-[1px] border-gray-300 dark:border-gray-400 flex fixed items-center justify-between transition-[top] duration-200 ',
             isHidden ? '-top-[70px]' : 'top-0',
+            hidden ? 'hidden' : 'block',
         ]"
     >
         <div class="flex gap-3 md:gap-6 items-center justify-between relative">

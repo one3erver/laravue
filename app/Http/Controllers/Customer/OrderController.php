@@ -52,6 +52,9 @@ class OrderController extends Controller
         $cartsList = json_decode($request->post('cartsList'), true);
         $productIds = array_column($cartsList, 'product_id');
 
+        $productController = new ProductController();
+        $productController->update($cartsList);
+
 //      Finding the Price and Title of each product using the products ID
         $products = DB::table('products')->whereIn('id', $productIds)
             ->select('id', 'price', 'title')
