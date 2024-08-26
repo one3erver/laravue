@@ -52,12 +52,10 @@ class CartController extends Controller
 
         $cart_list = json_decode($request->post('cart_list'), true);
         $productIds = array_column($cart_list, 'id');
-//        return $cart_list;
-        $productController = new ProductController();
-        return$productController->update($cart_list);
 
 //      Finding carts that the user has subsequently updated to 0 and then delete them
         $deletedCarts = $user->carts()->whereNotIn('product_id', $productIds)->get()->keyBy('product_id');
+//        return $deletedCarts;
         $this->destroy($deletedCarts);
 
 //      Finding carts that the user has subsequently added to cart or update it

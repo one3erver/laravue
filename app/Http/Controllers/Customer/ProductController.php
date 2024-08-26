@@ -47,7 +47,10 @@ class ProductController extends Controller
 
     public function update($cart_list)
     {
-        $products = Product::all()->whereIn('id', $cart_list[0]);
-        return $products;
+        foreach ($cart_list as $cart) {
+            $product = Product::find($cart['product_id']);
+            $newStock = $product->stock - $cart['count'];
+            $product->update(['stock' => $newStock]);
+        }
     }
 }
