@@ -2,11 +2,13 @@
 import Checkbox from "@/Components/Checkbox.vue";
 import CartProduct from "@/Components/product/CartProduct.vue";
 import MainLayout from "@/Layouts/MainLayout.vue";
-import { clearCart } from "@/util/useCart";
+import { clearCart, useSyncCart } from "@/util/useCart";
 import { Head, router, usePage } from "@inertiajs/vue3";
 import { ref } from "vue";
 
 const { props: AuthProps } = usePage();
+
+const disableCheckout = ref(false);
 
 interface SubmittedContentType {
     submittedContent: {
@@ -58,34 +60,51 @@ const total_items = submittedContent.products.reduce(
 );
 
 function onCheckout() {
-    const products_for_checkout = submittedContent.products.map((p) => {
-        return { product_id: p.id, count: p.count };
+    disableCheckout.value = true;
+
+    let local_cart = localStorage.getItem("cart");
+
+    if (!local_cart) {
+        //set the current products to localstoage
+        localStorage.setItem("cart", JSON.stringify(submittedContent.products));
+        local_cart = JSON.stringify(submittedContent.products);
+    }
+
+    const local_cart_as_array = JSON.parse(local_cart) as [
+        { id: number; count: number }
+    ];
+
+    const products_for_checkout = local_cart_as_array.map((item) => {
+        return { product_id: item.id, count: item.count };
     });
 
-    // router.post(route("/checkouts",),);
+    useSyncCart(
+        //on sucsess
+        () => {
+            router.post(
+                route("orders.store"),
+                { cartsList: JSON.stringify(products_for_checkout) },
+                {
+                    onSuccess: () => {
+                        //clear cart in localstorage
+                        window.dispatchEvent(
+                            new CustomEvent("cartchange", {
+                                detail: {
+                                    itemsInCart: 0,
+                                    storage: JSON.stringify([]),
+                                },
+                            })
+                        );
 
-    router.post(
-        route("orders.store"),
-        { cartsList: JSON.stringify(products_for_checkout) },
-        {
-            onSuccess: () => {
-                //clear cart in localstorage
-                window.dispatchEvent(
-                    new CustomEvent("cartchange", {
-                        detail: {
-                            itemsInCart: 0,
-                            storage: JSON.stringify([]),
-                        },
-                    })
-                );
-
-                //atlast store a empty cart in localhost
-                localStorage.setItem("cart", JSON.stringify([]));
-            },
-        }
+                        //atlast store a empty cart in localhost
+                        localStorage.setItem("cart", JSON.stringify([]));
+                    },
+                }
+            );
+        },
+        //on fail
+        () => (disableCheckout.value = false)
     );
-
-    // console.log(products_for_checkout);
 }
 </script>
 
@@ -207,8 +226,9 @@ function onCheckout() {
                     </div>
 
                     <button
+                        :disabled="disableCheckout"
                         @click="onCheckout"
-                        class="w-full py-4 px-6 mt-4 bg-emerald-500 hover:bg-emerald-600 text-white dark:bg-emerald-700 dark:hover:bg-emerald-600 transition-colors duration-150 rounded-lg font-semibold"
+                        class="w-full py-4 px-6 mt-4 disabled:saturate-50 disabled:brightness-50 bg-emerald-500 hover:bg-emerald-600 text-white dark:bg-emerald-700 dark:hover:bg-emerald-600 transition-colors duration-150 rounded-lg font-semibold"
                     >
                         Checkout
                     </button>

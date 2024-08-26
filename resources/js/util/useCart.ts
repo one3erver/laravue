@@ -83,6 +83,29 @@ export function useAddToLocalCart(
     }
 }
 
+export function useSyncCart(onSuccses?: () => void, onFail?: () => void) {
+    //check if we have a cart in localstorage, if we do add to that cart
+    const cart = localStorage.getItem("cart");
+    if (cart) {
+        //post data to carts.store, it queues the posting in a timeout to prevent spaming by clicking add to cart rapidly
+        router.post(
+            route("carts.store"),
+            { cart_list: cart },
+            {
+                preserveState: true,
+                preserveScroll: true,
+                // onSuccess: onSuccses,
+                onFinish: onSuccses,
+                onError: onFail,
+            }
+        );
+    }
+    //if we dont have a cart, create an empty one and then run this again
+    else {
+        console.log("Cart is Empty");
+    }
+}
+
 export function clearCart(onSuccses: () => void, onFail: () => void) {
     router.post(
         route("carts.store"),

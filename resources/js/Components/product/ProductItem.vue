@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import { ProductType } from "@/types/Products";
 import AddToCart from "./AddToCart.vue";
-import { Link } from "@inertiajs/vue3";
 
 const { id, title, caption, image, price, count, stock, image_thumbnail } =
     defineProps([
