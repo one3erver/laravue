@@ -7,7 +7,7 @@ interface Order {
         name: string;
     };
     total_cost: string;
-    order_list: Array<{ // Ensure this is defined as an array of objects
+    order_list: Array<{
         title: string;
         count: number;
         price: number;
@@ -23,10 +23,10 @@ interface Order {
 
 const props = defineProps<{ orders: Order[] }>();
 
-const dropdownOpen = ref  <number | null>(null); // Initialize dropdownOpen as null
+const dropdownOpen = ref<number | null>(null);
 
 const toggleDropdown = (orderId: number) => {
-    dropdownOpen.value = dropdownOpen.value === orderId ? null : orderId; // Toggle dropdownOpen
+    dropdownOpen.value = dropdownOpen.value === orderId ? null : orderId;
 };
 
 const copyToClipboard = (text: string) => {
@@ -35,7 +35,7 @@ const copyToClipboard = (text: string) => {
     });
 };
 
-console.log(props.orders); // Log orders to verify data structure
+
 </script>
 
 <template>
@@ -59,15 +59,15 @@ console.log(props.orders); // Log orders to verify data structure
                             <!-- Status -->
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium"
                                 :class="{
-                                    'text-green-500': order.payment?.status === 'P',
-                                    'text-red-500': order.payment?.status === 'U'
+                                    'text-green-500': order.tracking_code?.length > 0 ,
+                                    'text-red-500': order.tracking_code?.length <= 0
                                 }">
-                                {{ order.payment?.status === 'P' ? 'Paid' : 'Unpaid' }}
+                                {{ order.tracking_code?.length > 0 ? 'Paid' : 'Unpaid' }}
                             </td>
                             <!-- Tracking Code -->
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                {{ order.tracking_code || 'N/A' }}
-                                <button @click="copyToClipboard(order.tracking_code || '')" class="bg-blue-400 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded">Copy</button>
+                                <span v-if="order.tracking_code?.length > 0">{{ order.tracking_code || 'N/A' }}</span>
+                                <button v-if="order.tracking_code?.length > 0" @click="copyToClipboard(order.tracking_code || '')" class="bg-blue-400 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded">Copy</button>
                             </td>
                             <!-- Total Cost -->
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
@@ -79,10 +79,10 @@ console.log(props.orders); // Log orders to verify data structure
                             </td>
                             <!-- Details Dropdown -->
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                <button @click="toggleDropdown(order.id)" class="rounded-md bg-white hover:bg-blue-200 px-3 py-2">
-                                    {{ dropdownOpen?.valueOf ? 'Hide Details' : 'Show Details' }}
+                                <button @click="toggleDropdown(order.id)" class="rounded-md bg-blue-300 hover:bg-blue-200 px-3 py-2">
+                                    {{ dropdownOpen === order.id ? 'Hide Details' : 'Show Details' }}
                                 </button>
-                                <div v-if="dropdownOpen?.valueOf" class="mt-2 p-2 border border-gray-200 bg-gray-50 rounded-md">
+                                <div v-if="dropdownOpen === order.id" class="mt-2 p-2 border border-gray-200 bg-gray-50 rounded-md">
                                     <ul>
                                         <li v-for="(product, index) in order.order_list" :key="index">
                                             {{ product.title }} - {{ product.count }} x {{ product.price }}
@@ -99,3 +99,4 @@ console.log(props.orders); // Log orders to verify data structure
         </div>
     </div>
 </template>
+//testt
