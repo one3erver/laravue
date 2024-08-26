@@ -116,7 +116,7 @@ class CheckoutController extends Controller
             'tracking_code' => $order->tracking_code,
         ];
 //        return 'payment success';
-        return Inertia::render('Payment_success', compact('submittedContent'));
+        return Inertia::render('SuccessPay', compact('submittedContent'));
     }
 
     protected function unpaid(Request $request)
