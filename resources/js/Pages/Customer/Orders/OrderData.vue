@@ -34,7 +34,9 @@ const copyToClipboard = (text: string) => {
         alert('Tracking code copied to clipboard!');
     });
 };
-
+const redirectToCheckout = (orderId: number) => {
+    window.location.href = "/unpaid/${orderId}";
+};
 
 </script>
 
@@ -91,6 +93,16 @@ const copyToClipboard = (text: string) => {
                                     </ul>
                                 </div>
                             </td>
+<!--                            payment-->
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                <button
+                                    v-if="!order.tracking_code || order.tracking_code.length === 0"
+                                    @click="redirectToCheckout(order.id)"
+                                    class="bg-red-400 hover:bg-green-600 text-white font-bold py-1 px-3 rounded">
+                                    Pay Now
+                                </button>
+                            </td>
+
                         </tr>
                         </tbody>
                     </table>
