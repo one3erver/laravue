@@ -59,10 +59,10 @@ const copyToClipboard = (text: string) => {
                             <!-- Status -->
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium"
                                 :class="{
-                                    'text-green-500': order.payment?.status === 'P',
-                                    'text-red-500': order.payment?.status === 'U'
+                                    'text-green-500': order.tracking_code?.length > 0 ,
+                                    'text-red-500': order.tracking_code?.length <= 0
                                 }">
-                                {{ order.payment?.status === 'P' ? 'Paid' : 'Unpaid' }}
+                                {{ order.tracking_code?.length > 0 ? 'Paid' : 'Unpaid' }}
                             </td>
                             <!-- Tracking Code -->
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
