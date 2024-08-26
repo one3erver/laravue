@@ -1,28 +1,33 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { Ref, ref } from "vue";
 import { provide } from "vue";
+import { privateDisplayToast } from "@/util/useToast";
 
 const isHidden = ref(true);
+const toastContent = ref("");
 
-const toast_duration = 4000;
+const toast_duration = 2500;
 
-function displayToast() {
-    isHidden.value = false;
-
-    setTimeout(() => {
-        isHidden.value = true;
-    }, toast_duration);
+interface displayToastInterface {
+    content: Ref<string>;
+    message: string;
 }
 
-provide("displayToast", displayToast);
+provide("displayToast", ({ message }: displayToastInterface) =>
+    privateDisplayToast({
+        ref: isHidden,
+        content: toastContent,
+        message: message,
+    })
+);
 </script>
 
 <template>
     <slot />
     <div
         :class="[
-            'fixed overflow-hidden transition-all duration-150 z-[9999] bottom-10 right-8 backdrop-blur-sm bg-opacity-80 bg-dark font-semibold rounded-xl border-[1px] border-light dark:border-dark',
-            isHidden ? 'translate-x-[200px]' : 'translate-x-0',
+            'fixed overflow-hidden transition-all duration-150 max-w-[450px] z-[9999] bottom-10 right-8 backdrop-blur-sm bg-opacity-80 bg-dark font-semibold rounded-xl border-[1px] border-light dark:border-dark',
+            isHidden ? `translate-x-[500px]` : 'translate-x-0',
         ]"
     >
         <div class="w-full h-full relative px-5 py-2">
@@ -36,14 +41,7 @@ provide("displayToast", displayToast);
 
             <!-- toast content -->
             <p class="my-0">
-                Please
-                <a
-                    class="underline-offset-2 text-sky-500 dark:text-sky-400"
-                    style="text-decoration: underline"
-                    href="/login"
-                    >Login</a
-                >
-                First
+                {{ toastContent }}
             </p>
         </div>
     </div>

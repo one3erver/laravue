@@ -2,7 +2,7 @@
 import Header from "@/Components/Header.vue";
 import Footer from "@/Components/Footer.vue";
 import { usePage } from "@inertiajs/vue3";
-import LoginToast from "@/Components/LoginToast.vue";
+import Toast from "@/Components/Toast.vue";
 
 const { auth } = usePage().props;
 
@@ -11,8 +11,8 @@ const { hidden } = defineProps<{ hidden?: boolean }>();
 
 <template>
     <Header :hidden="hidden" :auth="auth" />
-    <LoginToast>
+    <Toast>
         <slot />
-    </LoginToast>
+    </Toast>
     <Footer v-if="!hidden" />
 </template>
