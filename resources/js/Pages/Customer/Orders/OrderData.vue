@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { defineProps, ref } from 'vue';
+import {router} from "@inertiajs/vue3";
 
 interface Order {
     id: number;
@@ -39,8 +40,10 @@ function copyToClipboard(text: string) {
     setTimeout(() => (copyied.value = false), 1000);
 }
 const redirectToCheckout = (orderId: number) => {
-    window.location.href = "/unpaid/${orderId}";
+    router.post(route('checkouts.show'), { order_id: orderId });
 };
+
+
 
 </script>
 
@@ -63,8 +66,11 @@ const redirectToCheckout = (orderId: number) => {
                         <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
                         <tr v-for="order in orders" :key="order.id">
                             <!-- Status -->
-                            <td :class="['px-6 py-4 whitespace-nowrap text-sm font-medium',
-                            order.tracking_code === null ? 'text-red-500' : 'text-green-500']">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium"
+                                :class="{
+                                    'text-green-500': order.tracking_code?.length > 0 ,
+                                    'text-red-500': order.tracking_code?.length <= 0
+                                }">
                                 {{ order.tracking_code?.length > 0 ? 'Paid' : 'Unpaid' }}
                             </td>
                             <!-- Tracking Code -->
@@ -109,7 +115,7 @@ const redirectToCheckout = (orderId: number) => {
                                 {{ order.payment?.paid_at ? new Date(order.payment.paid_at).toLocaleDateString() : 'N/A' }}
                             </td>
                             <!-- Details Dropdown -->
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300 flex flex-col space-y-2">
                                 <button @click="toggleDropdown(order.id)" class="rounded-md bg-blue-300 hover:bg-blue-200 px-3 py-2 dark:hover:bg-blue-600">
                                     {{ dropdownOpen === order.id ? 'Hide Details' : 'Show Details' }}
                                 </button>
@@ -121,16 +127,16 @@ const redirectToCheckout = (orderId: number) => {
                                         <li class="mt-2">Transaction ID: {{ order.payment?.transaction_id || 'N/A' }}</li>
                                     </ul>
                                 </div>
+
+                                    <button
+                                        v-if="!order.tracking_code || order.tracking_code.length === 0"
+                                        @click="redirectToCheckout(order.id)"
+                                        class="bg-red-400 hover:bg-green-600 text-white font-bold py-1 px-3 rounded pos">
+                                        Pay Now
+                                    </button>
+
                             </td>
-                            <!--                            payment-->
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                                <button
-                                    v-if="!order.tracking_code || order.tracking_code.length === 0"
-                                    @click="redirectToCheckout(order.id)"
-                                    class="bg-red-400 hover:bg-green-600 text-white font-bold py-1 px-3 rounded">
-                                    Pay Now
-                                </button>
-                            </td>
+                            <!--  payment-->
 
                         </tr>
                         </tbody>
