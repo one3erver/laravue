@@ -40,12 +40,14 @@ class InvoiceController extends Controller
             'status' => 'P',
             'paid_at' => now()
         ]);
-        // Send a message to Telegram
-        $telegram = new Telegram();
-        $message = "Payment Successful for {$invoice->order->user->email} \n Order ID : {$invoice->order->id} \n Transaction ID: {$transaction_id}";
-        $telegram->sendMessage($message);
+
 
         $orderController = new OrderController();
         $orderController->update($invoice->order);
+
+        // Send a message to Telegram
+        $telegram = new Telegram();
+        $message = "Payment Successful for:\nEmail: {$invoice->order->user->email}\nName: {$invoice->order->user->email}\nTransaction ID: {$transaction_id}\nTracking Code: {$invoice->order->tracking_code}\nTotal Cost: {$invoice->order->total_cost}";
+        $telegram->sendMessage($message);
     }
 }
