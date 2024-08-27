@@ -23,7 +23,7 @@ function copyTracingCode(){
 <template>
     <span
         @click="copyTracingCode"
-     class="px-2 py-1 bg-gray-600 text-white rounded-md">{{
+     class="px-2 py-1 bg-gray-600 text-white rounded-md cursor-pointer">{{
                         tracking_code
                     }}</span>
 </template>
