@@ -129,9 +129,9 @@ const header_height = "h-[55px] md:h-[65px]";
         </span>
 
         <!-- right side -->
-        <div class="flex flex-row-reverse gap-2 md:gap-4 h-[32px] w-full">
+        <div class="flex flex-row-reverse gap-2 md:gap-4 h-[40px] w-full">
             <!-- site logo -->
-            <a class="size-[32px]" href="/">
+            <a class="h-[40px]" href="/">
                 <img
                     class="size-full object-contain"
                     :src="'/images/admin/settings/' + setting.logo"
