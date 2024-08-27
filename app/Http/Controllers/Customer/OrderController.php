@@ -41,7 +41,9 @@ class OrderController extends Controller
                 "order_list" => $order_list,
             ];
         }
-        return inertia('Orders', compact('submittedOrders'));
+        return inertia('Dashboard', [
+            'orders'=> $submittedOrders
+        ]);
     }
 
     /**
