@@ -143,4 +143,3 @@ const redirectToCheckout = (orderId: number) => {
         </div>
     </div>
 </template>
-//testt
