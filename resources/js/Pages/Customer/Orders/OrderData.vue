@@ -8,11 +8,17 @@ interface Order {
         name: string;
     };
     total_cost: string;
-    order_list: Array<{
-        title: string;
-        count: number;
-        price: number;
-    }>;
+    order_list: {
+        products :
+            [
+                {
+                    title: string;
+                    count: number;
+                    price: number;
+                }
+            ]
+
+    };
     tracking_code: string | null;
     created_at: string;
     payment: {
@@ -116,24 +122,32 @@ const redirectToCheckout = (orderId: number) => {
                             </td>
                             <!-- Details Dropdown -->
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300 flex flex-col space-y-2">
-                                <button @click="toggleDropdown(order.id)" class="rounded-md bg-blue-300 hover:bg-blue-200 px-3 py-2 dark:hover:bg-blue-600">
+                                <button @click="toggleDropdown(order.id)" class="rounded-md bg-blue-300 hover:bg-blue-200 px-3 py-2 dark:hover:bg-blue-600 dark:text-black">
                                     {{ dropdownOpen === order.id ? 'Hide Details' : 'Show Details' }}
                                 </button>
                                 <div v-if="dropdownOpen === order.id" class="mt-2 p-2 border border-gray-200 bg-gray-50 rounded-md dark:border-gray-600 dark:bg-gray-900">
-                                    <ul>
-                                        <li v-for="(product, index) in order.order_list" :key="index">
-                                            {{ product.title }} - {{ product.count }} x {{ product.price }}
+                                    <ul v-if="order.order_list && order.order_list.products">
+                                        <li v-for="(product, index) in order.order_list.products" :key="index">
+                                            <ul>
+                                                <li class="text-blue-700 font-bold">product: {{ product.title }}</li>
+                                                <li>count: {{ product.count }}</li>
+                                                <li>price {{ product.price }}</li>
+                                            </ul>
+
                                         </li>
                                         <li class="mt-2">Transaction ID: {{ order.payment?.transaction_id || 'N/A' }}</li>
                                     </ul>
+                                    <p v-else>No products available</p> <!-- Optional: display a message if no products are found -->
                                 </div>
 
-                                    <button
-                                        v-if="!order.tracking_code || order.tracking_code.length === 0"
-                                        @click="redirectToCheckout(order.id)"
-                                        class="bg-red-400 hover:bg-green-600 text-white font-bold py-1 px-3 rounded pos">
-                                        Pay Now
-                                    </button>
+
+
+                                <button
+                                    v-if="!order.tracking_code || order.tracking_code.length === 0"
+                                    @click="redirectToCheckout(order.id)"
+                                    class="bg-red-400 hover:bg-green-600 text-white font-bold py-1 px-3 rounded pos">
+                                    Pay Now
+                                </button>
 
                             </td>
                             <!--  payment-->
