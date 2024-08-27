@@ -101,7 +101,7 @@ const redirectToCheckout = (orderId: number) => {
                                         />
                                     </svg>
                                 </button>
-<!--                                <button v-if="order.tracking_code?.length > 0" @click="copyToClipboard(order.tracking_code || '')" class="bg-blue-400 dark:bg-blue-600 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded">Copy</button>-->
+                                <!--                                <button v-if="order.tracking_code?.length > 0" @click="copyToClipboard(order.tracking_code || '')" class="bg-blue-400 dark:bg-blue-600 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded">Copy</button>-->
                             </td>
                             <!-- Total Cost -->
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
@@ -125,7 +125,7 @@ const redirectToCheckout = (orderId: number) => {
                                     </ul>
                                 </div>
                             </td>
-<!--                            payment-->
+                            <!--                            payment-->
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
                                 <button
                                     v-if="!order.tracking_code || order.tracking_code.length === 0"

@@ -16,5 +16,3 @@ const {
         />
     </a>
 </template>
-
- 
