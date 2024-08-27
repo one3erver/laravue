@@ -2,7 +2,7 @@
 import Checkbox from "@/Components/Checkbox.vue";
 import InputError from "@/Components/InputError.vue";
 import TextInput from "@/Components/TextInput.vue";
-import { Head, Link, useForm } from "@inertiajs/vue3";
+import { Head, useForm } from "@inertiajs/vue3";
 import { ref } from "vue";
 import PasswordInput from "@/Components/PasswordInput.vue";
 import MainLayout from "@/Layouts/MainLayout.vue";
@@ -12,8 +12,6 @@ const { status, canResetPassword } = defineProps<{
     status?: string;
 }>();
 
-const loading = ref(false);
-
 const form = useForm({
     email: "",
     password: "",
@@ -21,16 +19,11 @@ const form = useForm({
 });
 
 function onSubmit() {
-    loading.value = true;
 
     form.post(route("login"), {
         onFinish: () => {
             form.reset("password");
-            loading.value = false;
-        },
-        onError: (e) => {
-            loading.value = false;
-        },
+        }
     });
 }
 </script>
@@ -110,14 +103,15 @@ function onSubmit() {
                     </div>
 
                     <button
+                        :disable="form.processing"
                         :class="[
                             'w-full py-2 px-4 mt-4 text-white font-semibold rounded-lg bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700',
-                            form.processing ? 'animate-pulse' : '',
+                            form.processing ? 'animate-pulse saturate-50 brightness-75' : '',
                         ]"
                         type="submit"
                         :disabled="form.processing"
                     >
-                        {{ loading ? "Logging in..." : "Login" }}
+                        {{ form.processing ? "Logging in..." : "Login" }}
                     </button>
 
                     <!-- register -->
