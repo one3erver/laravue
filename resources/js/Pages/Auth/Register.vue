@@ -4,6 +4,7 @@ import PasswordInput from "@/Components/PasswordInput.vue";
 import TextInput from "@/Components/TextInput.vue";
 import MainLayout from "@/Layouts/MainLayout.vue";
 import { Head, useForm } from "@inertiajs/vue3";
+import { ref } from "vue";
 
 const form = useForm({
     name: "",
@@ -12,11 +13,17 @@ const form = useForm({
     password_confirmation: "",
 });
 
+const loading = ref(false)
+
 const submit = () => {
+    loading.value = true;
     form.post(route("register"), {
         onFinish: () => {
             form.reset("password", "password_confirmation");
         },
+        onError:()=>{
+            loading.value=false
+        }
     });
 };
 </script>
@@ -92,7 +99,7 @@ const submit = () => {
                     <button
                         :class="[
                             'w-full py-2 px-4 mt-4 text-white font-semibold rounded-lg bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700',
-                            form.processing ? 'animate-pulse' : '',
+                            form.processing ? 'animate-pulse saturate-50 brightness-75' : '',
                         ]"
                         type="submit"
                         :disabled="form.processing"
