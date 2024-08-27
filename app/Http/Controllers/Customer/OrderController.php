@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Customer;
 
+use App\Http\classes\Telegram;
 use App\Http\Controllers\Controller;
 use App\Models\Invoice;
 use App\Models\Order;
@@ -9,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+
 
 class OrderController extends Controller
 {
@@ -42,7 +44,6 @@ class OrderController extends Controller
         return inertia('Orders', compact('submittedOrders'));
     }
 
-
     /**
      * Store a newly created resource in storage.
      */
@@ -51,6 +52,9 @@ class OrderController extends Controller
         $user = Auth::user();
         $cartsList = json_decode($request->post('cartsList'), true);
         $productIds = array_column($cartsList, 'product_id');
+
+        $productController = new ProductController();
+        $productController->update($cartsList);
 
 //      Finding the Price and Title of each product using the products ID
         $products = DB::table('products')->whereIn('id', $productIds)
@@ -86,6 +90,10 @@ class OrderController extends Controller
             'total_cost' => $totalCost,
             'order_list' => $orderList,
         ]);
+        // Send a message to Telegram
+        $telegram = new Telegram();
+        $message = "Email : {$order->user->email},\n Order Id : {$order->id} \n Order List :{$orderList}";
+        $telegram->sendMessage($message);
 
 //      After creating the Order, send the Order to [InvoiceController] to create an Invoice for it
         $invoiceController = new InvoiceController();
