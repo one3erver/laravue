@@ -17,6 +17,12 @@ class CheckoutController extends Controller
     {
 //      Get the Invoice from the session then delete the session
         $invoice = session('invoice');
+        $invoiceTime = session('invoice_time');
+
+//      Checkout must be paid in less than 10 minutes, otherwise the session will be deleted
+        if ($invoiceTime && now()->diffInSeconds($invoiceTime) > 600) {
+            session()->forget(['invoice', 'invoice_time']);
+        }
 
         if (!$invoice){
             return to_route('products.index');
@@ -27,22 +33,16 @@ class CheckoutController extends Controller
             'order_list' =>json_decode($invoice->order->order_list),
         ];
 
+//      Specify the Wallet by its key
+        $wallets = config('wallets');
+        $wallet_id = $wallets[$invoice->wallet_id];
+        $submittedContent['wallet_id'] = $wallet_id;
+
         if (session('existingTransaction')){
             session()->forget('existingTransaction');
-            $wallets = config('wallets');
-            $wallet_id = $wallets[$invoice->wallet_id];
-            $submittedContent['wallet_id'] = "TCN6S5TfAPYf6aWbSgotEfsmNWgoDwa1Gm";
-//            return view('test_1', compact('submittedContent'));
-//            return 111;
             return Inertia::render('Checkout',  compact('submittedContent'));
         }
         else{
-//          Specify the Wallet by its key
-            $wallets = config('wallets');
-            $wallet_id = $wallets[$invoice->wallet_id];
-            $submittedContent['wallet_id'] = "TCN6S5TfAPYf6aWbSgotEfsmNWgoDwa1Gm";
-//            return view('test_1', compact('submittedContent'));
-//            return $submittedContent;
             return Inertia::render('Checkout', compact('submittedContent'));
         }
     }
