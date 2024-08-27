@@ -49,8 +49,10 @@ class ProductController extends Controller
     {
         foreach ($cart_list as $cart) {
             $product = Product::find($cart['product_id']);
-            $newStock = $product->stock - $cart['count'];
-            $product->update(['stock' => $newStock]);
+            if ($product->count >= 1){
+                $newStock = $product->stock - $cart['count'];
+                $product->update(['stock' => $newStock]);
+            }
         }
     }
 }
