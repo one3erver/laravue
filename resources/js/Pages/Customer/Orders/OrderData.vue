@@ -68,8 +68,8 @@ const redirectToCheckout = (orderId: number) => {
                             <!-- Status -->
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium"
                                 :class="{
-                                    'text-green-500': order.tracking_code?.length > 0 ,
-                                    'text-red-500': order.tracking_code?.length <= 0
+                                    'text-green-500': order.tracking_code?.length > 0 || order.tracking_code,
+                                    'text-red-500': order.tracking_code?.length <= 0 || !order.tracking_code
                                 }">
                                 {{ order.tracking_code?.length > 0 ? 'Paid' : 'Unpaid' }}
                             </td>
