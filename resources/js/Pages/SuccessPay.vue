@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import MainLayout from "@/Layouts/MainLayout.vue";
 
+const {submittedContent} = defineProps(['submittedContent'])
+
 const tracking_code = "test";
 </script>
 
@@ -18,7 +20,7 @@ const tracking_code = "test";
                 <p class="mb-2">
                     this is you'r tracking code :
                     <span class="px-2 py-1 bg-gray-600 text-white rounded-md">{{
-                        tracking_code
+                        submittedContent.tracking_code
                     }}</span>
                 </p>
 
