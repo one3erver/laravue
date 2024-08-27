@@ -63,11 +63,8 @@ const redirectToCheckout = (orderId: number) => {
                         <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
                         <tr v-for="order in orders" :key="order.id">
                             <!-- Status -->
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium"
-                                :class="{
-                                    'text-green-500': order.tracking_code?.length > 0 ,
-                                    'text-red-500': order.tracking_code?.length <= 0
-                                }">
+                            <td :class="['px-6 py-4 whitespace-nowrap text-sm font-medium',
+                            order.tracking_code === null ? 'text-red-500' : 'text-green-500']">
                                 {{ order.tracking_code?.length > 0 ? 'Paid' : 'Unpaid' }}
                             </td>
                             <!-- Tracking Code -->
