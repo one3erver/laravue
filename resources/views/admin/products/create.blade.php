@@ -58,7 +58,7 @@
         </div>
         <div class="col-md-12">
             <label for="caption" class="form-label">caption</label>
-            <textarea class="form-control" placeholder="Leave a comment here" id="caption" name="caption" style="height: 100px;"></textarea>
+            <textarea class="tinymce-editor" placeholder="Leave a comment here" id="caption" name="caption" style="height: 100px;"></textarea>
             @if ($errors->has('caption'))
                 <div class="alert alert-danger">{{ $errors->first('caption') }}</div>
             @endif
