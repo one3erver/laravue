@@ -17,6 +17,12 @@ class CheckoutController extends Controller
     {
 //      Get the Invoice from the session then delete the session
         $invoice = session('invoice');
+        $invoiceTime = session('invoice_time');
+
+//      Checkout must be paid in less than 10 minutes, otherwise the session will be deleted
+        if ($invoiceTime && now()->diffInSeconds($invoiceTime) > 600) {
+            session()->forget(['invoice', 'invoice_time']);
+        }
 
         if (!$invoice){
             return to_route('products.index');

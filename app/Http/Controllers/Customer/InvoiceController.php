@@ -25,7 +25,7 @@ class InvoiceController extends Controller
             'wallet_id' => $wallet
         ]);
 
-        session(['invoice' => $order->invoice]);
+        session(['invoice' => $order->invoice, 'invoice_time' => now()]);
         return to_route('checkouts.show');
     }
 
