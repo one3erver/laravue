@@ -134,7 +134,7 @@ const header_height = "h-[55px] md:h-[65px]";
             <a class="size-[32px]" href="/">
                 <img
                     class="size-full object-contain"
-                    :src="setting.logo"
+                    :src="'/images/admin/settings/' + setting.logo"
                     alt="logo"
                 />
             </a>
