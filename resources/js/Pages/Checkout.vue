@@ -96,7 +96,7 @@ function toggleCancleDialog() {
         <div
             @click="toggleOrderDialog"
             :class="[
-                'absolute flex items-center justify-center left-0 top-0 size-full z-50 bg-black bg-opacity-40 backdrop-blur-sm transition-all duration-300',
+                'fixed flex items-center justify-center left-0 top-0 size-full z-50 bg-black bg-opacity-40 backdrop-blur-sm transition-all duration-300',
                 orderDialogOpen
                     ? 'pointer-events-auto opacity-100'
                     : 'pointer-events-none opacity-0',
@@ -144,7 +144,7 @@ function toggleCancleDialog() {
         <div
             @click="toggleCancleDialog"
             :class="[
-                'absolute flex items-center justify-center left-0 top-0 size-full z-50 bg-black bg-opacity-40 backdrop-blur-sm transition-all duration-300',
+                'fixed flex items-center justify-center left-0 top-0 size-full z-50 bg-black bg-opacity-40 backdrop-blur-sm transition-all duration-300',
                 cancleDialogOpen
                     ? 'pointer-events-auto opacity-100'
                     : 'pointer-events-none opacity-0',
