@@ -101,7 +101,7 @@ class OrderController extends Controller
                 "count: ".$product['count']."\n".
                 "price: ".$product["price"]."\n---------\n";
         }
-        $message ="Email : {$order->user->email}\nName : {$order->user->name} \n\nproducts :\n{$products_list}Total Cost: {$totalCost}";
+        $message ="Order Registered\n\nEmail : {$order->user->email}\nName : {$order->user->name} \n\nproducts :\n{$products_list}Total Cost: {$totalCost}";
 
         $telegram->sendMessage($message);
 

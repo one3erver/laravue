@@ -47,7 +47,7 @@ class InvoiceController extends Controller
 
         // Send a message to Telegram
         $telegram = new Telegram();
-        $message = "Payment Successful for:\nEmail: {$invoice->order->user->email}\nName: {$invoice->order->user->email}\nTransaction ID: {$transaction_id}\nTracking Code: {$invoice->order->tracking_code}\nTotal Cost: {$invoice->order->total_cost}";
+        $message = "Payment Successful\n\nEmail: {$invoice->order->user->email}\nName: {$invoice->order->user->email}\n\nTransaction ID: {$transaction_id}\nTracking Code: {$invoice->order->tracking_code}\n\nTotal Cost: {$invoice->order->total_cost}";
         $telegram->sendMessage($message);
     }
 }

@@ -27,22 +27,16 @@ class CheckoutController extends Controller
             'order_list' =>json_decode($invoice->order->order_list),
         ];
 
+//      Specify the Wallet by its key
+        $wallets = config('wallets');
+        $wallet_id = $wallets[$invoice->wallet_id];
+        $submittedContent['wallet_id'] = $wallet_id;
+
         if (session('existingTransaction')){
             session()->forget('existingTransaction');
-            $wallets = config('wallets');
-            $wallet_id = $wallets[$invoice->wallet_id];
-            $submittedContent['wallet_id'] = "TCN6S5TfAPYf6aWbSgotEfsmNWgoDwa1Gm";
-//            return view('test_1', compact('submittedContent'));
-//            return 111;
             return Inertia::render('Checkout',  compact('submittedContent'));
         }
         else{
-//          Specify the Wallet by its key
-            $wallets = config('wallets');
-            $wallet_id = $wallets[$invoice->wallet_id];
-            $submittedContent['wallet_id'] = "TCN6S5TfAPYf6aWbSgotEfsmNWgoDwa1Gm";
-//            return view('test_1', compact('submittedContent'));
-//            return $submittedContent;
             return Inertia::render('Checkout', compact('submittedContent'));
         }
     }

@@ -3,12 +3,14 @@
 namespace App\Http\classes;
 
 use App\Models\Setting;
+use Exception;
 use Illuminate\Support\Facades\Http;
 
 class Telegram
 {
     protected $telegramToken;
     protected $telegramId;
+    protected $retryCount = 3; // تعداد تلاش‌ها
 
     public function __construct()
     {
@@ -21,14 +23,25 @@ class Telegram
     public function sendMessage($message)
     {
         $url = "https://api.telegram.org/bot{$this->telegramToken}/sendMessage";
+        $attempts = 0;
+        $successful = false;
 
-        $response = Http::get($url, [
-            'chat_id' => $this->telegramId,
-            'text' => $message,
-        ]);
+        while ($attempts < $this->retryCount && !$successful) {
+            try {
+                $response = Http::get($url, [
+                    'chat_id' => $this->telegramId,
+                    'text' => $message,
+                ]);
 
-        return $response->successful();
+                if ($response->successful()) {
+                    $successful = true;
+                } else {
+                    $attempts++;
+                }
+            } catch (Exception $e) {
+                $attempts++;
+            }
+        }
+        return $successful;
     }
-
-
 }
