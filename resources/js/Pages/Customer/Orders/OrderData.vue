@@ -43,11 +43,11 @@ const redirectToCheckout = (orderId: number) => {
 <template>
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-900 dark:text-gray-100">
                     <h2 class="text-xl font-semibold mb-4">Your Orders</h2>
-                    <table class="min-w-full divide-y divide-gray-200">
-                        <thead class="bg-gray-50">
+                    <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                        <thead class="bg-gray-50 dark:bg-gray-700">
                         <tr>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tracking Code</th>
@@ -56,7 +56,7 @@ const redirectToCheckout = (orderId: number) => {
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Details</th>
                         </tr>
                         </thead>
-                        <tbody class="bg-white divide-y divide-gray-200">
+                        <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
                         <tr v-for="order in orders" :key="order.id">
                             <!-- Status -->
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium"
@@ -67,24 +67,24 @@ const redirectToCheckout = (orderId: number) => {
                                 {{ order.tracking_code?.length > 0 ? 'Paid' : 'Unpaid' }}
                             </td>
                             <!-- Tracking Code -->
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
                                 <span v-if="order.tracking_code?.length > 0">{{ order.tracking_code || 'N/A' }}</span>
-                                <button v-if="order.tracking_code?.length > 0" @click="copyToClipboard(order.tracking_code || '')" class="bg-blue-400 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded">Copy</button>
+                                <button v-if="order.tracking_code?.length > 0" @click="copyToClipboard(order.tracking_code || '')" class="bg-blue-400 dark:bg-blue-600 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded">Copy</button>
                             </td>
                             <!-- Total Cost -->
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
                                 {{ order.total_cost }}
                             </td>
                             <!-- Paid At -->
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
                                 {{ order.payment?.paid_at ? new Date(order.payment.paid_at).toLocaleDateString() : 'N/A' }}
                             </td>
                             <!-- Details Dropdown -->
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                <button @click="toggleDropdown(order.id)" class="rounded-md bg-blue-300 hover:bg-blue-200 px-3 py-2">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
+                                <button @click="toggleDropdown(order.id)" class="rounded-md bg-blue-300 hover:bg-blue-200 px-3 py-2 dark:hover:bg-blue-600">
                                     {{ dropdownOpen === order.id ? 'Hide Details' : 'Show Details' }}
                                 </button>
-                                <div v-if="dropdownOpen === order.id" class="mt-2 p-2 border border-gray-200 bg-gray-50 rounded-md">
+                                <div v-if="dropdownOpen === order.id" class="mt-2 p-2 border border-gray-200 bg-gray-50 rounded-md dark:border-gray-600 dark:bg-gray-900">
                                     <ul>
                                         <li v-for="(product, index) in order.order_list" :key="index">
                                             {{ product.title }} - {{ product.count }} x {{ product.price }}
@@ -94,7 +94,7 @@ const redirectToCheckout = (orderId: number) => {
                                 </div>
                             </td>
 <!--                            payment-->
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
                                 <button
                                     v-if="!order.tracking_code || order.tracking_code.length === 0"
                                     @click="redirectToCheckout(order.id)"

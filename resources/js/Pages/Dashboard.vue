@@ -2,6 +2,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
 import OrderData from "@/Pages/Customer/Orders/OrderData.vue";
+import { ref, onMounted } from 'vue';
 
 const props = defineProps<{
     orders: Array<{
@@ -23,6 +24,15 @@ const props = defineProps<{
         } | null;
     }>
 }>();
+
+const showMessage = ref(true);
+
+onMounted(() => {
+    setTimeout(() => {
+        showMessage.value = false;
+    }, 10000);
+});
+
 </script>
 
 <template>
@@ -36,11 +46,11 @@ const props = defineProps<{
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6 text-gray-900">You're logged in!</div>
+                    <div v-if="showMessage" class="p-6 text-gray-900">You're logged in!</div>
                 </div>
             </div>
         </div>
-        <div class="p-8 bg-gray-100 min-h-screen">
+        <div class="p-8 bg-gray-100 min-h-screen dark:bg-gray-900">
             <!-- Ensure orders are being passed to OrderData -->
             <OrderData :orders="props.orders"/>
         </div>
