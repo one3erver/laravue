@@ -36,12 +36,7 @@
             <label for="logo" class="form-label">Logo</label>
             <input type="file" class="form-control" id="logo" name="logo" value="{{$setting->logo}}">
         </div>
-        <div class="col-md-12">
-            <label for="landing_content" class="form-label">Landing_Content</label>
-            <textarea class="form-control" placeholder="Leave a comment here" id="landing_content"
-                      name="landing_content" style="height: 100px;"
-                      required>value="{{$setting->landing_content}}"</textarea>
-        </div>
+
         @php
             $wallets = config('wallets', []); // Get wallets or an empty array if not set
             $walletsString = implode("\n", (array) $wallets); // Convert array to a string with each wallet on a new line
@@ -52,8 +47,14 @@
                       placeholder="Leave a comment here"
                       id="wallets"
                       name="wallets[]"
-                      style="height: 100px;" required
+                      style="height: 300px;" required
             >{{ $walletsString }}</textarea>
+        </div>
+        <div class="col-md-12">
+            <label for="landing_content" class="form-label">Landing_Content</label>
+            <textarea class="tinymce-editor" placeholder="Leave a comment here" id="landing_content"
+                      name="landing_content" style="height: 100px;"
+                      required>value="{{$setting->landing_content}}"</textarea>
         </div>
         <div class="col-12">
             <button class="btn btn-primary" type="submit">Submit form</button>

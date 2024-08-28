@@ -32,10 +32,7 @@
             <label for="logo" class="form-label">Logo</label>
             <img src="{{ url('images/admin/settings/'. $setting->logo) }}" alt="Profile" class="rounded-circle" width="100" height="100" >
         </div>
-        <div class="col-md-12">
-            <label for="landing_content" class="form-label">Landing_Content</label>
-            <textarea class="form-control" placeholder="Leave a comment here" id="landing_content" name="landing_content" style="height: 100px;" required disabled> value="{{$setting->landing_content}}"</textarea>
-        </div>
+
         @php
             // Get the wallets array from the config file
             $wallets = config('wallets', []);
@@ -52,8 +49,12 @@
                       placeholder="Leave a comment here"
                       id="wallets"
                       name="wallets[]"
-                      style="height: 100px;" required disabled
+                      style="height:300px;" required disabled
             >{{ $walletsString }}</textarea>
+        </div>
+        <div class="col-md-12">
+            <label for="landing_content" class="form-label">Landing_Content</label>
+            <textarea class="form-control" placeholder="Leave a comment here" id="landing_content" name="landing_content" style="height: 100px;" required disabled> value="{{$setting->landing_content}}"</textarea>
         </div>
         <div class="col-12">
             <button class="btn btn-primary" type="submit">update setting</button>
