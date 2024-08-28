@@ -46,7 +46,7 @@ function copyToClipboard(text: string) {
     setTimeout(() => (copyied.value = false), 1000);
 }
 const redirectToCheckout = (orderId: number) => {
-    router.post(route('checkouts.show'), { order_id: orderId });
+    router.post(route('checkouts.unpaid'), { order_id: orderId });
 };
 
 
