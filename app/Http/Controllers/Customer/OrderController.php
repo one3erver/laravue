@@ -32,6 +32,7 @@ class OrderController extends Controller
             $order_list = json_decode($order->order_list, true);
 
             $submittedOrders[] = [
+                "id" => $order->id,
                 "tracking_code" => $order->tracking_code,
                 "payment" =>[
                     'status' => $invoice->status,
