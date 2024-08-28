@@ -42,15 +42,25 @@ class OrderController extends Controller
                 }
             }
         }
+
         $order->delete();
+
+        if (session()->has('invoice')) {
+            session()->forget('invoice');
+        }
+
+        if (session()->has('invoice_time')) {
+            session()->forget('invoice_time');
+        }
+
         return redirect()->route('admin.orders.index')->with('success', 'Orders deleted successfully.');
     }
 
     public function deleteUnpaid()
     {
         $unpaidOrders = Order::whereHas('invoice', function ($query) {
-                $query->where('status', 'U');
-            })->get();
+            $query->where('status', 'U');
+        })->get();
 
         foreach ($unpaidOrders as $order) {
             $orderList = json_decode($order->order_list);
@@ -68,8 +78,16 @@ class OrderController extends Controller
         }
 
         Order::whereHas('invoice', function ($query) {
-                $query->where('status', 'U');
-            })->delete();
+            $query->where('status', 'U');
+        })->delete();
+
+        if (session()->has('invoice')) {
+            session()->forget('invoice');
+        }
+
+        if (session()->has('invoice_time')) {
+            session()->forget('invoice_time');
+        }
 
         return redirect()->route('admin.orders.index')->with('success', 'Unpaid orders deleted successfully.');
     }
