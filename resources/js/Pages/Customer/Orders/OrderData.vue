@@ -114,7 +114,7 @@ const redirectToCheckout = (orderId: number) => {
                             </td>
                             <!-- Total Cost -->
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                                {{ order.total_cost }}
+                                {{ order.order_list?.totalCost || 'N/A' }}
                             </td>
                             <!-- Paid At -->
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
