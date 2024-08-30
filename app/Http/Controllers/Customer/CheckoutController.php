@@ -132,7 +132,7 @@ class CheckoutController extends Controller
     {
         $order_id = $request->input('order_id');
         $invoice = Invoice::where ('order_id', $order_id)->first();
-        session(['invoice' => $invoice]);
+        session(['invoice' => $invoice, 'invoice_time' => now()]);
         return to_route('checkouts.show');
     }
 
