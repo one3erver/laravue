@@ -44,7 +44,7 @@ const { id, title, caption, image, price, count, stock, image_thumbnail } =
             ></div>
         </div>
 
-        <div class="w-full px-3 mt-auto">
+        <div class="w-full px-3 mx-auto">
             <!-- price -->
             <span
                 class="w-full block pb-3 text-right text-lg font-semibold text-emerald-500 dark:text-emerald-400 mt-auto"

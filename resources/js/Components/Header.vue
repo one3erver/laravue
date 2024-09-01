@@ -80,14 +80,21 @@ const header_height = "h-[55px] md:h-[65px]";
     >
         <div class="flex gap-3 md:gap-6 items-center justify-between relative">
             <a
-                v-if="auth.user"
-                :href="auth.user.is_admin ? '/admin' : '/dashboard'"
+                v-if="auth.user && auth.user.is_admin"
+                href="/admin"
                 class="px-3 py-1 max-w-[75px] md:max-w-[150px] inline-block text-nowrap text-ellipsis overflow-hidden border-[1px] border-gray-500 dark:border-dark rounded-lg transition-all duration-75 hover:bg-gray-500 hover:text-white dark:hover:bg-gray-700"
             >
                 {{ auth.user.name }}
             </a>
+            <Link
+                v-if="auth.user && !auth.user.is_admin"
+                :href="route('dashboard')"
+                class="px-3 py-1 max-w-[75px] md:max-w-[150px] inline-block text-nowrap text-ellipsis overflow-hidden border-[1px] border-gray-500 dark:border-dark rounded-lg transition-all duration-75 hover:bg-gray-500 hover:text-white dark:hover:bg-gray-700"
+            >
+                {{ auth.user.name }}
+            </Link>
             <a
-                v-else
+                v-if="!auth.user"
                 href="/login"
                 class="px-3 py-1 border-[1px] border-gray-500 dark:border-dark rounded-lg transition-all duration-75 hover:bg-gray-500 hover:text-white dark:hover:bg-gray-700"
             >
