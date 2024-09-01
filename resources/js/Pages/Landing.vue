@@ -49,7 +49,10 @@ onMounted(() => {
             class="container mx-auto px-8 mt-4 md:mt-8 flex flex-col items-center justify-start pb-12"
         >
             <!-- landing content -->
-            <div v-html="setting.landing_content" class="w-full max-w-3xl text-center"></div>
+            <div
+                v-html="setting.landing_content"
+                class="w-full max-w-3xl text-center"
+            ></div>
 
             <hr class="w-full" />
 

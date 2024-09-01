@@ -37,11 +37,12 @@ const { product } = defineProps<{ product: ProductType }>();
                 <div
                     class="w-full h-full flex flex-col items-start justify-start px-4 pt-2 pb-6 col-span-3"
                 >
-                    <h1 class="mt-4 mb-2">{{ product.title }}</h1>
+                    <h1 class="mt-3 mb-5">{{ product.title }}</h1>
 
-                    <p>
-                        {{ product.caption }}
-                    </p>
+                    <div
+                        class="prose-headings:mt-2 prose-headings:mb-4 prose-p:my-0"
+                        v-html="product.caption"
+                    ></div>
 
                     <div class="mt-auto w-full space-y-3">
                         <span
