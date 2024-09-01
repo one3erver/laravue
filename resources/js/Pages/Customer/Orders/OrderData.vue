@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { defineProps, ref } from 'vue';
+import {router} from "@inertiajs/vue3";
 
 interface Order {
     id: number;
@@ -7,11 +8,17 @@ interface Order {
         name: string;
     };
     total_cost: string;
-    order_list: Array<{
-        title: string;
-        count: number;
-        price: number;
-    }>;
+    order_list: {
+        products :
+            [
+                {
+                    title: string;
+                    count: number;
+                    price: number;
+                }
+            ]
+
+    };
     tracking_code: string | null;
     created_at: string;
     payment: {
@@ -39,8 +46,10 @@ function copyToClipboard(text: string) {
     setTimeout(() => (copyied.value = false), 1000);
 }
 const redirectToCheckout = (orderId: number) => {
-    window.location.href = "/unpaid/${orderId}";
+    router.post(route('checkouts.unpaid'), { order_id: orderId });
 };
+
+
 
 </script>
 
@@ -65,8 +74,8 @@ const redirectToCheckout = (orderId: number) => {
                             <!-- Status -->
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium"
                                 :class="{
-                                    'text-green-500': order.tracking_code?.length > 0 ,
-                                    'text-red-500': order.tracking_code?.length <= 0
+                                    'text-green-500': order.tracking_code?.length > 0 || order.tracking_code,
+                                    'text-red-500': order.tracking_code?.length <= 0 || !order.tracking_code
                                 }">
                                 {{ order.tracking_code?.length > 0 ? 'Paid' : 'Unpaid' }}
                             </td>
@@ -105,35 +114,43 @@ const redirectToCheckout = (orderId: number) => {
                             </td>
                             <!-- Total Cost -->
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                                {{ order.total_cost }}
+                                {{ order.order_list?.totalCost || 'N/A' }}
                             </td>
                             <!-- Paid At -->
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
                                 {{ order.payment?.paid_at ? new Date(order.payment.paid_at).toLocaleDateString() : 'N/A' }}
                             </td>
                             <!-- Details Dropdown -->
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                                <button @click="toggleDropdown(order.id)" class="rounded-md bg-blue-300 hover:bg-blue-200 px-3 py-2 dark:hover:bg-blue-600">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300 flex flex-col space-y-2">
+                                <button @click="toggleDropdown(order.id)" class="rounded-md bg-blue-300 hover:bg-blue-200 px-3 py-2 dark:hover:bg-blue-600 dark:text-black">
                                     {{ dropdownOpen === order.id ? 'Hide Details' : 'Show Details' }}
                                 </button>
                                 <div v-if="dropdownOpen === order.id" class="mt-2 p-2 border border-gray-200 bg-gray-50 rounded-md dark:border-gray-600 dark:bg-gray-900">
-                                    <ul>
-                                        <li v-for="(product, index) in order.order_list" :key="index">
-                                            {{ product.title }} - {{ product.count }} x {{ product.price }}
+                                    <ul v-if="order.order_list && order.order_list.products">
+                                        <li v-for="(product, index) in order.order_list.products" :key="index">
+                                            <ul>
+                                                <li class="text-blue-700 font-bold">product: {{ product.title }}</li>
+                                                <li>count: {{ product.count }}</li>
+                                                <li>price {{ product.price }}</li>
+                                            </ul>
+
                                         </li>
                                         <li class="mt-2">Transaction ID: {{ order.payment?.transaction_id || 'N/A' }}</li>
                                     </ul>
+                                    <p v-else>No products available</p> <!-- Optional: display a message if no products are found -->
                                 </div>
-                            </td>
-                            <!--                            payment-->
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
+
+
+
                                 <button
                                     v-if="!order.tracking_code || order.tracking_code.length === 0"
                                     @click="redirectToCheckout(order.id)"
-                                    class="bg-red-400 hover:bg-green-600 text-white font-bold py-1 px-3 rounded">
+                                    class="bg-red-400 hover:bg-green-600 text-white font-bold py-1 px-3 rounded pos">
                                     Pay Now
                                 </button>
+
                             </td>
+                            <!--  payment-->
 
                         </tr>
                         </tbody>

@@ -4,7 +4,7 @@ import CartProduct from "@/Components/product/CartProduct.vue";
 import MainLayout from "@/Layouts/MainLayout.vue";
 import { clearCart, useSyncCart } from "@/util/useCart";
 import { Head, router, usePage } from "@inertiajs/vue3";
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 
 const { props: AuthProps } = usePage();
 
@@ -32,6 +32,7 @@ const { submittedContent } = defineProps<SubmittedContentType>();
 const clear_cart_dialog = ref(false);
 const clear_cart_loading = ref(false);
 
+
 function CloseClearCartDialog() {
     clear_cart_dialog.value = false;
 }
@@ -58,6 +59,8 @@ const total_items = submittedContent.products.reduce(
     (acum, current) => acum + current.count,
     0
 );
+
+const local_item_count = ref(total_items);
 
 function onCheckout() {
     disableCheckout.value = true;
@@ -106,6 +109,10 @@ function onCheckout() {
         () => (disableCheckout.value = false)
     );
 }
+
+onMounted(()=>{
+    addEventListener('cartchange',(e)=>local_item_count.value =e.detail.itemsInCart)
+})
 </script>
 
 <template>
@@ -207,7 +214,7 @@ function onCheckout() {
                         class="w-full flex justify-between items-center text-base sm:text-lg"
                     >
                         <span>Total Items : </span>
-                        <span>{{ total_items }}</span>
+                        <span>{{ local_item_count }}</span>
                     </div>
                     <div
                         class="w-full flex justify-between items-center text-base sm:text-lg"

@@ -168,7 +168,8 @@
 
                                     </td>
         <td>
-                                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#smallModal{{$i}}">
+                                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#smallModal{{$i}}"
+                                                    @if($order->invoice && $order->invoice->status === 'P') disabled @endif>
                                                 <i class="ri-delete-bin-7-line "></i>
                                             </button>
 

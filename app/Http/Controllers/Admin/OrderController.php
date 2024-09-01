@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
-use Illuminate\Http\Request;
+use App\Models\Product;
 
 class OrderController extends Controller
 {
@@ -30,15 +30,64 @@ class OrderController extends Controller
      */
     public function destroy(Order $order)
     {
+        $orderList = json_decode($order->order_list);
+        if (isset($orderList->products)) {
+            foreach ($orderList->products as $product) {
+                $productModel = Product::find($product->id);
+                if ($productModel) {
+                    if ($productModel->stock != -1) {
+                        $productModel->stock += $product->count;
+                        $productModel->save();
+                    }
+                }
+            }
+        }
+
         $order->delete();
+
+        if (session()->has('invoice')) {
+            session()->forget('invoice');
+        }
+
+        if (session()->has('invoice_time')) {
+            session()->forget('invoice_time');
+        }
+
         return redirect()->route('admin.orders.index')->with('success', 'Orders deleted successfully.');
     }
 
     public function deleteUnpaid()
     {
-        $deletedOrders = Order::whereHas('invoice', function ($query) {
+        $unpaidOrders = Order::whereHas('invoice', function ($query) {
+            $query->where('status', 'U');
+        })->get();
+
+        foreach ($unpaidOrders as $order) {
+            $orderList = json_decode($order->order_list);
+            if (isset($orderList->products)) {
+                foreach ($orderList->products as $product) {
+                    $productModel = Product::find($product->id);
+                    if ($productModel) {
+                        if ($productModel->stock != -1) {
+                            $productModel->stock += $product->count;
+                            $productModel->save();
+                        }
+                    }
+                }
+            }
+        }
+
+        Order::whereHas('invoice', function ($query) {
             $query->where('status', 'U');
         })->delete();
+
+        if (session()->has('invoice')) {
+            session()->forget('invoice');
+        }
+
+        if (session()->has('invoice_time')) {
+            session()->forget('invoice_time');
+        }
 
         return redirect()->route('admin.orders.index')->with('success', 'Unpaid orders deleted successfully.');
     }

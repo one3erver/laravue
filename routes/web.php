@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Customer\OrderController;
 use App\Http\Controllers\Customer\ProductController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
@@ -28,10 +29,12 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth', 'check.banned'])->group(function () {
-    Route::get('/dashboard', function () {
-        $orders = Auth::user()->orders()->with('user')->get();
-        return Inertia::render('Dashboard', compact('orders'));
-    })->middleware(['verified'])->name('dashboard');
+    // Route::get('/dashboard', function () {
+    //     $orders = Auth::user()->orders()->with('user')->get();
+    //     return $orders;
+    //     return Inertia::render('Dashboard', compact('orders'));
+    // })->middleware(['verified'])->name('dashboard');
+    Route::get('/dashboard', [OrderController::class,'index'])->name('dashboard');
 
     Route::middleware('auth')->group(function () {
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

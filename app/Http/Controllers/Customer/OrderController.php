@@ -32,6 +32,7 @@ class OrderController extends Controller
             $order_list = json_decode($order->order_list, true);
 
             $submittedOrders[] = [
+                "id" => $order->id,
                 "tracking_code" => $order->tracking_code,
                 "payment" =>[
                     'status' => $invoice->status,
@@ -41,7 +42,9 @@ class OrderController extends Controller
                 "order_list" => $order_list,
             ];
         }
-        return inertia('Orders', compact('submittedOrders'));
+        return inertia('Dashboard', [
+            'orders'=> $submittedOrders
+        ]);
     }
 
     /**
@@ -92,7 +95,15 @@ class OrderController extends Controller
         ]);
         // Send a message to Telegram
         $telegram = new Telegram();
-        $message = "Email : {$order->user->email},\n Order Id : {$order->id} \n Order List :{$orderList}";
+        $products_list="";
+        foreach (json_decode($orderList , true)['products'] as $product) {
+            $products_list .=
+                "title: ".$product['title']."\n".
+                "count: ".$product['count']."\n".
+                "price: ".$product["price"]."\n---------\n";
+        }
+        $message ="Order Registered\n\nEmail : {$order->user->email}\nName : {$order->user->name} \n\nproducts :\n{$products_list}Total Cost: {$totalCost}";
+
         $telegram->sendMessage($message);
 
 //      After creating the Order, send the Order to [InvoiceController] to create an Invoice for it
