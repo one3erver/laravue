@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useAddToLocalCart } from "@/util/useCart";
-import { ref } from "vue";
+import { injectedDisplayToastType } from "@/util/useToast";
+import { inject, ref } from "vue";
 
 interface Product {
     id: number;
@@ -40,18 +41,25 @@ function DecrementFromCart() {
     useAddToLocalCart(id, local_count.value);
 }
 
+const displayToast = inject("displayToast") as ({
+    message,
+}: injectedDisplayToastType) => void;
+
 function DeleteFromCart() {
     deleting.value = true;
     useAddToLocalCart(
         id,
-        0,
+        -2,
         //on success
         () => {
             delete_dialog.value = false;
+            deleting.value = false;
         },
         //on fail
         () => {
             deleting.value = false;
+            delete_dialog.value = false;
+            displayToast({ message: "failed to delete item" });
         }
     );
 }
@@ -75,7 +83,7 @@ function DeleteFromCart() {
                 <button
                     :disabled="deleting"
                     @click="delete_dialog = false"
-                    class="border-2 text-white hover:bg-white hover:text-black font-semibold px-2 py-1 rounded-md transition-all disabled:text-gray-400 disabled:border-gray-400 disabled:bg-transparent"
+                    class="border-2 disabled:saturate-50 disabled:brightness-75 text-white hover:bg-white hover:text-black font-semibold px-2 py-1 rounded-md transition-all disabled:text-gray-400 disabled:border-gray-400 disabled:bg-transparent"
                 >
                     Cancele
                 </button>
@@ -84,7 +92,7 @@ function DeleteFromCart() {
                     :disabled="deleting"
                     @click="DeleteFromCart"
                     :class="[
-                        'border-2 hover:bg-red-600 text-red-500 border-red-600 hover:text-white font-semibold px-2 py-1 rounded-md transition-all',
+                        'border-2 disabled:saturate-50 disabled:brightness-75 hover:bg-red-600 text-red-500 border-red-600 hover:text-white font-semibold px-2 py-1 rounded-md transition-all',
                         deleting
                             ? 'animate-pulse text-white bg-red-600 border-red-600'
                             : '',
@@ -128,9 +136,10 @@ function DeleteFromCart() {
         >
             <!-- minus svg / delete svg-->
             <button
+                :disabled="deleting"
                 @click="DecrementFromCart"
                 :class="[
-                    'border-2 flex items-center justify-center  p-1 hover:scale-105 transition-all duration-100 rounded-md',
+                    'border-2 disabled:saturate-50 disabled:brightness-75 flex items-center justify-center  p-1 hover:scale-105 transition-all duration-100 rounded-md',
                     local_count <= 1
                         ? 'stroke-red-600 border-red-600 hover:border-red-500 hover:stroke-red-500'
                         : 'border-black stroke-black dark:border-white dark:stroke-white hover:bg-red-500 hover:border-red-500 hover:stroke-white',
@@ -178,8 +187,9 @@ function DeleteFromCart() {
 
             <!-- plus svg -->
             <button
+                :disabled="deleting"
                 @click="IncrementFromCart"
-                class="border-2 border-gray-600 stroke-black dark:border-white dark:stroke-white p-1 hover:scale-105 transition-all duration-100 rounded-md hover:bg-emerald-500 hover:stroke-white hover:border-emerald-500 dark:hover:bg-emerald-600 dark:hover:border-emerald-600"
+                class="border-2 disabled:saturate-50 disabled:brightness-75 border-gray-600 stroke-black dark:border-white dark:stroke-white p-1 hover:scale-105 transition-all duration-100 rounded-md hover:bg-emerald-500 hover:stroke-white hover:border-emerald-500 dark:hover:bg-emerald-600 dark:hover:border-emerald-600"
             >
                 <svg
                     xmlns="http://www.w3.org/2000/svg"

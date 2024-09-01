@@ -47,7 +47,11 @@ function IncrementFromCart() {
     }, 200);
 
     //only add to cart if its lower then limit (stock)
-    if (quantity.value < limit || limit === -1) {
+    if (limit < 0) {
+        quantity.value += 1;
+        useAddToLocalCart(product_id, quantity.value);
+        return;
+    } else if (quantity.value < limit) {
         quantity.value += 1;
         useAddToLocalCart(product_id, quantity.value);
     } else {
