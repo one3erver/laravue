@@ -150,6 +150,77 @@ export function clearCart(onSuccses: () => void, onFail: () => void) {
     );
 }
 
+export function useDeleteSingleItemFromCart(
+    id: number,
+    onSuccess: () => void,
+    onFail: () => void
+) {
+    const cart = localStorage.getItem("cart");
+    if (!cart) {
+        onFail();
+        return;
+    }
+
+    const cart_as_json = JSON.parse(cart) as any[];
+
+    let index = cart_as_json.findIndex((item) => {
+        if (item.id === id) {
+            return true;
+        }
+    });
+
+    cart_as_json.splice(index, 1);
+
+    localStorage.setItem("cart", JSON.stringify(cart_as_json));
+
+    const itemsInCartCount = cart_as_json.reduce(
+        (prev, current) => prev + current.count,
+        0
+    );
+
+    router.post(
+        route("carts.store"),
+        { cart_list: JSON.stringify(cart_as_json) },
+        {
+            preserveState: true,
+            preserveScroll: true,
+            onSuccess: () => {
+                //dispatch cartchange event
+                window.dispatchEvent(
+                    new CustomEvent("cartchange", {
+                        detail: {
+                            itemsInCart: itemsInCartCount,
+                            storage: JSON.stringify(cart_as_json),
+                        },
+                    })
+                );
+
+                //atlast store a empty cart in localhost
+                localStorage.setItem("cart", JSON.stringify(cart_as_json));
+
+                onSuccess();
+            },
+            onFinish: () => {
+                //dispatch cartchange event
+                window.dispatchEvent(
+                    new CustomEvent("cartchange", {
+                        detail: {
+                            itemsInCart: itemsInCartCount,
+                            storage: JSON.stringify(cart_as_json),
+                        },
+                    })
+                );
+
+                //atlast store a empty cart in localhost
+                localStorage.setItem("cart", JSON.stringify(cart_as_json));
+
+                onSuccess();
+            },
+            onError: onFail,
+        }
+    );
+}
+
 export function useDoesExistinCart(id: number) {
     if (localStorage.getItem("cart")) {
         //turn our cart to a array

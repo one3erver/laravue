@@ -58,7 +58,7 @@ onMounted(() => {
 
             <!-- products -->
             <div
-                class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 items-stretch"
+                class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 items-stretch min-w-full"
             >
                 <ProductItem v-for="product in products" v-bind="product" />
             </div>

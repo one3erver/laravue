@@ -3,14 +3,14 @@
     "type": "module",
     "scripts": {
         "dev": "vite",
-        "build": "vite build && vite build --ssr && vite build && vite build --ssr --ssr"
+        "build": "vite build && vite build --ssr"
     },
     "devDependencies": {
         "@inertiajs/vue3": "^1.0.0",
         "@tailwindcss/forms": "^0.5.3",
         "@tailwindcss/typography": "^0.5.13",
         "@vitejs/plugin-vue": "^5.0.0",
-        "@vue/server-renderer": "^3.4.0",
+        "@vue/server-renderer": "^3.4.38",
         "autoprefixer": "^10.4.12",
         "axios": "^1.6.4",
         "laravel-vite-plugin": "^1.0.0",
