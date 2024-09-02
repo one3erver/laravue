@@ -1,5 +1,9 @@
 <script setup lang="ts">
-import { useAddToLocalCart } from "@/util/useCart";
+import {
+    deleteSingleItemFromCart,
+    useAddToLocalCart,
+    useDeleteSingleItemFromCart,
+} from "@/util/useCart";
 import { injectedDisplayToastType } from "@/util/useToast";
 import { inject, ref } from "vue";
 
@@ -47,15 +51,13 @@ const displayToast = inject("displayToast") as ({
 
 function DeleteFromCart() {
     deleting.value = true;
-    useAddToLocalCart(
+    useDeleteSingleItemFromCart(
         id,
-        -2,
-        //on success
         () => {
-            delete_dialog.value = false;
             deleting.value = false;
+            delete_dialog.value = false;
+            displayToast({ message: "item deleted" });
         },
-        //on fail
         () => {
             deleting.value = false;
             delete_dialog.value = false;
