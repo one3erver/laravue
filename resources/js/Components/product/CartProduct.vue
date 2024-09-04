@@ -1,9 +1,5 @@
 <script setup lang="ts">
-import {
-    deleteSingleItemFromCart,
-    useAddToLocalCart,
-    useDeleteSingleItemFromCart,
-} from "@/util/useCart";
+import { useAddToLocalCart, useDeleteSingleItemFromCart } from "@/util/useCart";
 import { injectedDisplayToastType } from "@/util/useToast";
 import { inject, ref } from "vue";
 
@@ -19,6 +15,10 @@ interface Product {
 
 const { id, image, count, price, title, stock } = defineProps<Product>();
 
+const displayToast = inject("displayToast") as ({
+    message,
+}: injectedDisplayToastType) => void;
+
 const local_count = ref(count);
 const delete_dialog = ref(false);
 
@@ -28,10 +28,17 @@ const deleting = ref(false);
 
 function IncrementFromCart() {
     //only add to cart if its lower then limit (stock)
-    if (local_count.value < stock || stock === -1) {
+    if (stock < 0) {
         local_count.value += 1;
-
         useAddToLocalCart(id, local_count.value);
+        return;
+    } else if (local_count.value < stock) {
+        local_count.value += 1;
+        useAddToLocalCart(id, local_count.value);
+    } else {
+        displayToast({
+            message: "cannot add more, out of stock",
+        });
     }
 }
 
@@ -44,10 +51,6 @@ function DecrementFromCart() {
 
     useAddToLocalCart(id, local_count.value);
 }
-
-const displayToast = inject("displayToast") as ({
-    message,
-}: injectedDisplayToastType) => void;
 
 function DeleteFromCart() {
     deleting.value = true;
