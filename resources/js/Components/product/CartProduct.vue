@@ -5,7 +5,7 @@ import { inject, ref } from "vue";
 
 interface Product {
     id: number;
-    count: number;
+    count: any;
     image: string;
     image_thumbnail: string;
     price: string;
@@ -19,7 +19,9 @@ const displayToast = inject("displayToast") as ({
     message,
 }: injectedDisplayToastType) => void;
 
-const local_count = ref(count);
+console.log(count);
+
+const local_count = ref(parseInt(count));
 const delete_dialog = ref(false);
 
 const price_as_number = parseFloat(price);
@@ -29,11 +31,11 @@ const deleting = ref(false);
 function IncrementFromCart() {
     //only add to cart if its lower then limit (stock)
     if (stock < 0) {
-        local_count.value += 1;
+        local_count.value++;
         useAddToLocalCart(id, local_count.value);
         return;
     } else if (local_count.value < stock) {
-        local_count.value += 1;
+        local_count.value++;
         useAddToLocalCart(id, local_count.value);
     } else {
         displayToast({
