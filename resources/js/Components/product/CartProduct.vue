@@ -19,8 +19,6 @@ const displayToast = inject("displayToast") as ({
     message,
 }: injectedDisplayToastType) => void;
 
-console.log(count);
-
 const local_count = ref(parseInt(count));
 const delete_dialog = ref(false);
 

@@ -8,6 +8,8 @@ export function useAddToLocalCart(
     onSuccses?: () => void,
     onFail?: () => void
 ) {
+    // @ts-expect-error
+    const numId = parseInt(id);
     //if the is a postCartTimeout then i means we have a post request in queue and we will be sending a new one soon,
     //to prevent spaming delete the old post request
     if (postCartTimeout) {
@@ -23,7 +25,7 @@ export function useAddToLocalCart(
 
         //check if we have the product we are trying to add in our cart, if we dont the returned value would be -1
         let indexOfThisProductInCart = cart.findLastIndex((item) => {
-            if (item.id === id) {
+            if (item.id === numId) {
                 return true;
             }
         });
@@ -39,12 +41,12 @@ export function useAddToLocalCart(
         }
         //if we dont have this product in our cart, add it in
         else {
-            cart.push({ id, count });
+            cart.push({ id: numId, count });
         }
 
         //get the total count of items in cart including
         const total_count = cart.reduce(
-            (sum, current) => sum + current.count,
+            (sum, current) => sum + parseInt(current.count),
             0
         );
 
@@ -79,7 +81,7 @@ export function useAddToLocalCart(
     //if we dont have a cart, create an empty one and then run this again
     else {
         localStorage.setItem("cart", JSON.stringify([]));
-        useAddToLocalCart(id, count);
+        useAddToLocalCart(numId, count);
     }
 }
 
