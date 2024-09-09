@@ -40,7 +40,7 @@ provide("displayToast", ({ message }: displayToastInterface) =>
             ></div>
 
             <!-- toast content -->
-            <p class="my-0">
+            <p class="my-0 text-[#f1f1f1]">
                 {{ toastContent }}
             </p>
         </div>
