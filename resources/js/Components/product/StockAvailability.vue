@@ -1,5 +1,8 @@
 <script setup lang="ts">
 const { stock } = defineProps<{ stock: number }>();
+
+// @ts-expect-error
+const stockAsNum = parseInt(stock);
 </script>
 
 <template>
@@ -20,8 +23,10 @@ const { stock } = defineProps<{ stock: number }>();
             />
         </svg>
 
-        <span v-if="stock > 3" class="text-lg">In Stock</span>
-        <span v-if="stock < 3 && stock !== 0" class="text-lg"
+        <span v-if="stockAsNum > 3 || stockAsNum === -1" class="text-lg"
+            >In Stock</span
+        >
+        <span v-if="stockAsNum < 3 && stockAsNum > 0" class="text-lg"
             >Only {{ stock }} left</span
         >
     </div>
